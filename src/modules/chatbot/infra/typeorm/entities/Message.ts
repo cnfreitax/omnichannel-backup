@@ -1,8 +1,20 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
+export enum MessageType {
+  GREETING = 'greeting',
+  CHAT = 'chat',
+  SUBMENU = 'submenu',
+  MESSAGE = 'message',
+  MEDIA = 'media',
+  API = 'api',
+  SURVEY = 'survey',
+  END_SERVICE = 'end_service',
+  END_CHATBOT = 'end_chatbot',
+}
+
 @Entity('messages')
 class Messages {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column()
@@ -11,11 +23,16 @@ class Messages {
   @Column()
   text: string;
 
-  @Column()
-  type: 'greeting' | 'chat' | 'submenu' | 'end_service' | 'message' | 'return' | 'media' | 'api' | 'satisfaction' | 'end_chatbot';
+  @Column({
+    type: 'enum',
+    name: 'type',
+    enum: MessageType,
+    default: MessageType.GREETING,
+  })
+  type: MessageType;
 
   @Column()
-  company: string;
+  company_id: number;
 
   @CreateDateColumn()
   created_at: Date;
