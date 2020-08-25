@@ -12,6 +12,12 @@ class ChatbotRepository implements IChatbotRepository {
     this.ormRepository = getRepository(Message);
   }
 
+  public async findById(id: number): Promise<Message | undefined> {
+    const message = await this.ormRepository.findOne(id);
+
+    return message;
+  }
+
   public async create(messageData: ISaveMessageDTO): Promise<Message> {
     const message = this.ormRepository.create(messageData);
 
