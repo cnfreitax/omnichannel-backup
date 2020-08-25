@@ -6,10 +6,16 @@ import Message from '@modules/chatbot/infra/typeorm/entities/Message';
 class FakeChatbotRepository implements IChatbotRepository {
   private messages: Message[] = [];
 
+  public async findById(id: number): Promise<Message | undefined> {
+    const message = this.messages.find(foundMessage => foundMessage.id === id);
+
+    return message;
+  }
+
   public async create(data: ISaveMessageDTO): Promise<Message> {
     const message = new Message();
 
-    Object.assign(message, data);
+    Object.assign(message, { id: this.messages.length + 1 }, data);
 
     this.messages.push(message);
 
