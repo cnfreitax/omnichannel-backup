@@ -21,7 +21,7 @@ class ChatbotRepository implements IChatbotRepository {
   public async create({ company_id, text, type, parent_id }: ISaveMessageDTO): Promise<Message> {
     const message = this.ormRepository.create({
       company_id: Number(company_id),
-      parent_id: parent_id ? Number(parent_id) : undefined,
+      parent_id: parent_id ? Number(parent_id) : null,
       text,
       type,
     });
