@@ -18,7 +18,7 @@ class Messages {
   id: number;
 
   @Column()
-  parent_id: number;
+  parent_id: number | null;
 
   @Column()
   text: string;
