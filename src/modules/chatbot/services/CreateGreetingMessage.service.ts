@@ -18,9 +18,13 @@ class CreateGreetingMessage {
 
   public async execute({ text, type, company_id }: ISaveMessageDTO): Promise<Message> {
     const company = await this.companyRepository.findById(company_id);
-
     if (!company) {
       throw new AppError('Company not found');
+    }
+
+    const greetingExists = await this.chatbotRepository.findExistingMessage({ company_id, type });
+    if (greetingExists) {
+      throw new AppError('This company already has a greeting message');
     }
 
     if (type !== MessageType.GREETING) {
