@@ -27,7 +27,7 @@ describe('CreateCompany', () => {
     });
 
     await expect(
-      await createCompanyService.execute({
+      createCompanyService.execute({
         name: 'Empresa 2',
         cnpj: '1234567890',
       }),
