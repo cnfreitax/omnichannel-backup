@@ -14,6 +14,7 @@ export default class CreateCompanies1598531724133 implements MigrationInterface 
             isGenerated: true,
           },
           { name: 'name', type: 'varchar' },
+          { name: 'cnpj', type: 'varchar' },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
         ],
