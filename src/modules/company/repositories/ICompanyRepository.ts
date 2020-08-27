@@ -4,7 +4,6 @@ import ICreateCompanyDTO from '@modules/company/dtos/ICreateCompanyDTO';
 export default interface ICompanyRepository {
   findById(id: string): Promise<Company | undefined>;
   findAllCompanies(): Promise<Company[] | undefined>;
-  findByEmail(email: string): Promise<Company | undefined>;
   create(data: ICreateCompanyDTO): Promise<Company>;
   save(company: Company): Promise<Company>;
 }

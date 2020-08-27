@@ -18,22 +18,14 @@ class CompanyRepository implements ICompanyRepository {
     return findCompany;
   }
 
-  public async findByEmail(email: string): Promise<Company | undefined> {
-    const findCompany = await this.ormRepository.findOne({
-      where: { email },
-    });
-
-    return findCompany;
-  }
-
   public async findAllCompanies(): Promise<Company[]> {
     const companies = await this.ormRepository.find();
 
     return companies;
   }
 
-  public async create({ email, name, password }: ICreateCompanyDTO): Promise<Company> {
-    const company = this.ormRepository.create({ email, name, password });
+  public async create({ name }: ICreateCompanyDTO): Promise<Company> {
+    const company = this.ormRepository.create({ name });
     await this.ormRepository.save(company);
 
     return company;
