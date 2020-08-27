@@ -22,13 +22,13 @@ class FakeCompanyRepository implements ICompanyRepository {
     return findCompany;
   }
 
-  public async create({ name }: ICreateCompanyDTO): Promise<Company> {
+  public async create({ name, cnpj }: ICreateCompanyDTO): Promise<Company> {
     const company = new Company();
 
     const date = new Date();
     const id = date.getTime() + Math.round(Math.random() * 100);
 
-    Object.assign(company, { id, name });
+    Object.assign(company, { id, name, cnpj });
 
     this.companies.push(company);
 
