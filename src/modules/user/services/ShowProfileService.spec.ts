@@ -1,34 +1,33 @@
 import AppError from '@shared/errors/AppError';
-import FakeCompanyRepository from '../repositories/fakes/FakeCompanyRepository';
+import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
+import ShowProfileService from './ShowProfileService';
 
-import ShowProfileService from './ShowProfile.service';
-
-let fakeCompanyRepository: FakeCompanyRepository;
+let fakeUserRepository: FakeUserRepository;
 let showProfile: ShowProfileService;
 
-describe('updateProfile', () => {
+describe('Update Profile', () => {
   beforeEach(() => {
-    fakeCompanyRepository = new FakeCompanyRepository();
-    showProfile = new ShowProfileService(fakeCompanyRepository);
+    fakeUserRepository = new FakeUserRepository();
+    showProfile = new ShowProfileService(fakeUserRepository);
   });
 
   it('shoud be able to show profile', async () => {
-    const company = await fakeCompanyRepository.create({
+    const user = await fakeUserRepository.create({
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
     });
 
     const profile = await showProfile.execute({
-      company_id: `${company.id}`,
+      id: `${user.id}`,
     });
 
     expect(profile.name).toBe('Eduardo');
     expect(profile.email).toBe('jj@email.com');
   });
 
-  it('shoud be not able to show a non-existing profile', async () => {
-    await fakeCompanyRepository.create({
+  it('Should not be able to show a non-existing profile', async () => {
+    await fakeUserRepository.create({
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
@@ -36,7 +35,7 @@ describe('updateProfile', () => {
 
     await expect(
       showProfile.execute({
-        company_id: 'non-ecxisting-company_id',
+        id: 'non-ecxisting-company_id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
