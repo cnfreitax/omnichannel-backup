@@ -10,7 +10,8 @@ describe('CreateCompany', () => {
     fakeCompanyRepository = new FakeCompanyRepository();
     createCompanyService = new CreateCompanyService(fakeCompanyRepository);
   });
-  it('shoud br able to create a new Company', async () => {
+
+  it('should be able to create a new company', async () => {
     const company = await createCompanyService.execute({
       name: 'Empresa 1',
     });
