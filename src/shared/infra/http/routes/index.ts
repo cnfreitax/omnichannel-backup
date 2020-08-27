@@ -1,9 +1,7 @@
-// src/routes/index.ts
-// src/routes/index.ts
 import { Router } from 'express';
-import companiesRouter from '@modules/company/infra/http/routes/company.routes';
-import sessionsRouter from '@modules/company/infra/http/routes/sessions.routes';
-import profilesRouter from '@modules/company/infra/http/routes/profiles.routes';
+import companiesRouter from '@modules/user/infra/http/routes/company.routes';
+import sessionsRouter from '@modules/user/infra/http/routes/sessions.routes';
+import profilesRouter from '@modules/user/infra/http/routes/profiles.routes';
 
 const routes = Router();
 

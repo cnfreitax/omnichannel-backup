@@ -1,4 +1,4 @@
-import '@modules/company/providers';
+import '@modules/user/providers';
 import '@shared/container/providers';
 
-import '@modules/company/repositories';
+import '@modules/user/repositories';
