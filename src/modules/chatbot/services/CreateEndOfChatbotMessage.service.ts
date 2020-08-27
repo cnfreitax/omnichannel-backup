@@ -16,26 +16,36 @@ class CreateEndOfChatbotMessage {
     private companyRepository: ICompanyRepository,
   ) {}
 
-  public async execute(messageData: ISaveMessageDTO): Promise<Message> {
-    const company = await this.companyRepository.findById(messageData.company_id);
+  public async execute({ company_id, text, type, parent_id }: ISaveMessageDTO): Promise<Message> {
+    const company = await this.companyRepository.findById(company_id);
 
     if (!company) {
       throw new AppError('Company not found');
     }
 
-    if (messageData.parent_id) {
-      const parentMessage = await this.chatbotRepository.findById(messageData.parent_id);
+    const endChatbotMessageExists = await this.chatbotRepository.findExistingMessage({ company_id, type });
+    if (endChatbotMessageExists) {
+      throw new AppError('This company already has a end of chatbot message');
+    }
+
+    if (parent_id) {
+      const parentMessage = await this.chatbotRepository.findById(parent_id);
 
       if (!parentMessage) {
         throw new AppError('Parent message does not exist');
       }
     }
 
-    if (messageData.type !== MessageType.END_CHATBOT) {
+    if (type !== MessageType.END_CHATBOT) {
       throw new AppError('Wrong message type');
     }
 
-    const message = await this.chatbotRepository.create(messageData);
+    const message = await this.chatbotRepository.create({
+      company_id,
+      text,
+      type,
+      parent_id: parent_id || null,
+    });
 
     return message;
   }
