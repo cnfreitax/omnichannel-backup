@@ -12,6 +12,7 @@ companyRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
+      cnpj: Joi.string().required(),
     },
   }),
   companyController.create,

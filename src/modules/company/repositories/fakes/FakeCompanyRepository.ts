@@ -16,6 +16,12 @@ class FakeCompanyRepository implements ICompanyRepository {
     return findCompany;
   }
 
+  public async findByCnpj(cnpj: string): Promise<Company | undefined> {
+    const findCompany = this.companies.find(company => company.cnpj === cnpj);
+
+    return findCompany;
+  }
+
   public async create({ name }: ICreateCompanyDTO): Promise<Company> {
     const company = new Company();
 

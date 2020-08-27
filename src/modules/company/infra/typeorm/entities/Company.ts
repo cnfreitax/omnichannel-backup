@@ -8,6 +8,9 @@ class Company {
   @Column()
   name: string;
 
+  @Column()
+  cnpj: string;
+
   @CreateDateColumn()
   created_at: Date;
 

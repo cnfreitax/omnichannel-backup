@@ -18,6 +18,14 @@ class CompanyRepository implements ICompanyRepository {
     return findCompany;
   }
 
+  public async findByCnpj(cnpj: string): Promise<Company | undefined> {
+    const findCompany = await this.ormRepository.findOne({
+      where: cnpj,
+    });
+
+    return findCompany;
+  }
+
   public async findAllCompanies(): Promise<Company[]> {
     const companies = await this.ormRepository.find();
 
