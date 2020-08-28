@@ -15,7 +15,7 @@ export default class CreateSectors1598540355913 implements MigrationInterface {
           },
           { name: 'label', type: 'varchar' },
           { name: 'phone', type: 'varchar' },
-          { name: 'company_id', type: 'varchar' },
+          { name: 'company_id', type: 'int' },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
         ],
