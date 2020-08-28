@@ -8,6 +8,7 @@ interface Request {
   id: string;
   name: string;
   email: string;
+  sector?: number;
   password?: string;
   oldPassword?: string;
 }
@@ -22,7 +23,7 @@ export default class UpdateProfile {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ id, name, email, oldPassword, password }: Request): Promise<User> {
+  public async execute({ id, name, email, oldPassword, sector, password }: Request): Promise<User> {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
@@ -46,6 +47,10 @@ export default class UpdateProfile {
       }
 
       user.password = await this.hashProvider.generateHash(password);
+    }
+
+    if (sector) {
+      user.sector_id = sector;
     }
 
     user.name = name;
