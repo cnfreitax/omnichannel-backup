@@ -10,10 +10,9 @@ const sectorRouter = Router();
 sectorRouter.get('/', sectorController.index);
 
 sectorRouter.post(
-  '/',
+  '/:company_id',
   celebrate({
     [Segments.BODY]: {
-      company_id: Joi.string().required(),
       label: Joi.string().required(),
       phone: Joi.string().required(),
     },

@@ -9,13 +9,14 @@ const profilesRouter = Router();
 
 profilesRouter.use(ensureAuthenticated);
 
-profilesRouter.get('/', profileController.show);
+profilesRouter.get('/profile', profileController.show);
 profilesRouter.put(
   '/',
   celebrate({
     [Segments.BODY]: {
-      email: Joi.string().email().required(),
       name: Joi.string().required(),
+      email: Joi.string().email().required(),
+      sector: Joi.number(),
       oldPassword: Joi.string(),
       password: Joi.string(),
       password_confirmation: Joi.string().valid(Joi.ref('password')),
