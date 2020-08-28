@@ -8,9 +8,9 @@ import profilesRouter from '@modules/user/infra/http/routes/profiles.routes';
 const routes = Router();
 
 routes.use('/companies', companiesRouter);
-routes.use('/signup', userRouter);
+routes.use('/user', userRouter);
 routes.use('/sectors', sectorsRouter);
-routes.use('/sessions', sessionsRouter);
-routes.use('/profiles', profilesRouter);
+routes.use('/signin', sessionsRouter);
+routes.use('/profile', profilesRouter);
 
 export default routes;
