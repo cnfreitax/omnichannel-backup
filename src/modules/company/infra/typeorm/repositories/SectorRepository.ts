@@ -12,7 +12,7 @@ class SectorRepository implements ISectorRepository {
     this.ormRepository = getRepository(Sector);
   }
 
-  public async findById(id: string): Promise<Sector | undefined> {
+  public async findById(id: number): Promise<Sector | undefined> {
     const findSector = await this.ormRepository.findOne(Number(id));
 
     return findSector;
