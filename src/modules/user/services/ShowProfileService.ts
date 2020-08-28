@@ -6,7 +6,7 @@ import User from '@modules/user/infra/typeorm/entities/User';
 import IUserRepository from '@modules/user/repositories/IUserRepository';
 
 interface Request {
-  id: string;
+  id: number;
 }
 
 @injectable()
