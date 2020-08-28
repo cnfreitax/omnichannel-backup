@@ -16,12 +16,10 @@ class FakeSectorRepository implements ISectorRepository {
     const findSectors: Sector[] = [];
 
     this.sectors.forEach(sector => {
-      if (sector.company_id === Number(company_id)) {
+      if (`${sector.company_id}` === company_id) {
         findSectors.push(sector);
       }
     });
-
-    findSectors.push();
 
     return findSectors;
   }
