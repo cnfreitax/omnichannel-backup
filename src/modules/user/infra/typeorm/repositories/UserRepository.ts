@@ -26,8 +26,8 @@ export default class UserRepository implements IUserRepository {
     return user;
   }
 
-  public async create({ email, name, password }: ICreateUserDTO): Promise<User> {
-    const user = this.ormRepository.create({ email, name, password });
+  public async create(dataUser: ICreateUserDTO): Promise<User> {
+    const user = this.ormRepository.create(dataUser);
     await this.ormRepository.save(user);
 
     return user;
