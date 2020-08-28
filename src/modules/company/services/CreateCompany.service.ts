@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe';
 
 import Company from '@modules/company/infra/typeorm/entities/Company';
 
-import ICompaniesRepository from '@modules/company/repositories/ICompanyRepository';
+import ICompanyRepository from '@modules/company/repositories/ICompanyRepository';
 import AppError from '@shared/errors/AppError';
 
 interface IRequest {
@@ -14,7 +14,7 @@ interface IRequest {
 class CreateCompanyService {
   constructor(
     @inject('CompaniesRepository')
-    private companiesRepository: ICompaniesRepository,
+    private companiesRepository: ICompanyRepository,
   ) {}
 
   public async execute({ name, cnpj }: IRequest): Promise<Company> {

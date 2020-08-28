@@ -7,6 +7,8 @@ const companyController = new CompanyController();
 
 const companyRouter = Router();
 
+companyRouter.get('/', companyController.index);
+
 companyRouter.post(
   '/',
   celebrate({
