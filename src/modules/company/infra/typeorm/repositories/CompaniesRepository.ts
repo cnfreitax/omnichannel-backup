@@ -12,7 +12,7 @@ class CompanyRepository implements ICompanyRepository {
     this.ormRepository = getRepository(Company);
   }
 
-  public async findById(id: string): Promise<Company | undefined> {
+  public async findById(id: number): Promise<Company | undefined> {
     const findCompany = await this.ormRepository.findOne(Number(id));
 
     return findCompany;
