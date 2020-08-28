@@ -1,16 +1,13 @@
 import 'reflect-metadata';
 import 'dotenv/config';
-
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import { errors } from 'celebrate';
-
 import AppError from '@shared/errors/AppError';
 import rateLimiter from '@shared/infra/http/middleware/rateLimiter';
 import uploadConfig from '@config/upload';
 import routes from './routes';
 import '@shared/infra/typeorm';
-
 import '@shared/container';
 
 const port = 3333;

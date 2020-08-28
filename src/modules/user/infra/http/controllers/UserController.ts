@@ -11,8 +11,8 @@ export default class UserController {
 
     const user = await createUserService.execute({
       name,
-      password,
       email,
+      password,
     });
 
     return res.json(classToClass(user));

@@ -15,7 +15,7 @@ interface Request {
 @injectable()
 export default class UpdateProfile {
   constructor(
-    @inject('CompaniesRepository')
+    @inject('UserRepository')
     private userRepository: IUserRepository,
 
     @inject('HashProvider')
@@ -31,7 +31,7 @@ export default class UpdateProfile {
 
     const userWithUpdatedEmail = await this.userRepository.findByEmail(email);
 
-    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== Number(id)) {
+    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== id) {
       throw new AppError('Email alread in use');
     }
 

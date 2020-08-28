@@ -22,7 +22,6 @@ export default class CreateMessages1596029280746 implements MigrationInterface {
         ],
       }),
     );
-    await queryRunner.manager.
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
