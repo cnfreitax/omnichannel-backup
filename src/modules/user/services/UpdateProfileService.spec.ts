@@ -14,7 +14,7 @@ describe('Update Profile', () => {
     updateProfile = new UpdateProfileService(fakeUserRepository, fakeHashProvider);
   });
 
-  it('Should be able update profiler', async () => {
+  it('Should be able update profile', async () => {
     const user = await fakeUserRepository.create({
       email: 'any_@mail.com',
       name: 'any_mail',
@@ -28,7 +28,7 @@ describe('Update Profile', () => {
     });
 
     expect(updatedUser.name).toBe('any_new_name');
-    expect(updatedUser.email).toBe('eduaany_newrdo@mail.com');
+    expect(updatedUser.email).toBe('any_new@mail.com');
   });
 
   it('shoud be not able to update a non-existing profiler', async () => {

@@ -31,7 +31,7 @@ export default class UpdateProfile {
 
     const userWithUpdatedEmail = await this.userRepository.findByEmail(email);
 
-    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== id) {
+    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
       throw new AppError('Email alread in use');
     }
 
