@@ -32,8 +32,8 @@ class CompanyRepository implements ICompanyRepository {
     return companies;
   }
 
-  public async create({ name }: ICreateCompanyDTO): Promise<Company> {
-    const company = this.ormRepository.create({ name });
+  public async create(dataCompany: ICreateCompanyDTO): Promise<Company> {
+    const company = this.ormRepository.create(dataCompany);
     await this.ormRepository.save(company);
 
     return company;
