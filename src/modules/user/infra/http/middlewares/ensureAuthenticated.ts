@@ -22,7 +22,7 @@ export default function ensureAuthenticated(req: Request, res: Response, next: N
 
     const { sub } = decoded as TokenPayload;
 
-    const id = String(sub);
+    const id = sub;
 
     request.user = {
       id,
