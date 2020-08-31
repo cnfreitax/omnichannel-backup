@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { Segments, Joi, celebrate } from 'celebrate';
 import UserSectorController from '@modules/user/infra/http/controllers/UserSectorController';
-import ensureAuthenticated from '@modules/user/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthencticatedAdmUser from '@modules/user/infra/http/middlewares/ensureAuthencticatedAdmUser';
 
 const userSectorController = new UserSectorController();
 const sectorUserRoute = Router();
-sectorUserRoute.use(ensureAuthenticated);
+sectorUserRoute.use(ensureAuthencticatedAdmUser);
 
 sectorUserRoute.get('/sec', userSectorController.update);
 sectorUserRoute.put(
