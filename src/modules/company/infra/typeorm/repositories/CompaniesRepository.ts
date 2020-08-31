@@ -13,14 +13,14 @@ class CompanyRepository implements ICompanyRepository {
   }
 
   public async findById(id: number): Promise<Company | undefined> {
-    const findCompany = await this.ormRepository.findOne(Number(id));
+    const findCompany = await this.ormRepository.findOne(id);
 
     return findCompany;
   }
 
   public async findByCnpj(cnpj: string): Promise<Company | undefined> {
     const findCompany = await this.ormRepository.findOne({
-      where: cnpj,
+      where: { cnpj },
     });
 
     return findCompany;

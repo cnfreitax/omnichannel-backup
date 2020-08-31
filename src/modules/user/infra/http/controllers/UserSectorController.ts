@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import AssignUserToSectorService from '@modules/user/services/AssignUserToSectorService';
-import { classToClass } from 'class-transformer';
 
 export default class UserSectorController {
   public async update(req: Request, res: Response): Promise<Response> {
@@ -11,8 +10,8 @@ export default class UserSectorController {
 
     const assignUserToSector = container.resolve(AssignUserToSectorService);
 
-    const assingSector = assignUserToSector.execute({ user_id: userIdToNumber, sector_id });
+    assignUserToSector.execute({ user_id: userIdToNumber, sector_id });
 
-    return res.json(classToClass(assingSector));
+    return res.json({ ok: true });
   }
 }
