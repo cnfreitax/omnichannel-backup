@@ -27,9 +27,10 @@ class CreateSectorService {
       throw new AppError('Company does not exist');
     }
 
-    const sectorExists = await this.sectorRepository.findByName(label);
+    const sectorExists = await this.sectorRepository.findSectorCompany(label, company_id);
 
-    if (sectorExists?.company_id === company_id) {
+    console.log(sectorExists);
+    if (sectorExists && sectorExists?.company_id === company_id) {
       throw new AppError('Sector alredy registered');
     }
 
