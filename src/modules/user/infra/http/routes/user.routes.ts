@@ -6,7 +6,7 @@ const userController = new UserController();
 const userRouter = Router();
 
 userRouter.post(
-  '/signup',
+  '/',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
