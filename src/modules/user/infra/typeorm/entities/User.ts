@@ -13,9 +13,6 @@ export default class User {
   email: string;
 
   @Column()
-  company_id: number;
-
-  @Column()
   sector_id: number;
 
   @Column()

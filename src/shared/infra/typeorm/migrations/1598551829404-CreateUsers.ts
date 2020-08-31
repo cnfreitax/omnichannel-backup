@@ -18,7 +18,6 @@ export default class CreateUsers1598551829404 implements MigrationInterface {
           { name: 'password', type: 'varchar' },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
-          { name: 'company_id', type: 'int', isNullable: true },
           { name: 'sector_id', type: 'int', isNullable: true },
         ],
         foreignKeys: [
@@ -27,12 +26,7 @@ export default class CreateUsers1598551829404 implements MigrationInterface {
             referencedTableName: 'sectors',
             referencedColumnNames: ['id'],
             columnNames: ['sector_id'],
-          },
-          {
-            name: 'CompanyUser',
-            referencedTableName: 'companies',
-            referencedColumnNames: ['id'],
-            columnNames: ['company_id'],
+            onDelete: 'SET NULL',
           },
         ],
       }),
