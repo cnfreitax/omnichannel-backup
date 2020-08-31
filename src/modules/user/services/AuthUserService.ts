@@ -41,10 +41,16 @@ export default class AuthUserService {
 
     const { expiresIn, secret } = authConfig.jwt;
 
-    const token = sign({}, secret, {
-      subject: `${user.id}`,
-      expiresIn,
-    });
+    const token = sign(
+      {
+        access_level: user.access_level,
+      },
+      secret,
+      {
+        subject: `${user.id}`,
+        expiresIn,
+      },
+    );
 
     return { user, token };
   }

@@ -6,12 +6,11 @@ const userController = new UserController();
 const userRouter = Router();
 
 userRouter.post(
-  '/',
+  '/:access_level',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
       email: Joi.string().required(),
-      access_level: Joi.string().required(),
       password: Joi.string().required(),
     },
   }),

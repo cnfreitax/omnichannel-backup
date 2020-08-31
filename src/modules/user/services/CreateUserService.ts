@@ -7,6 +7,7 @@ import IHashProvider from '@modules/user/providers/HashProvider/models/IHashProv
 interface IRequest {
   name: string;
   email: string;
+  access_level: string;
   password: string;
 }
 
@@ -20,7 +21,7 @@ export default class CreateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ name, email, password }: IRequest): Promise<User> {
+  public async execute({ name, email, access_level, password }: IRequest): Promise<User> {
     const isEmailUsed = await this.userRepository.findByEmail(email);
     if (isEmailUsed) {
       throw new AppError('Email Addres Alread used.');
@@ -28,9 +29,14 @@ export default class CreateUserService {
 
     const hashedPassword = await this.hashProvider.generateHash(password);
 
+    if (access_level !== 'adm' && access_level !== 'common') {
+      throw new AppError('Invalid Access Level.');
+    }
+
     const company = await this.userRepository.create({
       name,
       email,
+      access_level,
       password: hashedPassword,
     });
 

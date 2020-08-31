@@ -13,6 +13,9 @@ export default class User {
   email: string;
 
   @Column()
+  access_level: 'adm' | 'common';
+
+  @Column()
   sector_id: number;
 
   @Column()
