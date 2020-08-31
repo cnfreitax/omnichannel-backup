@@ -17,7 +17,7 @@ class CreateCompanyService {
 
   public async execute({ name, cnpj }: IRequest): Promise<Company> {
     const companyExists = await this.companiesRepository.findByCnpj(cnpj);
-
+    console.log(cnpj);
     if (companyExists) {
       throw new AppError('Company already registered');
     }

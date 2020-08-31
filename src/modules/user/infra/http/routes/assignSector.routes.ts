@@ -12,7 +12,7 @@ sectorUserRoute.put(
   '/:user_id',
   celebrate({
     [Segments.BODY]: {
-      sector_id: Joi.string().required(),
+      sector_id: Joi.number().required(),
     },
   }),
   userSectorController.update,
