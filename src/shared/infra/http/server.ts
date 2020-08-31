@@ -10,7 +10,7 @@ import routes from './routes';
 import '@shared/infra/typeorm';
 import '@shared/container';
 
-const port = 3333;
+const port = process.env.PORT || 3333;
 
 const app = express();
 
