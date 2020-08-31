@@ -4,13 +4,13 @@ import AssignUserToSectorService from '@modules/user/services/AssignUserToSector
 
 export default class UserSectorController {
   public async update(req: Request, res: Response): Promise<Response> {
-    const { user_id } = req.params;
-    const { sector_id } = req.body;
-    const userIdToNumber = Number(user_id);
+    const { sector_id } = req.params;
+    const { user_id } = req.body;
+    const sectorIdToNumber = Number(sector_id);
 
     const assignUserToSector = container.resolve(AssignUserToSectorService);
 
-    assignUserToSector.execute({ user_id: userIdToNumber, sector_id });
+    assignUserToSector.execute({ user_id, sector_id: sectorIdToNumber });
 
     return res.json({ ok: true });
   }
