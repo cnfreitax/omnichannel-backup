@@ -18,7 +18,7 @@ class SectorRepository implements ISectorRepository {
     return findSector;
   }
 
-  public async findAllCompanySectors(company_id: string): Promise<Sector[] | undefined> {
+  public async findAllCompanySectors(company_id: number): Promise<Sector[] | undefined> {
     const sectors = await this.ormRepository.find({
       where: { company_id: Number(company_id) },
     });

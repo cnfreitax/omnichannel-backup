@@ -6,9 +6,9 @@ import ensureAuthenticated from '@modules/user/infra/http/middlewares/ensureAuth
 const sectorController = new SectorController();
 const sectorRouter = Router();
 sectorRouter.use(ensureAuthenticated);
-sectorRouter.get('/', sectorController.index);
+sectorRouter.get('/list/:company_id', sectorController.index);
 sectorRouter.post(
-  '/:company_id',
+  '/new/:company_id',
   celebrate({
     [Segments.BODY]: {
       label: Joi.string().required(),

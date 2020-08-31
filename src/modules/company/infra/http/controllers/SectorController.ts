@@ -8,8 +8,9 @@ import ListAllCompanySectorsService from '@modules/company/services/ListAllCompa
 export default class SectorController {
   public async index(req: Request, res: Response): Promise<Response> {
     const { company_id } = req.params;
+    const companyFormat = Number(company_id);
     const listAllCompanySectors = container.resolve(ListAllCompanySectorsService);
-    const allSectors = await listAllCompanySectors.execute(company_id);
+    const allSectors = await listAllCompanySectors.execute(companyFormat);
     return res.json(classToClass(allSectors));
   }
 
