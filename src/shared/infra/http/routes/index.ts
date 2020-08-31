@@ -11,8 +11,8 @@ const routes = Router();
 routes.use('/signup', userRouter); // register user
 routes.use('/signin', sessionsRouter); // session
 routes.use('/company', companiesRouter); // create and list company
-routes.use('/company-sectors', sectorsRouter); // creacte sector
+routes.use('/company/new-sector', sectorsRouter); // creacte sector
 routes.use('/profile', profilesRouter); // edit and view profile
-routes.use('/sector', sectorUserRoute); // assing sector to a user
+routes.use('/company-sector', sectorUserRoute); // assing sector to a user
 
 export default routes;

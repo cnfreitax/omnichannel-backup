@@ -9,10 +9,10 @@ sectorUserRoute.use(ensureAuthenticated);
 
 sectorUserRoute.get('/sec', userSectorController.update);
 sectorUserRoute.put(
-  '/:user_id',
+  '/:sector_id',
   celebrate({
     [Segments.BODY]: {
-      sector_id: Joi.number().required(),
+      user_id: Joi.number().required(),
     },
   }),
   userSectorController.update,
