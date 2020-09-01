@@ -10,8 +10,8 @@ class FakeCompanyRepository implements ICompanyRepository {
     return this.companies;
   }
 
-  public async findById(id: string): Promise<Company | undefined> {
-    const findCompany = this.companies.find(company => `${company.id}` === id);
+  public async findById(id: number): Promise<Company | undefined> {
+    const findCompany = this.companies.find(company => company.id === id);
 
     return findCompany;
   }

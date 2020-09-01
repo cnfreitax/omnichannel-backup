@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import FakeSectorRepository from '@modules/company/repositories/fakes/FakeSectorRepository';
-import ListAllCompanySectorsService from './ListAllCompanySectors.service';
+import ListAllCompanySectorsService from './ListAllCompanySectorsService';
 import FakeCompanyRepository from '../repositories/fakes/FakeCompanyRepository';
 
 let fakeCompanyRepository: FakeCompanyRepository;
@@ -21,17 +21,17 @@ describe('ListAllCompanies', () => {
     });
 
     await fakeSectorRepository.create({
-      company_id: `${company.id}`,
+      company_id: company.id,
       label: 'Vendas',
       phone: '999000999',
     });
 
-    const allSectors = await listAllCompanySectorsService.execute(`${company.id}`);
+    const allSectors = await listAllCompanySectorsService.execute(company.id);
 
     expect(allSectors).toHaveLength(1);
   });
 
   it('should not be able to list sectors for a non existing company', async () => {
-    await expect(listAllCompanySectorsService.execute('non-existing-id')).rejects.toBeInstanceOf(AppError);
+    await expect(listAllCompanySectorsService.execute(999)).rejects.toBeInstanceOf(AppError);
   });
 });

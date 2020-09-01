@@ -16,10 +16,11 @@ describe('Update Profile', () => {
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
+      access_level: 'adm',
     });
 
     const profile = await showProfile.execute({
-      id: `${user.id}`,
+      id: user.id,
     });
 
     expect(profile.name).toBe('Eduardo');
@@ -31,11 +32,12 @@ describe('Update Profile', () => {
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
+      access_level: 'adm',
     });
 
     await expect(
       showProfile.execute({
-        id: 'non-ecxisting-company_id',
+        id: 10,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
