@@ -1,41 +1,35 @@
 import AppError from '@shared/errors/AppError';
-
-import FakeHashProvider from '@modules/company/providers/HashProvider/fakes/FakeHashProvider';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
+import CreateCompanyService from './CreateCompanyService';
 
-import CreateCompanyService from './CreateCompany.service';
+let fakeCompanyRepository: FakeCompanyRepository;
+let createCompanyService: CreateCompanyService;
 
 describe('CreateCompany', () => {
-  it('shoud br able to create a new Company', async () => {
-    const fakeCompanyRepository = new FakeCompanyRepository();
-    const fakeHashProvider = new FakeHashProvider();
-    const createCompanyService = new CreateCompanyService(fakeCompanyRepository, fakeHashProvider);
+  beforeEach(() => {
+    fakeCompanyRepository = new FakeCompanyRepository();
+    createCompanyService = new CreateCompanyService(fakeCompanyRepository);
+  });
 
+  it('should be able to create a new company', async () => {
     const company = await createCompanyService.execute({
-      email: 'jj@email.com',
-      name: 'Eduardo',
-      password: '123456',
+      name: 'Empresa 1',
+      cnpj: '1234567890',
     });
 
     expect(company).toHaveProperty('id');
   });
 
-  it('shoud not be able to create two Company with the same email', async () => {
-    const fakeCompanyRepository = new FakeCompanyRepository();
-    const fakeHashProvider = new FakeHashProvider();
-    const createCompanyService = new CreateCompanyService(fakeCompanyRepository, fakeHashProvider);
-
+  it('should not be able to create a new company with an already registered cnpj', async () => {
     await createCompanyService.execute({
-      email: 'jj@email.com',
-      name: 'Eduardo',
-      password: '123456',
+      name: 'Empresa 1',
+      cnpj: '1234567890',
     });
 
-    expect(
+    await expect(
       createCompanyService.execute({
-        email: 'jj@email.com',
-        name: 'Eduardo',
-        password: '123456',
+        name: 'Empresa 2',
+        cnpj: '1234567890',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

@@ -12,15 +12,15 @@ class CompanyRepository implements ICompanyRepository {
     this.ormRepository = getRepository(Company);
   }
 
-  public async findById(id: string): Promise<Company | undefined> {
-    const findCompany = await this.ormRepository.findOne(Number(id));
+  public async findById(id: number): Promise<Company | undefined> {
+    const findCompany = await this.ormRepository.findOne(id);
 
     return findCompany;
   }
 
-  public async findByEmail(email: string): Promise<Company | undefined> {
+  public async findByCnpj(cnpj: string): Promise<Company | undefined> {
     const findCompany = await this.ormRepository.findOne({
-      where: { email },
+      where: { cnpj },
     });
 
     return findCompany;
@@ -32,8 +32,8 @@ class CompanyRepository implements ICompanyRepository {
     return companies;
   }
 
-  public async create({ email, name, password }: ICreateCompanyDTO): Promise<Company> {
-    const company = this.ormRepository.create({ email, name, password });
+  public async create(dataCompany: ICreateCompanyDTO): Promise<Company> {
+    const company = this.ormRepository.create(dataCompany);
     await this.ormRepository.save(company);
 
     return company;

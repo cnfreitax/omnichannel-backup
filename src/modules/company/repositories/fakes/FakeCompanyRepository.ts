@@ -10,25 +10,25 @@ class FakeCompanyRepository implements ICompanyRepository {
     return this.companies;
   }
 
-  public async findById(id: string): Promise<Company | undefined> {
-    const findCompany = this.companies.find(company => `${company.id}` === id);
+  public async findById(id: number): Promise<Company | undefined> {
+    const findCompany = this.companies.find(company => company.id === id);
 
     return findCompany;
   }
 
-  public async findByEmail(email: string): Promise<Company | undefined> {
-    const findCompany = this.companies.find(company => company.email === email);
+  public async findByCnpj(cnpj: string): Promise<Company | undefined> {
+    const findCompany = this.companies.find(company => company.cnpj === cnpj);
 
     return findCompany;
   }
 
-  public async create({ email, name, password }: ICreateCompanyDTO): Promise<Company> {
+  public async create({ name, cnpj }: ICreateCompanyDTO): Promise<Company> {
     const company = new Company();
 
     const date = new Date();
     const id = date.getTime() + Math.round(Math.random() * 100);
 
-    Object.assign(company, { id, email, password, name });
+    Object.assign(company, { id, name, cnpj });
 
     this.companies.push(company);
 

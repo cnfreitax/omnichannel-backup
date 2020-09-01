@@ -25,6 +25,7 @@
     "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-prettier": "^3.1.4",
+    "git-commit-msg-linter": "^2.4.5",
     "jest": "^26.2.2",
     "prettier": "^2.0.5",
     "ts-jest": "^26.1.4",
@@ -48,7 +49,6 @@
     "rate-limiter-flexible": "^2.1.10",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.3.0",
-    "typeorm": "^0.2.25",
-    "uuidv4": "^6.1.1"
+    "typeorm": "^0.2.25"
   }
 }
