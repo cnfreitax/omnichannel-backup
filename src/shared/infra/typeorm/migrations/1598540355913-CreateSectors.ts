@@ -25,6 +25,7 @@ export default class CreateSectors1598540355913 implements MigrationInterface {
             referencedTableName: 'companies',
             referencedColumnNames: ['id'],
             columnNames: ['company_id'],
+            onDelete: 'CASCADE',
           },
         ],
       }),
