@@ -4,6 +4,7 @@ import IUserRepository from '@modules/user/repositories/IUserRepository';
 import ICreateUserDTO from '@modules/user/dtos/ICreateUserDTO';
 
 import User from '@modules/user/infra/typeorm/entities/User';
+import IListUsersDTO from '@modules/user/dtos/IListUsersDTO';
 
 export default class UserRepository implements IUserRepository {
   private ormRepository: Repository<User>;
@@ -24,6 +25,11 @@ export default class UserRepository implements IUserRepository {
     });
 
     return user;
+  }
+
+  public async listAllUsers(listParams: IListUsersDTO): Promise<User[]> {
+    const users = await this.ormRepository.find({ where: listParams });
+    return users;
   }
 
   public async create(dataUser: ICreateUserDTO): Promise<User> {

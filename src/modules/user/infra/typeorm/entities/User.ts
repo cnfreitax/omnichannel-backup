@@ -16,6 +16,9 @@ export default class User {
   access_level: 'adm' | 'common';
 
   @Column()
+  company_id: number;
+
+  @Column()
   sector_id: number;
 
   @Column()

@@ -17,4 +17,6 @@ userRouter.post(
   userController.create,
 );
 
+userRouter.get('/', userController.index);
+
 export default userRouter;
