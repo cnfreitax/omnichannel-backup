@@ -1,5 +1,5 @@
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
-import ListAllCompaniesService from './ListAllCompanies.service';
+import ListAllCompaniesService from './ListAllCompaniesService';
 
 let fakeCompanyRepository: FakeCompanyRepository;
 let listAllCompaniesService: ListAllCompaniesService;

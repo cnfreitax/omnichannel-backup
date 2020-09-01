@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
 import FakeSectorRepository from '@modules/company/repositories/fakes/FakeSectorRepository';
 
-import CreateSectorService from './CreateSector.service';
+import CreateSectorService from './CreateSectorService';
 
 let fakeCompanyRepository: FakeCompanyRepository;
 let fakeSectorRepository: FakeSectorRepository;
@@ -22,7 +22,7 @@ describe('CreateCompany', () => {
     });
 
     const sector = await createSectorService.execute({
-      company_id: `${company.id}`,
+      company_id: company.id,
       label: 'Vendas',
       phone: '999000999',
     });
@@ -33,7 +33,7 @@ describe('CreateCompany', () => {
   it('should not be able to create a sector for a non existing company', async () => {
     await expect(
       createSectorService.execute({
-        company_id: 'non-existing-id',
+        company_id: 9999,
         label: 'Vendas',
         phone: '999000999',
       }),

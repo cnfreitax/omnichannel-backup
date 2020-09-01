@@ -22,6 +22,7 @@ describe('User SignUp', () => {
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
+      access_level: 'adm',
     });
 
     const response = await authUser.execute({
@@ -37,6 +38,7 @@ describe('User SignUp', () => {
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
+      access_level: 'adm',
     });
 
     expect(
@@ -52,6 +54,7 @@ describe('User SignUp', () => {
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
+      access_level: 'adm',
     });
 
     expect(

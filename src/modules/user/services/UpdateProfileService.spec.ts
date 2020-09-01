@@ -19,10 +19,11 @@ describe('Update Profile', () => {
       email: 'any_@mail.com',
       name: 'any_mail',
       password: '123',
+      access_level: 'adm',
     });
 
     const updatedUser = await updateProfile.execute({
-      id: `${user.id}`,
+      id: user.id,
       name: 'any_new_name',
       email: 'any_new@mail.com',
     });
@@ -36,11 +37,12 @@ describe('Update Profile', () => {
       email: 'any@mail.com',
       name: 'any_name',
       password: 'password',
+      access_level: 'adm',
     });
 
     await expect(
       updateProfile.execute({
-        id: 'no-nexisting-id',
+        id: 999,
         name: 'any_name',
         email: 'any@mail.com',
       }),
@@ -52,17 +54,19 @@ describe('Update Profile', () => {
       email: 'any@mail.com',
       name: 'any_mail',
       password: '123',
+      access_level: 'adm',
     });
 
     const user = await fakeUserRepository.create({
       email: 'any@mail.com',
       name: 'any_second_name',
       password: '123',
+      access_level: 'adm',
     });
 
     await expect(
       updateProfile.execute({
-        id: `${user.id}`,
+        id: user.id,
         email: 'any@mail.com',
         name: 'any_name',
       }),
@@ -74,10 +78,11 @@ describe('Update Profile', () => {
       email: 'any@mail.com',
       name: 'any_name',
       password: 'old_password',
+      access_level: 'adm',
     });
 
     const updatedUser = await updateProfile.execute({
-      id: `${user.id}`,
+      id: user.id,
       email: 'any@mail.com',
       name: 'any_name',
       password: 'new_password',
@@ -92,11 +97,12 @@ describe('Update Profile', () => {
       email: 'any@mail.com',
       name: 'any_name',
       password: 'old_password',
+      access_level: 'adm',
     });
 
     await expect(
       updateProfile.execute({
-        id: `${user.id}`,
+        id: user.id,
         email: 'any@mail.com',
         name: 'any_name',
         password: 'old_password',
@@ -109,11 +115,12 @@ describe('Update Profile', () => {
       email: 'any@mail.com',
       name: 'any_name',
       password: 'old_password',
+      access_level: 'adm',
     });
 
     await expect(
       updateProfile.execute({
-        id: `${user.id}`,
+        id: user.id,
         email: 'any@mail.com',
         name: 'any_name',
         password: 'new_password',

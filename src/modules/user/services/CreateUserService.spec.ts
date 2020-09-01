@@ -13,6 +13,7 @@ describe('Create User Service', () => {
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
+      access_level: 'adm',
     });
 
     expect(user).toHaveProperty('id');
@@ -27,6 +28,7 @@ describe('Create User Service', () => {
       email: 'jj@email.com',
       name: 'Eduardo',
       password: '123456',
+      access_level: 'adm',
     });
 
     expect(
@@ -34,6 +36,7 @@ describe('Create User Service', () => {
         email: 'jj@email.com',
         name: 'Eduardo',
         password: '123456',
+        access_level: 'adm',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
-import CreateCompanyService from './CreateCompany.service';
+import CreateCompanyService from './CreateCompanyService';
 
 let fakeCompanyRepository: FakeCompanyRepository;
 let createCompanyService: CreateCompanyService;

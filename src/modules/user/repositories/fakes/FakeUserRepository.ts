@@ -2,14 +2,32 @@ import IUserRepository from '@modules/user/repositories/IUserRepository';
 import ICreateUserDTO from '@modules/user/dtos/ICreateUserDTO';
 
 import User from '@modules/user/infra/typeorm/entities/User';
+import IListUsersDTO from '@modules/user/dtos/IListUsersDTO';
 
 export default class FakeUserRepository implements IUserRepository {
   private users: User[] = [];
 
-  public async findById(id: string): Promise<User | undefined> {
-    const user = this.users.find(selectedUser => `${selectedUser.id}` === id);
+  public async findById(id: number): Promise<User | undefined> {
+    const user = this.users.find(selectedUser => selectedUser.id === id);
 
     return user;
+  }
+
+  public async listAllUsers({ sector_id, company_id }: IListUsersDTO): Promise<User[]> {
+    let users;
+    if (company_id) {
+      users = this.users.filter(listUsers => {
+        return listUsers.company_id === company_id;
+      });
+    } else if (sector_id) {
+      users = this.users.filter(listUsers => {
+        return listUsers.sector_id === sector_id;
+      });
+    } else {
+      users = this.users;
+    }
+
+    return users;
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
