@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
-import CreateCompanyService from '@modules/company/services/CreateCompany.service';
-import ListAllCompaniesService from '@modules/company/services/ListAllCompanies.service';
+import CreateCompanyService from '@modules/company/services/CreateCompanyService';
+import ListAllCompaniesService from '@modules/company/services/ListAllCompaniesService';
 
 export default class CompaniesController {
   public async index(req: Request, res: Response): Promise<Response> {

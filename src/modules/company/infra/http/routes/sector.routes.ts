@@ -1,19 +1,16 @@
 import { Router } from 'express';
 import { Segments, Joi, celebrate } from 'celebrate';
-
 import SectorController from '@modules/company/infra/http/controllers/SectorController';
+import ensureAuthenticatedAdmUser from '@modules/user/infra/http/middlewares/ensureAuthencticatedAdmUser';
 
 const sectorController = new SectorController();
-
 const sectorRouter = Router();
-
-sectorRouter.get('/', sectorController.index);
-
+sectorRouter.use(ensureAuthenticatedAdmUser);
+sectorRouter.get('/list/:company_id', sectorController.index);
 sectorRouter.post(
-  '/',
+  '/new/:company_id',
   celebrate({
     [Segments.BODY]: {
-      company_id: Joi.string().required(),
       label: Joi.string().required(),
       phone: Joi.string().required(),
     },

@@ -5,7 +5,7 @@ import IUserRepository from '@modules/user/repositories/IUserRepository';
 import IHashProvider from '@modules/user/providers/HashProvider/models/IHashProvider';
 
 interface Request {
-  id: string;
+  id: number;
   name: string;
   email: string;
   password?: string;

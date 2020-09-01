@@ -12,7 +12,7 @@ export default class UserRepository implements IUserRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async findById(id: string): Promise<User | undefined> {
+  public async findById(id: number): Promise<User | undefined> {
     const user = await this.ormRepository.findOne(Number(id));
 
     return user;
@@ -26,8 +26,8 @@ export default class UserRepository implements IUserRepository {
     return user;
   }
 
-  public async create({ email, name, password }: ICreateUserDTO): Promise<User> {
-    const user = this.ormRepository.create({ email, name, password });
+  public async create(dataUser: ICreateUserDTO): Promise<User> {
+    const user = this.ormRepository.create(dataUser);
     await this.ormRepository.save(user);
 
     return user;

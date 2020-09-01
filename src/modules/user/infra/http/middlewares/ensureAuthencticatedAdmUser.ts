@@ -7,9 +7,10 @@ interface TokenPayload {
   iat: number;
   exp: number;
   sub: number;
+  access_level: string;
 }
 
-export default function ensureAuthenticated(req: Request, res: Response, next: NextFunction): void {
+export default function ensureAuthenticatedAdmUser(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -20,7 +21,11 @@ export default function ensureAuthenticated(req: Request, res: Response, next: N
   try {
     const decoded = verify(token, authConfig.jwt.secret);
 
-    const { sub } = decoded as TokenPayload;
+    const { sub, access_level } = decoded as TokenPayload;
+
+    if (access_level !== 'adm') {
+      throw new AppError('This route is only for Adm users');
+    }
 
     const id = sub;
 
@@ -30,6 +35,9 @@ export default function ensureAuthenticated(req: Request, res: Response, next: N
 
     return next();
   } catch (err) {
+    if (err instanceof AppError) {
+      throw new AppError('This route is only for Adm users');
+    }
     throw new AppError('Invalid JWT token!!!', 401);
   }
 }

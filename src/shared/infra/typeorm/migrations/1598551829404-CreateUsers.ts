@@ -16,11 +16,19 @@ export default class CreateUsers1598551829404 implements MigrationInterface {
           { name: 'name', type: 'varchar' },
           { name: 'email', type: 'varchar', isUnique: true },
           { name: 'password', type: 'varchar' },
+          { name: 'access_level', type: 'varchar' },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
-          // { name: 'company_id', type: 'varchar', length: '36' },
-          // { name: 'sector_id', type: 'varchar', length: '36' },
-          // { name: 'avatar', type: 'varchar', isNullable: true },
+          { name: 'sector_id', type: 'int', isNullable: true },
+        ],
+        foreignKeys: [
+          {
+            name: 'SectorUser',
+            referencedTableName: 'sectors',
+            referencedColumnNames: ['id'],
+            columnNames: ['sector_id'],
+            onDelete: 'SET NULL',
+          },
         ],
       }),
     );

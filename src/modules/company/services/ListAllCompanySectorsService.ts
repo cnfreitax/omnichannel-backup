@@ -1,19 +1,11 @@
 import { injectable, inject } from 'tsyringe';
-
 import Sector from '@modules/company/infra/typeorm/entities/Sector';
-
 import AppError from '@shared/errors/AppError';
 import ISectorRepository from '@modules/company/repositories/ISectorRepository';
 import ICompanyRepository from '../repositories/ICompanyRepository';
 
-interface IRequest {
-  label: string;
-  phone: string;
-  company_id: string;
-}
-
 @injectable()
-class CreateSectorService {
+export default class ListAllCompanySectorsService {
   constructor(
     @inject('CompaniesRepository')
     private companiesRepository: ICompanyRepository,
@@ -21,21 +13,15 @@ class CreateSectorService {
     private sectorRepository: ISectorRepository,
   ) {}
 
-  public async execute({ company_id, label, phone }: IRequest): Promise<Sector> {
+  public async execute(company_id: number): Promise<Sector[] | undefined> {
     const companyExists = await this.companiesRepository.findById(company_id);
 
     if (!companyExists) {
       throw new AppError('Company does not exist');
     }
 
-    const sector = await this.sectorRepository.create({
-      company_id,
-      label,
-      phone,
-    });
+    const allSectors = await this.sectorRepository.findAllCompanySectors(company_id);
 
-    return sector;
+    return allSectors;
   }
 }
-
-export default CreateSectorService;

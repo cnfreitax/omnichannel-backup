@@ -24,6 +24,7 @@
         "prettier"
     ],
     "rules": {
+      "prefer-destructuring": "off",
       "camelcase":"off",
       "no-underscore-dangle":"off",
       "@typescript-eslint/camelcase":"off",
