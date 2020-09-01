@@ -3,6 +3,8 @@ import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 import CreateUserService from '@modules/user/services/CreateUserService';
 import ListUsersService from '@modules/user/services/ListUsersService';
+import SearchUsers from '@modules/user/services/SearchUsersService';
+import ISearchUserDTO from '@modules/user/dtos/ISearchUsersDTO';
 
 export default class UserController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -31,5 +33,15 @@ export default class UserController {
     const userList = await listUser.execute({ company_id: companyIdFormat, sector_id: sectorIdFormat });
 
     return res.json(userList);
+  }
+
+  public async show(req: Request, res: Response): Promise<Response> {
+    const { name, email } = req.query as ISearchUserDTO;
+
+    const searchUsers = container.resolve(SearchUsers);
+
+    const usersList = await searchUsers.execute({ name, email });
+
+    return res.json(usersList);
   }
 }

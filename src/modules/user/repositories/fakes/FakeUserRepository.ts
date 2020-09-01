@@ -3,6 +3,7 @@ import ICreateUserDTO from '@modules/user/dtos/ICreateUserDTO';
 
 import User from '@modules/user/infra/typeorm/entities/User';
 import IListUsersDTO from '@modules/user/dtos/IListUsersDTO';
+import ISearchUsersDTO from '@modules/user/dtos/ISearchUsersDTO';
 
 export default class FakeUserRepository implements IUserRepository {
   private users: User[] = [];
@@ -22,6 +23,23 @@ export default class FakeUserRepository implements IUserRepository {
     } else if (sector_id) {
       users = this.users.filter(listUsers => {
         return listUsers.sector_id === sector_id;
+      });
+    } else {
+      users = this.users;
+    }
+
+    return users;
+  }
+
+  public async searchUsers({ name, email }: ISearchUsersDTO): Promise<User[]> {
+    let users;
+    if (name) {
+      users = this.users.filter(listUsers => {
+        return listUsers.name === name;
+      });
+    } else if (email) {
+      users = this.users.filter(listUsers => {
+        return listUsers.email === email;
       });
     } else {
       users = this.users;

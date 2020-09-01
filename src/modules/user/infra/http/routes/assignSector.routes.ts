@@ -7,7 +7,6 @@ const userSectorController = new UserSectorController();
 const sectorUserRoute = Router();
 sectorUserRoute.use(ensureAuthencticatedAdmUser);
 
-sectorUserRoute.get('/sec', userSectorController.update);
 sectorUserRoute.put(
   '/:sector_id',
   celebrate({
