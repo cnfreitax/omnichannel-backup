@@ -26,13 +26,14 @@ export default class AssignUserToSectorService {
       throw new AppError('User not exist');
     }
 
-    const sector = this.sectorRepository.findById(sector_id);
+    const sector = await this.sectorRepository.findById(sector_id);
 
     if (!sector) {
       throw new AppError('Sector non exist');
     }
 
     user.sector_id = sector_id;
+    user.company_id = sector.company_id;
 
     return this.userRepository.save(user);
   }
