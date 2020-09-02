@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 export enum MessageType {
   GREETING = 'greeting',
   CHAT = 'chat',
-  SUBMENU = 'submenu',
+  MENU = 'menu',
   MESSAGE = 'message',
   MEDIA = 'media',
   API = 'api',
@@ -12,16 +12,19 @@ export enum MessageType {
   END_CHATBOT = 'end_chatbot',
 }
 
-@Entity('messages')
-class Messages {
-  @PrimaryGeneratedColumn('uuid')
+@Entity('containers')
+export default class Containers {
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  parent_id: number | null;
+  @Column({ nullable: true })
+  from: number;
+
+  @Column({ nullable: true })
+  to: number;
 
   @Column()
-  text: string;
+  description: string;
 
   @Column({
     type: 'enum',
@@ -34,11 +37,12 @@ class Messages {
   @Column()
   company_id: number;
 
+  @Column({ type: 'json', nullable: true })
+  content: JSON;
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 }
-
-export default Messages;
