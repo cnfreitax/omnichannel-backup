@@ -1,34 +1,33 @@
-import IChatbotRepository from '@modules/chatbot/repositories/IChatbotRepository';
-import ISaveMessageDTO from '@modules/chatbot/dtos/ISaveMessageDTO';
-import IFindExistingMessageDTO from '@modules/chatbot/dtos/IFindExistingMessageDTO';
+import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
+import ISaveContainerDTO from '@modules/chatbot/dtos/ISaveContainerDTO';
+import IFindExistingContainerDTO from '@modules/chatbot/dtos/IFindExistingContainerDTO';
 
-import Message from '@modules/chatbot/infra/typeorm/entities/Message';
+import Container from '@modules/chatbot/infra/typeorm/entities/Container';
 
-class FakeChatbotRepository implements IChatbotRepository {
-  private messages: Message[] = [];
+class FakeContainerRepository implements IContainerRepository {
+  private containers: Container[] = [];
 
-  public async findById(id: string): Promise<Message | undefined> {
-    const message = this.messages.find(foundMessage => foundMessage.id === Number(id));
+  public async findById(id: number): Promise<Container | undefined> {
+    const container = this.containers.find(foundContainer => foundContainer.id === id);
 
-    return message;
+    return container;
   }
 
-  public async create({ company_id, parent_id, text, type }: ISaveMessageDTO): Promise<Message> {
-    const message = new Message();
+  public async create({ company_id, description, type, from, to }: ISaveContainerDTO): Promise<Container> {
+    const container = new Container();
 
-    Object.assign(message, { id: this.messages.length + 1, company_id: Number(company_id), parent_id, text, type });
+    Object.assign(container, { id: this.containers.length + 1, company_id, from, to, description, type });
 
-    this.messages.push(message);
+    this.containers.push(container);
 
-    return message;
+    return container;
   }
 
-  public async findExistingMessage({ company_id, type }: IFindExistingMessageDTO): Promise<Message | undefined> {
-    const message = this.messages.find(foundMessage => foundMessage.company_id === Number(company_id) && foundMessage.type === type);
-    // console.log(this.messages, company_id, type, message);
+  public async findExistingContainer({ company_id, type }: IFindExistingContainerDTO): Promise<Container | undefined> {
+    const container = this.containers.find(foundContainer => foundContainer.company_id === company_id && foundContainer.type === type);
 
-    return message;
+    return container;
   }
 }
 
-export default FakeChatbotRepository;
+export default FakeContainerRepository;

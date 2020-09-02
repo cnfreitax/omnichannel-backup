@@ -1,74 +1,48 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeChatbotRepository from '@modules/chatbot/repositories/fakes/FakeChatbotRepository';
+import FakeContainerRepository from '@modules/chatbot/repositories/fakes/FakeContainerRepository';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
-import CreateEndOfChatbotMessageService from './CreateEndOfChatbotMessage.service';
-import { MessageType } from '../infra/typeorm/entities/Message';
+import CreateEndOfChatbotMessageService from './CreateEndOfChatbotMessageService';
+import { ContainerType } from '../infra/typeorm/entities/Container';
 
-let fakeChatbotRepository: FakeChatbotRepository;
+let fakeContainerRepository: FakeContainerRepository;
 let fakeCompanyRepository: FakeCompanyRepository;
 let createEndOfChatbot: CreateEndOfChatbotMessageService;
 
 describe('CreateEndOfChatbotMessage', () => {
   beforeEach(() => {
-    fakeChatbotRepository = new FakeChatbotRepository();
+    fakeContainerRepository = new FakeContainerRepository();
     fakeCompanyRepository = new FakeCompanyRepository();
-    createEndOfChatbot = new CreateEndOfChatbotMessageService(fakeChatbotRepository, fakeCompanyRepository);
+    createEndOfChatbot = new CreateEndOfChatbotMessageService(fakeContainerRepository, fakeCompanyRepository);
   });
 
   it('should be able to create a end of chatbot message', async () => {
     const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
-    });
-
-    const parentMessage = await fakeChatbotRepository.create({
-      company_id: String(company.id),
-      text: 'Precisa de mais alguma coisa?',
-      type: MessageType.SUBMENU,
+      name: 'Company Doe',
+      cnpj: '123123',
     });
 
     const message = await createEndOfChatbot.execute({
-      company_id: String(company.id),
-      parent_id: String(parentMessage.id),
-      text: 'Obrigado pelo seu contato',
-      type: MessageType.END_CHATBOT,
+      company_id: company.id,
+      description: 'Obrigado pelo seu contato',
+      type: ContainerType.END_CHATBOT,
     });
 
     expect(message).toHaveProperty('id');
-    expect(message.type).toEqual(MessageType.END_CHATBOT);
+    expect(message.type).toEqual(ContainerType.END_CHATBOT);
   });
 
   it('should not be able to create a costumer survey with wrong message type', async () => {
     const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
+      name: 'Company Doe',
+      cnpj: '123123',
     });
 
     await expect(
       createEndOfChatbot.execute({
-        company_id: String(company.id),
-        text: 'Obrigado pelo seu contato',
-        type: MessageType.GREETING,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not be able to create a end of chatbot message with a non existing parent-id', async () => {
-    const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
-    });
-
-    await expect(
-      createEndOfChatbot.execute({
-        company_id: String(company.id),
-        parent_id: 'non-existing-parent-id',
-        text: 'Obrigado pelo seu contato',
-        type: MessageType.END_CHATBOT,
+        company_id: company.id,
+        description: 'Obrigado pelo seu contato',
+        type: ContainerType.GREETING,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -76,9 +50,38 @@ describe('CreateEndOfChatbotMessage', () => {
   it('should not be able to create a end of chatbot message with a non existing company-id', async () => {
     await expect(
       createEndOfChatbot.execute({
-        company_id: 'non-existing-company-id',
-        text: 'Obrigado pelo seu contato',
-        type: MessageType.END_CHATBOT,
+        company_id: 9,
+        description: 'Obrigado pelo seu contato',
+        type: ContainerType.END_CHATBOT,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create a end of chatbot message if company already has one', async () => {
+    const company = await fakeCompanyRepository.create({
+      name: 'Company Doe',
+      cnpj: '123123',
+    });
+
+    const parentMessage = await fakeContainerRepository.create({
+      company_id: company.id,
+      description: 'Precisa de mais alguma coisa?',
+      type: ContainerType.MENU,
+    });
+
+    await createEndOfChatbot.execute({
+      company_id: company.id,
+      from: parentMessage.id,
+      description: 'Obrigado pelo seu contato',
+      type: ContainerType.END_CHATBOT,
+    });
+
+    await expect(
+      createEndOfChatbot.execute({
+        company_id: company.id,
+        from: parentMessage.id,
+        description: 'Obrigado pelo seu contato',
+        type: ContainerType.END_CHATBOT,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

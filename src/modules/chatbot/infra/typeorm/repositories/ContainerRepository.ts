@@ -1,37 +1,37 @@
 import { getRepository, Repository } from 'typeorm';
 
-import IChatbotRepository from '@modules/chatbot/repositories/IChatbotRepository';
+import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
 
-import Message from '@modules/chatbot/infra/typeorm/entities/Message';
-import ISaveMessageDTO from '@modules/chatbot/dtos/ISaveMessageDTO';
-import IFindExistingMessageDTO from '@modules/chatbot/dtos/IFindExistingMessageDTO';
+import Container from '@modules/chatbot/infra/typeorm/entities/Container';
+import ISaveContainerDTO from '@modules/chatbot/dtos/ISaveContainerDTO';
+import IFindExistingContainerDTO from '@modules/chatbot/dtos/IFindExistingContainerDTO';
 
-class ChatbotRepository implements IChatbotRepository {
-  private ormRepository: Repository<Message>;
+class ContainerRepository implements IContainerRepository {
+  private ormRepository: Repository<Container>;
 
   constructor() {
-    this.ormRepository = getRepository(Message);
+    this.ormRepository = getRepository(Container);
   }
 
-  public async findById(id: string): Promise<Message | undefined> {
-    const message = await this.ormRepository.findOne(Number(id));
+  public async findById(id: number): Promise<Container | undefined> {
+    const container = await this.ormRepository.findOne(id);
 
-    return message;
+    return container;
   }
 
-  public async create({ company_id, text, type, parent_id }: ISaveMessageDTO): Promise<Message> {
-    const message = this.ormRepository.create({ text, type, company_id: Number(company_id), parent_id: Number(parent_id) || null });
+  public async create({ company_id, description, type, from, to }: ISaveContainerDTO): Promise<Container> {
+    const container = this.ormRepository.create({ company_id, description, type, from: from || undefined, to: to || undefined });
 
-    await this.ormRepository.save(message);
+    await this.ormRepository.save(container);
 
-    return message;
+    return container;
   }
 
-  public async findExistingMessage({ company_id, type }: IFindExistingMessageDTO): Promise<Message | undefined> {
-    const message = await this.ormRepository.findOne({ where: { company_id: Number(company_id), type } });
+  public async findExistingContainer({ company_id, type }: IFindExistingContainerDTO): Promise<Container | undefined> {
+    const container = await this.ormRepository.findOne({ where: { company_id, type } });
 
-    return message;
+    return container;
   }
 }
 
-export default ChatbotRepository;
+export default ContainerRepository;

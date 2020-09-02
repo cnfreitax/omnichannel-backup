@@ -1,72 +1,69 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeChatbotRepository from '@modules/chatbot/repositories/fakes/FakeChatbotRepository';
+import FakeContainerRepository from '@modules/chatbot/repositories/fakes/FakeContainerRepository';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
 
-import CreateGreetingMessageService from '@modules/chatbot/services/CreateGreetingMessage.service';
+import CreateGreetingMessageService from '@modules/chatbot/services/CreateGreetingMessageService';
 
-import { MessageType } from '@modules/chatbot/infra/typeorm/entities/Message';
+import { ContainerType } from '@modules/chatbot/infra/typeorm/entities/Container';
 
-let fakeChatbotRepository: FakeChatbotRepository;
+let fakeContainerRepository: FakeContainerRepository;
 let fakeCompanyRepository: FakeCompanyRepository;
 let createGreetingMessage: CreateGreetingMessageService;
 
 describe('CreateGreetings', () => {
   beforeEach(() => {
-    fakeChatbotRepository = new FakeChatbotRepository();
+    fakeContainerRepository = new FakeContainerRepository();
     fakeCompanyRepository = new FakeCompanyRepository();
-    createGreetingMessage = new CreateGreetingMessageService(fakeChatbotRepository, fakeCompanyRepository);
+    createGreetingMessage = new CreateGreetingMessageService(fakeContainerRepository, fakeCompanyRepository);
   });
 
-  it('shoud br able to create a greeting', async () => {
+  it('should be able to create a greeting', async () => {
     const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
+      name: 'Company Doe',
+      cnpj: '123123',
     });
 
     const greetingMessage = await createGreetingMessage.execute({
-      company_id: String(company.id),
-      text: 'seja bem vindo!!',
-      type: MessageType.GREETING,
+      company_id: company.id,
+      description: 'seja bem vindo!!',
+      type: ContainerType.GREETING,
     });
 
     expect(greetingMessage).toHaveProperty('id');
   });
 
-  it('shoud not be able to create greeting with a non existing company', async () => {
+  it('should not be able to create greeting with a non existing company', async () => {
     await expect(
-      createGreetingMessage.execute({ company_id: 'non-existing-company', text: 'seja bem vindo!!', type: MessageType.GREETING }),
+      createGreetingMessage.execute({ company_id: 9, description: 'seja bem vindo!!', type: ContainerType.GREETING }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('shoud not be able to create two greetings with same company', async () => {
+  it('should not be able to create two greetings with same company', async () => {
     const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
+      name: 'Company Doe',
+      cnpj: '123123',
     });
 
     await createGreetingMessage.execute({
-      company_id: String(company.id),
-      text: 'seja bem vindo!!',
-      type: MessageType.GREETING,
+      company_id: company.id,
+      description: 'seja bem vindo!!',
+      type: ContainerType.GREETING,
     });
 
     await expect(
-      createGreetingMessage.execute({ company_id: String(company.id), text: 'seja bem vindo!!', type: MessageType.GREETING }),
+      createGreetingMessage.execute({ company_id: company.id, description: 'seja bem vindo!!', type: ContainerType.GREETING }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
   it('shoud not be able to create a greeting with a different type', async () => {
     const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
+      name: 'Company Doe',
+      cnpj: '123123',
     });
 
     await expect(
-      createGreetingMessage.execute({ company_id: String(company.id), text: 'seja bem vindo!!', type: MessageType.SUBMENU }),
+      createGreetingMessage.execute({ company_id: company.id, description: 'seja bem vindo!!', type: ContainerType.MENU }),
     ).rejects.toBeInstanceOf(AppError);
   });
 });
