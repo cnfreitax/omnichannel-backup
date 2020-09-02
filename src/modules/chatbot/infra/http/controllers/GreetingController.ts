@@ -5,7 +5,7 @@ import CreateGreetingMessageService from '@modules/chatbot/services/CreateGreeti
 
 export default class CompaniesController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const company_id = req.company.id;
+    const company_id = req.user.id;
     const { text, type } = req.body;
 
     const createGreetingMessageService = container.resolve(CreateGreetingMessageService);
