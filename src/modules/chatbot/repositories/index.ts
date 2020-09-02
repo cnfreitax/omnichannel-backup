@@ -1,6 +1,6 @@
 import { container } from 'tsyringe';
 
-import IChatbotRepository from '@modules/chatbot/repositories/IChatbotRepository';
-import ChatbotRepository from '@modules/chatbot/infra/typeorm/repositories/ChatbotRepository';
+import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
+import ContainerRepository from '@modules/chatbot/infra/typeorm/repositories/ContainerRepository';
 
-container.registerSingleton<IChatbotRepository>('ChatbotRepository', ChatbotRepository);
+container.registerSingleton<IContainerRepository>('ContainerRepository', ContainerRepository);

@@ -9,8 +9,11 @@ import ISectorRepository from '@modules/company/repositories/ISectorRepository';
 import SectorRepository from '@modules/company/infra/typeorm/repositories/SectorRepository';
 import IOptionRepository from '@modules/chatbot/repositories/IOptionRepository';
 import OptionRepository from '@modules/chatbot/infra/typeorm/repositories/OptionRepository';
+import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
+import ContainerRepository from '@modules/chatbot/infra/typeorm/repositories/ContainerRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<ICompanyRepository>('CompaniesRepository', CompaniesRepository);
 container.registerSingleton<ISectorRepository>('SectorRepository', SectorRepository);
 container.registerSingleton<IOptionRepository>('OptionRepository', OptionRepository);
+container.registerSingleton<IContainerRepository>('ContainerRepository', ContainerRepository);

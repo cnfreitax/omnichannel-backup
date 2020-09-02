@@ -9,7 +9,7 @@ export default class OptionController {
     const containerIdFormat = Number(container_id);
 
     const createOptionService = container.resolve(CreateOptionService);
-    const option = createOptionService.execute({ description, container_id: containerIdFormat });
+    const option = await createOptionService.execute({ description, container_id: containerIdFormat });
     return res.json(option);
   }
 }

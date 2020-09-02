@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export enum MessageType {
+export enum ContainerType {
   GREETING = 'greeting',
   CHAT = 'chat',
   MENU = 'menu',
@@ -29,10 +29,10 @@ export default class Containers {
   @Column({
     type: 'enum',
     name: 'type',
-    enum: MessageType,
-    default: MessageType.GREETING,
+    enum: ContainerType,
+    default: ContainerType.GREETING,
   })
-  type: MessageType;
+  type: ContainerType;
 
   @Column()
   company_id: number;

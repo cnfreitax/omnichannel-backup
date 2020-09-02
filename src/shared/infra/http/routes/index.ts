@@ -7,6 +7,7 @@ import profilesRouter from '@modules/user/infra/http/routes/profiles.routes';
 import sectorUserRoute from '@modules/user/infra/http/routes/assignSector.routes';
 import listUserRouter from '@modules/user/infra/http/routes/listUser.routes';
 import optionRouter from '@modules/chatbot/infra/http/routes/option.routes';
+import containerRouter from '@modules/chatbot/infra/http/routes/container.routes';
 
 const routes = Router();
 
@@ -22,7 +23,10 @@ routes.use('/api/company/sector', sectorsRouter); // create sector
 routes.use('/api/profile', profilesRouter); // edit and view profile
 routes.use('/api/sector', sectorUserRoute); // assing sector to a user
 
+// Container
+routes.use('/api/container', containerRouter); // Create a new container
+
 // Options
-routes.use('/options', optionRouter); // create option insede container
+routes.use('/api/options', optionRouter); // create option insede container
 
 export default routes;

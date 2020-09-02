@@ -1,74 +1,71 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeChatbotRepository from '@modules/chatbot/repositories/fakes/FakeChatbotRepository';
+import FakeContainerRepository from '@modules/chatbot/repositories/fakes/FakeContainerRepository';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
-import CreateCostumerSurveyService from './CreateCostumerSurvey.service';
-import { MessageType } from '../infra/typeorm/entities/Message';
+import CreateCostumerSurveyService from './CreateCostumerSurveyService';
+import { ContainerType } from '../infra/typeorm/entities/Container';
 
-let fakeChatbotRepository: FakeChatbotRepository;
+let fakeContainerRepository: FakeContainerRepository;
 let fakeCompanyRepository: FakeCompanyRepository;
 let createCostumerSurvey: CreateCostumerSurveyService;
 
 describe('CreateCostumerSurvey', () => {
   beforeEach(() => {
-    fakeChatbotRepository = new FakeChatbotRepository();
+    fakeContainerRepository = new FakeContainerRepository();
     fakeCompanyRepository = new FakeCompanyRepository();
-    createCostumerSurvey = new CreateCostumerSurveyService(fakeChatbotRepository, fakeCompanyRepository);
+    createCostumerSurvey = new CreateCostumerSurveyService(fakeContainerRepository, fakeCompanyRepository);
   });
 
   it('should be able to create a costumer survey', async () => {
     const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
+      name: 'Company Doe',
+      cnpj: '123123',
     });
 
-    const parentMessage = await fakeChatbotRepository.create({
-      company_id: String(company.id),
-      text: 'Precisa de mais alguma coisa?',
-      type: MessageType.SUBMENU,
+    const parentMessage = await fakeContainerRepository.create({
+      company_id: company.id,
+      description: 'Precisa de mais alguma coisa?',
+      type: ContainerType.MESSAGE,
     });
 
     const message = await createCostumerSurvey.execute({
-      company_id: String(company.id),
-      parent_id: String(parentMessage.id),
-      text: 'De 0 a 10 quão satisfeito você está com nossos serviços?',
-      type: MessageType.SURVEY,
+      company_id: company.id,
+      from: parentMessage.id,
+      description: 'De 0 a 10 quão satisfeito você está com nossos serviços?',
+      type: ContainerType.SURVEY,
     });
 
     expect(message).toHaveProperty('id');
-    expect(message.type).toEqual(MessageType.SURVEY);
+    expect(message.type).toEqual(ContainerType.SURVEY);
   });
 
   it('should not be able to create a costumer survey with wrong message type', async () => {
     const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
+      name: 'Company Doe',
+      cnpj: '123123',
     });
 
     await expect(
       createCostumerSurvey.execute({
-        company_id: String(company.id),
-        text: 'De 0 a 10 quão satisfeito você está com nossos serviços?',
-        type: MessageType.GREETING,
+        company_id: company.id,
+        description: 'De 0 a 10 quão satisfeito você está com nossos serviços?',
+        type: ContainerType.GREETING,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to create a costumer survey with a non existing parent-id', async () => {
     const company = await fakeCompanyRepository.create({
-      email: 'jd@test.com',
-      name: 'John Doe',
-      password: '123123',
+      name: 'Company Doe',
+      cnpj: '123123',
     });
 
     await expect(
       createCostumerSurvey.execute({
-        company_id: String(company.id),
-        parent_id: 'non-existing-parent-id',
-        text: 'De 0 a 10 quão satisfeito você está com nossos serviços?',
-        type: MessageType.SURVEY,
+        company_id: company.id,
+        from: 9,
+        description: 'De 0 a 10 quão satisfeito você está com nossos serviços?',
+        type: ContainerType.SURVEY,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -76,9 +73,9 @@ describe('CreateCostumerSurvey', () => {
   it('should not be able to create a costumer survey with a non existing company-id', async () => {
     await expect(
       createCostumerSurvey.execute({
-        company_id: 'non-existing-company-id',
-        text: 'De 0 a 10 quão satisfeito você está com nossos serviços?',
-        type: MessageType.SURVEY,
+        company_id: 9,
+        description: 'De 0 a 10 quão satisfeito você está com nossos serviços?',
+        type: ContainerType.SURVEY,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
