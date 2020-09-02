@@ -10,12 +10,19 @@ import optionRouter from '@modules/chatbot/infra/http/routes/option.routes';
 
 const routes = Router();
 
+// User
 routes.use('/api/signup', userRouter); // register user
 routes.use('/api/signin', sessionsRouter); // session
+routes.use('/api/users', listUserRouter); // List all users, from company or sector
+
+// Company
 routes.use('/api/company', companiesRouter); // create and list company
+// Create sector to company
 routes.use('/api/company/sector', sectorsRouter); // create sector
 routes.use('/api/profile', profilesRouter); // edit and view profile
 routes.use('/api/sector', sectorUserRoute); // assing sector to a user
-routes.use('/api/users', listUserRouter); // List all users, from company or sector
+
+// Options
 routes.use('/options', optionRouter); // create option insede container
+
 export default routes;
