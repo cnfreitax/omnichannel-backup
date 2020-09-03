@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateCostumerSurveyService from '@modules/chatbot/services/CreateCostumerSurvey.service';
+import CreateCostumerSurveyService from '@modules/chatbot/services/CreateCostumerSurveyService';
 
 export default class CostumerSurveyController {
   public async create(req: Request, res: Response): Promise<Response> {
