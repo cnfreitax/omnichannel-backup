@@ -13,6 +13,12 @@ class FakeContainerRepository implements IContainerRepository {
     return container;
   }
 
+  public async listAllCompanyContainers(company_id: number): Promise<Container[]> {
+    const containers = this.containers.filter(foundContainer => foundContainer.company_id === company_id);
+
+    return containers;
+  }
+
   public async create({ company_id, description, type, from, to }: ISaveContainerDTO): Promise<Container> {
     const container = new Container();
 

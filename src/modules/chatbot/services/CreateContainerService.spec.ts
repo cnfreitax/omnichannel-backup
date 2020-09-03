@@ -81,4 +81,19 @@ describe('CreateContainerService', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('should not be able to create a new container with a invalid container type', async () => {
+    const company = await fakeCompanyRepository.create({
+      name: 'Company Doe',
+      cnpj: '123123',
+    });
+
+    await expect(
+      createContainerService.execute({
+        company_id: company.id,
+        description: 'O que voce quer?',
+        type: 'invalid container type' as ContainerType,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
