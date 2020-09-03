@@ -9,7 +9,7 @@ const profilesRouter = Router();
 
 profilesRouter.use(ensureAuthenticated);
 
-profilesRouter.get('/profile', profileController.show);
+profilesRouter.get('/', profileController.show);
 profilesRouter.put(
   '/',
   celebrate({

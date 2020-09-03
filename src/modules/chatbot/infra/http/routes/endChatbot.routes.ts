@@ -8,7 +8,7 @@ const endOfChatbotController = new EndOfChatbotController();
 const endChatbotRouter = Router();
 
 endChatbotRouter.post(
-  '/',
+  '/:company_id',
   celebrate({
     [Segments.BODY]: {
       text: Joi.string().required(),

@@ -5,9 +5,9 @@ import GreetingController from '@modules/chatbot/infra/http/controllers/Greeting
 
 const greetingController = new GreetingController();
 
-const sessionsRouter = Router();
+const greetingMessageRouter = Router();
 
-sessionsRouter.post(
+greetingMessageRouter.post(
   '/:company_id',
   celebrate({
     [Segments.BODY]: {
@@ -18,4 +18,4 @@ sessionsRouter.post(
   greetingController.create,
 );
 
-export default sessionsRouter;
+export default greetingMessageRouter;

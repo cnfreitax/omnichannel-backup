@@ -6,7 +6,7 @@ import ListAllCompanyContainersService from '@modules/chatbot/services/ListAllCo
 
 export default class ContainerController {
   public async index(req: Request, res: Response): Promise<Response> {
-    const { company_id } = req.body;
+    const { company_id } = req.query;
 
     const listCompanyContainers = container.resolve(ListAllCompanyContainersService);
 
