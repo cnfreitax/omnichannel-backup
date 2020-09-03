@@ -8,12 +8,12 @@ const endOfChatbotController = new EndOfChatbotController();
 const endChatbotRouter = Router();
 
 endChatbotRouter.post(
-  '/',
+  '/:company_id',
   celebrate({
     [Segments.BODY]: {
-      text: Joi.string().required(),
+      description: Joi.string().required(),
       type: Joi.string().required(),
-      parent_id: Joi.string().optional(),
+      from: Joi.string(),
     },
   }),
   endOfChatbotController.create,

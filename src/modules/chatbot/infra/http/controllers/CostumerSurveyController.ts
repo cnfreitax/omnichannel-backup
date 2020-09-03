@@ -5,17 +5,18 @@ import CreateCostumerSurveyService from '@modules/chatbot/services/CreateCostume
 
 export default class CostumerSurveyController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const company_id = req.params;
-    const { text, type, parent_id } = req.body;
+    const { company_id } = req.params;
+    const { description, type, from, to } = req.body;
     const formatCompanyId = Number(company_id);
 
     const createCostumerSurveyService = container.resolve(CreateCostumerSurveyService);
 
     const message = await createCostumerSurveyService.execute({
       company_id: formatCompanyId,
-      text,
+      description,
       type,
-      parent_id,
+      from,
+      to,
     });
 
     return res.json(message);

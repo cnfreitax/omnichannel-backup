@@ -8,12 +8,12 @@ const costumerSurveyController = new CostumerSurveyController();
 const surveyRouter = Router();
 
 surveyRouter.post(
-  '/',
+  '/:company_id',
   celebrate({
     [Segments.BODY]: {
-      text: Joi.string().required(),
+      description: Joi.string().required(),
       type: Joi.string().required(),
-      parent_id: Joi.string().optional(),
+      from: Joi.string(),
     },
   }),
   costumerSurveyController.create,
