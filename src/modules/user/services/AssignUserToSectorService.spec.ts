@@ -58,7 +58,7 @@ describe('AssignUserToSectorService', () => {
       user_id: user.id,
     });
 
-    expect(user.sector_id).toBe(sector.id);
+    expect(user.sector_id).toEqual(sector.id);
   });
 
   test('Should return throws if sector does not exists', async () => {
