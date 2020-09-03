@@ -3,9 +3,9 @@ import { container } from 'tsyringe';
 
 import CreateGreetingMessageService from '@modules/chatbot/services/CreateGreetingMessageService';
 
-export default class CompaniesController {
+export default class GreetingController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const company_id = req.params;
+    const { company_id } = req.params;
     const { description, type } = req.body;
     const formatCompanyId = Number(company_id);
 
