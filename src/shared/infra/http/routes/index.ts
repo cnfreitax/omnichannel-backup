@@ -7,10 +7,11 @@ import profilesRouter from '@modules/user/infra/http/routes/profiles.routes';
 import sectorUserRoute from '@modules/user/infra/http/routes/assignSector.routes';
 import listUserRouter from '@modules/user/infra/http/routes/listUser.routes';
 import optionRouter from '@modules/chatbot/infra/http/routes/option.routes';
-import '@modules/chatbot/infra/http/routes';
+import chatbotRoutes from '@modules/chatbot/infra/http/routes';
 
 const routes = Router();
 
+routes.use(chatbotRoutes);
 // User
 routes.use('/api/signup', userRouter); // register user
 routes.use('/api/signin', sessionsRouter); // session
