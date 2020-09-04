@@ -8,7 +8,7 @@ const sectorRouter = Router();
 sectorRouter.use(ensureAuthenticatedAdmUser);
 sectorRouter.get('/list/:company_id', sectorController.index);
 sectorRouter.post(
-  '/new/:company_id',
+  '/:company_id',
   celebrate({
     [Segments.BODY]: {
       label: Joi.string().required(),

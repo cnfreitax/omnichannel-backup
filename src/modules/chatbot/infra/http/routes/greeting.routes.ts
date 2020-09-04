@@ -1,21 +1,21 @@
 import { Router } from 'express';
 import { Segments, Joi, celebrate } from 'celebrate';
 
-import SessionsController from '@modules/company/infra/http/controllers/SessionsController';
+import GreetingController from '@modules/chatbot/infra/http/controllers/GreetingController';
 
-const sessionsController = new SessionsController();
+const greetingController = new GreetingController();
 
-const sessionsRouter = Router();
+const greetingMessageRouter = Router();
 
-sessionsRouter.post(
-  '/',
+greetingMessageRouter.post(
+  '/:company_id',
   celebrate({
     [Segments.BODY]: {
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
+      description: Joi.string().required(),
+      type: Joi.string().required(),
     },
   }),
-  sessionsController.create,
+  greetingController.create,
 );
 
-export default sessionsRouter;
+export default greetingMessageRouter;

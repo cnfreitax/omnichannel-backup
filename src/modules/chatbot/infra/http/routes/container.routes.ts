@@ -7,6 +7,8 @@ const containerController = new ContainerController();
 
 const containerRouter = Router();
 
+containerRouter.get('/', containerController.index);
+
 containerRouter.post(
   '/:company_id',
   celebrate({

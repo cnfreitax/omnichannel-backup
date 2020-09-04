@@ -8,7 +8,7 @@ const costumerSurveyController = new CostumerSurveyController();
 const surveyRouter = Router();
 
 surveyRouter.post(
-  '/',
+  '/:company_id',
   celebrate({
     [Segments.BODY]: {
       text: Joi.string().required(),

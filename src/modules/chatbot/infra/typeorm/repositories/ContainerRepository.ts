@@ -27,6 +27,12 @@ class ContainerRepository implements IContainerRepository {
     return container;
   }
 
+  public async listAllCompanyContainers(company_id: number): Promise<Container[]> {
+    const containers = await this.ormRepository.find({ where: { company_id } });
+
+    return containers;
+  }
+
   public async findExistingContainer({ company_id, type }: IFindExistingContainerDTO): Promise<Container | undefined> {
     const container = await this.ormRepository.findOne({ where: { company_id, type } });
 

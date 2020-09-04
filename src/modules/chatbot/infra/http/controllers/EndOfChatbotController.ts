@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateEndOfChatbotMessageService from '@modules/chatbot/services/CreateEndOfChatbotMessage.service';
+import CreateEndOfChatbotMessageService from '@modules/chatbot/services/CreateEndOfChatbotMessageService';
 
 export default class CostumerSurveyController {
   public async create(req: Request, res: Response): Promise<Response> {
