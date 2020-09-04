@@ -14,7 +14,11 @@ class CompanyRepository implements ICompanyRepository {
 
   public async findById(id: number): Promise<Company | undefined> {
     const findCompany = await this.ormRepository.findOne(id);
+    return findCompany;
+  }
 
+  public async findByEmail(email: string): Promise<Company | undefined> {
+    const findCompany = await this.ormRepository.findOne({ where: { email } });
     return findCompany;
   }
 
@@ -22,20 +26,17 @@ class CompanyRepository implements ICompanyRepository {
     const findCompany = await this.ormRepository.findOne({
       where: { cnpj },
     });
-
     return findCompany;
   }
 
   public async findAllCompanies(): Promise<Company[]> {
     const companies = await this.ormRepository.find();
-
     return companies;
   }
 
   public async create(dataCompany: ICreateCompanyDTO): Promise<Company> {
     const company = this.ormRepository.create(dataCompany);
     await this.ormRepository.save(company);
-
     return company;
   }
 

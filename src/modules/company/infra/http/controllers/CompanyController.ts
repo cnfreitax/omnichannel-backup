@@ -15,13 +15,21 @@ export default class CompaniesController {
   }
 
   public async create(req: Request, res: Response): Promise<Response> {
-    const { name, cnpj } = req.body;
+    const { name, cnpj, email, address, ddd, website, logo, activity, webhook_status, webhook_response } = req.body;
 
     const createCompanyService = container.resolve(CreateCompanyService);
 
     const company = await createCompanyService.execute({
       name,
       cnpj,
+      email,
+      address,
+      ddd,
+      website,
+      logo,
+      activity,
+      webhook_status,
+      webhook_response,
     });
 
     return res.json(classToClass(company));
