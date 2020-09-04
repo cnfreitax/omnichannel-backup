@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
 
-import Container from '@modules/chatbot/infra/typeorm/entities/Container';
+import Container, { ContainerType } from '@modules/chatbot/infra/typeorm/entities/Container';
 import AppError from '@shared/errors/AppError';
 import IUpdateContainerDTO from '../dtos/IUpdateContainerDTO';
 
@@ -44,16 +44,23 @@ export default class UpdateContainerService {
       container.from = containerData.from;
     }
 
-    // CHECK CONTAINER CONTENT
-    /* if (containerData.content) {
+    if (containerData.content) {
       const containerContent = containerData.content;
 
       if (container.type === ContainerType.MEDIA) {
-        if (!containerContent['path']) {
+        if (!containerContent.path) {
           throw new AppError('Invalid content type');
         }
+
+        container.content = { path: containerContent.path };
+      } else if (container.type === ContainerType.API) {
+        if (!containerContent.link) {
+          throw new AppError('Invalid content type');
+        }
+
+        container.content = { link: containerContent.link };
       }
-    } */
+    }
     const updatedContainer = await this.containerRepository.save(container);
 
     return updatedContainer;

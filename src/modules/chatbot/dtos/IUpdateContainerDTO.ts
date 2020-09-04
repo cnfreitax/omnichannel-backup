@@ -1,7 +1,9 @@
+import IContentTypeDTO from './IContentTypeDTO';
+
 export default interface IUpdateContainerDTO {
   id: number;
   from?: number;
   to?: number;
-  content?: JSON;
+  content?: IContentTypeDTO;
   description?: string;
 }
