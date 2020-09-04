@@ -43,6 +43,11 @@ class CompanyRepository implements ICompanyRepository {
   public async save(company: Company): Promise<Company> {
     return this.ormRepository.save(company);
   }
+
+  public async del(company: Company): Promise<Company> {
+    await this.ormRepository.delete(company);
+    return company;
+  }
 }
 
 export default CompanyRepository;

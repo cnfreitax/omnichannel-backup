@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { Segments, Joi, celebrate } from 'celebrate';
-
 import CompanyController from '@modules/company/infra/http/controllers/CompanyController';
 import ListCompaniesController from '@modules/company/infra/http/controllers/ListCompaniesController';
 import ensureAuthenticatedAdmUser from '@modules/user/infra/http/middlewares/ensureAuthencticatedAdmUser';
@@ -27,6 +26,16 @@ companyRouter.post(
     },
   }),
   companyController.create,
+);
+
+companyRouter.delete(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().required(),
+    },
+  }),
+  companyController.delete,
 );
 
 companyRouter.get('/all-companies', listCompaniesController.show);

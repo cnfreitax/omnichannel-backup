@@ -8,4 +8,5 @@ export default interface ICompanyRepository {
   findAllCompanies(): Promise<Company[] | undefined>;
   create(data: ICreateCompanyDTO): Promise<Company>;
   save(company: Company): Promise<Company>;
+  del(company: Company): Promise<Company>;
 }
