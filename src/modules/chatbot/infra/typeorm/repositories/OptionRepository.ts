@@ -12,9 +12,16 @@ export default class OptionRepository implements IOptionRepository {
 
   public async create(data: ICreateOptionDTO): Promise<Option> {
     const message = this.ormRepository.create(data);
-
     await this.ormRepository.save(message);
-
     return message;
+  }
+
+  public async findById(id: number): Promise<Option | undefined> {
+    const option = await this.ormRepository.findOne({ where: { id } });
+    return option;
+  }
+
+  public async save(option: Option): Promise<Option> {
+    return this.ormRepository.save(option);
   }
 }

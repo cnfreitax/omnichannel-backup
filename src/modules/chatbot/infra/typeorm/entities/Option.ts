@@ -1,18 +1,18 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('options')
-export default class Containers {
+export default class Option {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  description: number;
+  description: string;
 
   @Column()
   to: number;
 
   @Column()
-  container_id: string;
+  container_id: number;
 
   @CreateDateColumn()
   created_at: Date;
