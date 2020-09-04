@@ -40,6 +40,11 @@ class SectorRepository implements ISectorRepository {
   public async save(sector: Sector): Promise<Sector> {
     return this.ormRepository.save(sector);
   }
+
+  public async del(sector: Sector): Promise<Sector> {
+    await this.ormRepository.delete(sector);
+    return sector;
+  }
 }
 
 export default SectorRepository;

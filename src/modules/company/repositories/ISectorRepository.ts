@@ -7,4 +7,5 @@ export default interface ISectorRepository {
   findAllCompanySectors(company_id: number): Promise<Sector[] | undefined>;
   create(data: ICreateSectorDTO): Promise<Sector>;
   save(sector: Sector): Promise<Sector>;
+  del(company: Sector): Promise<Sector>;
 }
