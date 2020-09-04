@@ -14,7 +14,7 @@ class ContainerRepository implements IContainerRepository {
   }
 
   public async findById(id: number): Promise<Container | undefined> {
-    const container = await this.ormRepository.findOne(id);
+    const container = await this.ormRepository.findOne({ where: { id } });
 
     return container;
   }

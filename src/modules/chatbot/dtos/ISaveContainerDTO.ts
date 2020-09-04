@@ -1,4 +1,4 @@
-import { ContainerType } from '../infra/typeorm/entities/Container';
+import ContainerType from '../infra/typeorm/entities/Container';
 
 export default interface ISaveContainerDTO {
   from?: number;
