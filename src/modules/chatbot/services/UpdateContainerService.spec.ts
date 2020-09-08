@@ -102,4 +102,92 @@ describe('CreateContainerService', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('should be able to update a existing container with content', async () => {
+    const company = await fakeCompanyRepository.create({
+      name: 'Company Doe',
+      cnpj: '123123',
+    });
+
+    const container = await fakeContainerRepository.create({
+      company_id: company.id,
+      description: 'O que voce quer?',
+      type: ContainerType.API,
+    });
+
+    const updatedContainer = await updateContainerService.execute({
+      id: container.id,
+      description: 'Ola como vai?',
+      content: { link: 'teste' },
+    });
+
+    expect(updatedContainer).toHaveProperty('id');
+    expect(updatedContainer.content).toHaveProperty('link');
+    expect(updatedContainer.type).toEqual(ContainerType.API);
+  });
+
+  it('should be able to update a existing container with content 2', async () => {
+    const company = await fakeCompanyRepository.create({
+      name: 'Company Doe',
+      cnpj: '123123',
+    });
+
+    const container = await fakeContainerRepository.create({
+      company_id: company.id,
+      description: 'O que voce quer?',
+      type: ContainerType.MEDIA,
+    });
+
+    const updatedContainer = await updateContainerService.execute({
+      id: container.id,
+      description: 'Ola como vai?',
+      content: { path: 'teste' },
+    });
+
+    expect(updatedContainer).toHaveProperty('id');
+    expect(updatedContainer.content).toHaveProperty('path');
+    expect(updatedContainer.type).toEqual(ContainerType.MEDIA);
+  });
+
+  it('should not be able to update a existing container with invalid content type', async () => {
+    const company = await fakeCompanyRepository.create({
+      name: 'Company Doe',
+      cnpj: '123123',
+    });
+
+    const container = await fakeContainerRepository.create({
+      company_id: company.id,
+      description: 'O que voce quer?',
+      type: ContainerType.API,
+    });
+
+    await expect(
+      updateContainerService.execute({
+        id: container.id,
+        description: 'Ola como vai?',
+        content: { path: 'teste' },
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to update a existing container with invalid content type 2', async () => {
+    const company = await fakeCompanyRepository.create({
+      name: 'Company Doe',
+      cnpj: '123123',
+    });
+
+    const container = await fakeContainerRepository.create({
+      company_id: company.id,
+      description: 'O que voce quer?',
+      type: ContainerType.MEDIA,
+    });
+
+    await expect(
+      updateContainerService.execute({
+        id: container.id,
+        description: 'Ola como vai?',
+        content: { link: 'teste' },
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
