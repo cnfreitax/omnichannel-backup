@@ -35,7 +35,7 @@ describe('CreateContainerService', () => {
     createContainerService = new CreateContainerService(fakeContainerRepository, fakeCompanyRepository);
   });
 
-  it('should be able to create a new container', async () => {
+  test('should be able to create a new container', async () => {
     const company = await fakeCompanyRepository.create(makeFakeRequest());
     const container = await createContainerService.execute(makeFakeRequestContainer(company.id));
 
@@ -43,7 +43,7 @@ describe('CreateContainerService', () => {
     expect(container.type).toEqual(ContainerType.MENU);
   });
 
-  it('should not be able to create a new container for a non existing company', async () => {
+  test('should not be able to create a new container for a non existing company', async () => {
     await expect(
       createContainerService.execute({
         company_id: 9,
@@ -53,7 +53,7 @@ describe('CreateContainerService', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should be able to create a new container with a parent container', async () => {
+  test('should be able to create a new container with a parent container', async () => {
     const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const parentContainer = await createContainerService.execute({
@@ -74,7 +74,7 @@ describe('CreateContainerService', () => {
     expect(container.from).toEqual(parentContainer.id);
   });
 
-  it('should not be able to create a new container with a non existing parent container', async () => {
+  test('should not be able to create a new container with a non existing parent container', async () => {
     const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     await expect(

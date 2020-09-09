@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import ISaveContainerDTO from '@modules/chatbot/dtos/ISaveContainerDTO';
 import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
 import ICompanyRepository from '@modules/company/repositories/ICompanyRepository';
-import Container, { ContainerType } from '@modules/chatbot/infra/typeorm/entities/Container';
+import Container from '@modules/chatbot/infra/typeorm/entities/Container';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
@@ -27,10 +27,6 @@ export default class CreateContainerService {
       if (!parentContainer) {
         throw new AppError('Parent message does not exist');
       }
-    }
-
-    if (!Object.values(ContainerType).includes(containerData.type)) {
-      throw new AppError('Invalid container type');
     }
 
     const container = await this.containerRepository.create(containerData);

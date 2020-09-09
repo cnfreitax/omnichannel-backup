@@ -7,10 +7,10 @@ interface Request {
   id: number;
   name: string;
   email: string;
-  address: string;
-  activity: string;
-  ddd: string;
-  website: string;
+  address?: string;
+  activity?: string;
+  ddd?: string;
+  website?: string;
 }
 
 @injectable()
@@ -33,12 +33,23 @@ export default class UpdateProfile {
       throw new AppError('Email alread in use');
     }
 
+    if (address) {
+      company.address = address;
+    }
+
+    if (activity) {
+      company.activity = activity;
+    }
+
+    if (ddd) {
+      company.ddd = ddd;
+    }
+
+    if (website) {
+      company.website = website;
+    }
     company.name = name;
     company.email = email;
-    company.address = address;
-    company.activity = activity;
-    company.ddd = ddd;
-    company.website = website;
 
     return this.companyRepository.save(company);
   }
