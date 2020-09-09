@@ -6,28 +6,36 @@ import AppError from '@shared/errors/AppError';
 interface IRequest {
   name: string;
   cnpj: string;
+  email: string;
+  address: string;
+  ddd: string;
+  website: string;
+  logo?: string;
+  activity: string;
+  webhook_status?: string;
+  webhook_response?: string;
 }
 
 @injectable()
-class CreateCompanyService {
+export default class CreateCompanyService {
   constructor(
     @inject('CompaniesRepository')
     private companiesRepository: ICompanyRepository,
   ) {}
 
-  public async execute({ name, cnpj }: IRequest): Promise<Company> {
-    const companyExists = await this.companiesRepository.findByCnpj(cnpj);
+  public async execute(data: IRequest): Promise<Company> {
+    const companyExists = await this.companiesRepository.findByCnpj(data.cnpj);
     if (companyExists) {
       throw new AppError('Company already registered');
     }
 
-    const company = await this.companiesRepository.create({
-      name,
-      cnpj,
-    });
+    const emailUsed = await this.companiesRepository.findByEmail(data.email);
+    if (emailUsed) {
+      throw new AppError('E-mail already used');
+    }
+
+    const company = await this.companiesRepository.create(data);
 
     return company;
   }
 }
-
-export default CreateCompanyService;

@@ -4,6 +4,7 @@ import { classToClass } from 'class-transformer';
 
 import CreateSectorService from '@modules/company/services/CreateSectorService';
 import ListAllCompanySectorsService from '@modules/company/services/ListAllCompanySectorsService';
+import DeleteSectorService from '@modules/company/services/DeleteSectorService';
 
 export default class SectorController {
   public async index(req: Request, res: Response): Promise<Response> {
@@ -25,6 +26,15 @@ export default class SectorController {
       phone,
       company_id: companyIdToNumber,
     });
+
+    return res.json(classToClass(sector));
+  }
+
+  public async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const deleteSectorService = container.resolve(DeleteSectorService);
+
+    const sector = await deleteSectorService.execute(Number(id));
 
     return res.json(classToClass(sector));
   }

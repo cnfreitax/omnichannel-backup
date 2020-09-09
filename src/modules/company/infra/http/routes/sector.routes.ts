@@ -18,4 +18,14 @@ sectorRouter.post(
   sectorController.create,
 );
 
+sectorRouter.delete(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().required(),
+    },
+  }),
+  sectorController.delete,
+);
+
 export default sectorRouter;
