@@ -29,11 +29,19 @@ describe('ListUsers Service', () => {
     expect(users).toHaveLength(1);
   });
 
-  test('Should list users from company is company_id is provided', async () => {
+  test('Should list users from company is sector_id is provided', async () => {
     const user = await createUser.execute(makeUser());
     user.sector_id = 1;
     const userFromSector = await listUser.execute({ sector_id: 1 });
     expect(user.sector_id).toBe(1);
+    expect(userFromSector).toHaveLength(1);
+  });
+
+  test('Should list users from company is company_id is provided', async () => {
+    const user = await createUser.execute(makeUser());
+    user.company_id = 2;
+    const userFromSector = await listUser.execute({ company_id: 2 });
+    expect(user.company_id).toBe(2);
     expect(userFromSector).toHaveLength(1);
   });
 });
