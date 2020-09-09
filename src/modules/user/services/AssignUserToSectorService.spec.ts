@@ -2,10 +2,12 @@ import FakeSectorRepository from '@modules/company/repositories/fakes/FakeSector
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
 import CreateSectorService from '@modules/company/services/CreateSectorService';
 import AppError from '@shared/errors/AppError';
+import ICreateCompanyDTO from '@modules/company/dtos/ICreateCompanyDTO';
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 import AssignUserToSectorService from './AssignUserToSectorService';
 import CreateUserService from './CreateUserService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
+import ICreateUsertDTO from '../dtos/ICreateUserDTO';
 
 let fakeUserRepository: FakeUserRepository;
 let fakeSectorRepository: FakeSectorRepository;
@@ -15,14 +17,19 @@ let createSectorService: CreateSectorService;
 let assignSector: AssignUserToSectorService;
 let createUser: CreateUserService;
 
-interface IRequest {
-  name: string;
-  email: string;
-  password: string;
-  access_level: string;
-}
+const makeFakeCompany = (): ICreateCompanyDTO => ({
+  name: 'Empresa 1',
+  email: 'any_email',
+  cnpj: '1234567890',
+  address: 'any_address',
+  activity: 'any_activity',
+  ddd: 'any_ddd',
+  website: 'any_web',
+  webhook_response: 'any_hook',
+  webhook_status: 'any_hook',
+});
 
-const makeFakeUser = (): IRequest => ({
+const makeFakeUser = (): ICreateUsertDTO => ({
   name: 'any_name',
   email: 'any@mail.com',
   password: 'any_password',
@@ -42,10 +49,7 @@ describe('AssignUserToSectorService', () => {
   });
   test('Should assign a sector to a user', async () => {
     const user = await createUser.execute(makeFakeUser());
-    const company = await fakeCompanyRepository.create({
-      name: 'any_name',
-      cnpj: 'any_cnpj',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeCompany());
 
     const sector = await createSectorService.execute({
       company_id: company.id,
@@ -73,10 +77,7 @@ describe('AssignUserToSectorService', () => {
   });
 
   test('Should return throws if user does not exists', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'any_name',
-      cnpj: 'any_cnpj',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeCompany());
 
     const sector = await createSectorService.execute({
       company_id: company.id,

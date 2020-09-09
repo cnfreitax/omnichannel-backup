@@ -1,13 +1,25 @@
 import AppError from '@shared/errors/AppError';
-
 import FakeContainerRepository from '@modules/chatbot/repositories/fakes/FakeContainerRepository';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
+import ICreateCompanyDTO from '@modules/company/dtos/ICreateCompanyDTO';
 import CreateCostumerSurveyService from './CreateCostumerSurveyService';
 import { ContainerType } from '../infra/typeorm/entities/Container';
 
 let fakeContainerRepository: FakeContainerRepository;
 let fakeCompanyRepository: FakeCompanyRepository;
 let createCostumerSurvey: CreateCostumerSurveyService;
+
+const makeFakeRequest = (): ICreateCompanyDTO => ({
+  name: 'Empresa 1',
+  email: 'any_email',
+  cnpj: '1234567890',
+  address: 'any_address',
+  activity: 'any_activity',
+  ddd: 'any_ddd',
+  website: 'any_web',
+  webhook_response: 'any_hook',
+  webhook_status: 'any_hook',
+});
 
 describe('CreateCostumerSurvey', () => {
   beforeEach(() => {
@@ -17,11 +29,7 @@ describe('CreateCostumerSurvey', () => {
   });
 
   it('should be able to create a costumer survey', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
-
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
     const parentMessage = await fakeContainerRepository.create({
       company_id: company.id,
       description: 'Precisa de mais alguma coisa?',
@@ -40,10 +48,7 @@ describe('CreateCostumerSurvey', () => {
   });
 
   it('should not be able to create a costumer survey with wrong message type', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     await expect(
       createCostumerSurvey.execute({
@@ -55,10 +60,7 @@ describe('CreateCostumerSurvey', () => {
   });
 
   it('should not be able to create a costumer survey with a non existing parent-id', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     await expect(
       createCostumerSurvey.execute({

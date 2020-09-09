@@ -7,7 +7,8 @@
     "build": "tsc",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev  -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "test": "jest"
+    "test": "jest",
+    "test:ci": "yarn test -- --coverage"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

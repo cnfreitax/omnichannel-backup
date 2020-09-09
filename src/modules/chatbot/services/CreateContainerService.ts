@@ -1,9 +1,7 @@
 import { inject, injectable } from 'tsyringe';
-
 import ISaveContainerDTO from '@modules/chatbot/dtos/ISaveContainerDTO';
 import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
 import ICompanyRepository from '@modules/company/repositories/ICompanyRepository';
-
 import Container, { ContainerType } from '@modules/chatbot/infra/typeorm/entities/Container';
 import AppError from '@shared/errors/AppError';
 

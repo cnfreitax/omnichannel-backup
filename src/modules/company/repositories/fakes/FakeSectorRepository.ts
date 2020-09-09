@@ -12,6 +12,12 @@ class FakeSectorRepository implements ISectorRepository {
     return findSector;
   }
 
+  public async del(sector: Sector): Promise<Sector> {
+    const index = this.sectors.findIndex(findSector => findSector.id === sector.id);
+    this.sectors.splice(index);
+    return sector;
+  }
+
   public async findSectorCompany(label: string, company_id: number): Promise<Sector | undefined> {
     const sector = this.sectors.find(selectedSector => selectedSector.company_id === company_id && selectedSector.label === label);
     return sector;

@@ -3,10 +3,30 @@ import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompa
 import FakeSectorRepository from '@modules/company/repositories/fakes/FakeSectorRepository';
 
 import CreateSectorService from './CreateSectorService';
+import ICreateCompanyDTO from '../dtos/ICreateCompanyDTO';
+import ICreateSectorDTO from '../dtos/ICreateSectorDTO';
 
 let fakeCompanyRepository: FakeCompanyRepository;
 let fakeSectorRepository: FakeSectorRepository;
 let createSectorService: CreateSectorService;
+
+const makeFakeRequestCompany = (): ICreateCompanyDTO => ({
+  name: 'Empresa 1',
+  email: 'any_email',
+  cnpj: '1234567890',
+  address: 'any_address',
+  activity: 'any_activity',
+  ddd: 'any_ddd',
+  website: 'any_web',
+  webhook_response: 'any_hook',
+  webhook_status: 'any_hook',
+});
+
+const makeFakeRequestSector = (companyId: number): ICreateSectorDTO => ({
+  company_id: companyId,
+  label: 'any_name',
+  phone: 'any_phone',
+});
 
 describe('CreateCompany', () => {
   beforeEach(() => {
@@ -16,16 +36,8 @@ describe('CreateCompany', () => {
   });
 
   it('should be able to create a new sector', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Empresa 1',
-      cnpj: '1234567890',
-    });
-
-    const sector = await createSectorService.execute({
-      company_id: company.id,
-      label: 'Vendas',
-      phone: '999000999',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequestCompany());
+    const sector = await createSectorService.execute(makeFakeRequestSector(company.id));
 
     expect(sector).toHaveProperty('id');
   });
@@ -35,7 +47,7 @@ describe('CreateCompany', () => {
       createSectorService.execute({
         company_id: 9999,
         label: 'Vendas',
-        phone: '999000999',
+        phone: 'any_',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

@@ -45,4 +45,14 @@ describe('Create User Service', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+  it('Should not be able create a user if invalid_access is provided', async () => {
+    expect(
+      createUser.execute({
+        email: 'any@mail.com',
+        name: 'any_name',
+        password: 'any_password',
+        access_level: 'invalid_token',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });

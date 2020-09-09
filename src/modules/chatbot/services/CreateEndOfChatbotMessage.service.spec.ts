@@ -1,13 +1,25 @@
 import AppError from '@shared/errors/AppError';
-
 import FakeContainerRepository from '@modules/chatbot/repositories/fakes/FakeContainerRepository';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
+import ICreateCompanyDTO from '@modules/company/dtos/ICreateCompanyDTO';
 import CreateEndOfChatbotMessageService from './CreateEndOfChatbotMessageService';
 import { ContainerType } from '../infra/typeorm/entities/Container';
 
 let fakeContainerRepository: FakeContainerRepository;
 let fakeCompanyRepository: FakeCompanyRepository;
 let createEndOfChatbot: CreateEndOfChatbotMessageService;
+
+const makeFakeRequest = (): ICreateCompanyDTO => ({
+  name: 'Empresa 1',
+  email: 'any_email',
+  cnpj: '1234567890',
+  address: 'any_address',
+  activity: 'any_activity',
+  ddd: 'any_ddd',
+  website: 'any_web',
+  webhook_response: 'any_hook',
+  webhook_status: 'any_hook',
+});
 
 describe('CreateEndOfChatbotMessage', () => {
   beforeEach(() => {
@@ -17,10 +29,7 @@ describe('CreateEndOfChatbotMessage', () => {
   });
 
   it('should be able to create a end of chatbot message', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const message = await createEndOfChatbot.execute({
       company_id: company.id,
@@ -33,10 +42,7 @@ describe('CreateEndOfChatbotMessage', () => {
   });
 
   it('should not be able to create a costumer survey with wrong message type', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     await expect(
       createEndOfChatbot.execute({
@@ -58,10 +64,7 @@ describe('CreateEndOfChatbotMessage', () => {
   });
 
   it('should not be able to create a end of chatbot message if company already has one', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const parentMessage = await fakeContainerRepository.create({
       company_id: company.id,
