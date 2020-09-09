@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import IContentTypeDTO from '@modules/chatbot/dtos/IContentTypeDTO';
 
 export enum ContainerType {
   GREETING = 'greeting',
@@ -38,7 +39,7 @@ export default class Containers {
   company_id: number;
 
   @Column({ type: 'json', nullable: true })
-  content: JSON;
+  content: IContentTypeDTO;
 
   @CreateDateColumn()
   created_at: Date;

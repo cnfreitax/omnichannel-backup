@@ -19,6 +19,12 @@ class FakeContainerRepository implements IContainerRepository {
     return containers;
   }
 
+  public async findExistingContainer({ company_id, type }: IFindExistingContainerDTO): Promise<Container | undefined> {
+    const container = this.containers.find(foundContainer => foundContainer.company_id === company_id && foundContainer.type === type);
+
+    return container;
+  }
+
   public async create({ company_id, description, type, from, to }: ISaveContainerDTO): Promise<Container> {
     const container = new Container();
 
@@ -29,8 +35,10 @@ class FakeContainerRepository implements IContainerRepository {
     return container;
   }
 
-  public async findExistingContainer({ company_id, type }: IFindExistingContainerDTO): Promise<Container | undefined> {
-    const container = this.containers.find(foundContainer => foundContainer.company_id === company_id && foundContainer.type === type);
+  public async save(container: Container): Promise<Container> {
+    const containerIndex = this.containers.findIndex(foundContainer => foundContainer.id === container.id);
+
+    this.containers[containerIndex] = container;
 
     return container;
   }
