@@ -36,7 +36,7 @@ describe('DeleteSector Service', () => {
     deleteSectorService = new DeleteSectorService(fakeSectorRepository);
   });
 
-  test('Should be able to delete an sector', async () => {
+  test('Should be able to delete an sector with correct value', async () => {
     const company = await fakeCompanyRepository.create(makeFakeRequestCompany());
     const sector = await createSectorService.execute(makeFakeRequestSector(company.id));
     const deleteSpy = jest.spyOn(deleteSectorService, 'execute');
