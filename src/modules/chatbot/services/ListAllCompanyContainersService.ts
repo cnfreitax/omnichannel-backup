@@ -1,17 +1,12 @@
 import { inject, injectable } from 'tsyringe';
-
 import ICompanyRepository from '@modules/company/repositories/ICompanyRepository';
 import AppError from '@shared/errors/AppError';
-import IOptionRepository from '../repositories/IOptionRepository';
 import Container from '../infra/typeorm/entities/Container';
 import IContainerRepository from '../repositories/IContainerRepository';
 
 @injectable()
 export default class ListAllCompanyContainersService {
   constructor(
-    @inject('OptionRepository')
-    private optionRepository: IOptionRepository,
-
     @inject('ContainerRepository')
     private containerRepository: IContainerRepository,
 
