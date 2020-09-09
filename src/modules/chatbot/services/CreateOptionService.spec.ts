@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import CreateCompanyService from '@modules/company/services/CreateCompanyService';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
 import ICreateCompanyDTO from '@modules/company/dtos/ICreateCompanyDTO';
+import AppError from '@shared/errors/AppError';
 import CreateOptionService from './CreateOptionService';
 import FakeOptionRepository from '../repositories/fakes/FakeOptionRepository';
 import FakeContainerRepository from '../repositories/fakes/FakeContainerRepository';
@@ -48,10 +49,19 @@ describe('CreateOption Service', () => {
     createContainer = new CreateContainerService(fakeContainerRepository, fakeCompanyRepository);
     createOption = new CreateOptionService(fakeOptionRepository, fakeContainerRepository);
   });
-  test('Should be abe create a Option if correct values is provided', async () => {
+  test('Should be able create a Option if correct values is provided', async () => {
     const company = await createCompany.execute(makeFakeRequest());
     const container = await createContainer.execute(makeFakeRequestContainer(company.id));
     const option = await createOption.execute(makeOptionRequest(container.id));
     expect(option).toHaveProperty('id');
+  });
+
+  test('Should not be able create a Option if invalid container_id is provider', async () => {
+    await expect(
+      createOption.execute({
+        container_id: 0,
+        description: 'any_description',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
