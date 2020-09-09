@@ -50,7 +50,6 @@ describe('AssignUserToSectorService', () => {
   test('Should assign a sector to a user', async () => {
     const user = await createUser.execute(makeFakeUser());
     const company = await fakeCompanyRepository.create(makeFakeCompany());
-
     const sector = await createSectorService.execute({
       company_id: company.id,
       label: 'any_name',
