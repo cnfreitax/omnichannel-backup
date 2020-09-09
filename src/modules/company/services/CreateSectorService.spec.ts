@@ -1,7 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
 import FakeSectorRepository from '@modules/company/repositories/fakes/FakeSectorRepository';
-
 import CreateSectorService from './CreateSectorService';
 import ICreateCompanyDTO from '../dtos/ICreateCompanyDTO';
 import ICreateSectorDTO from '../dtos/ICreateSectorDTO';
@@ -35,14 +34,14 @@ describe('CreateCompany', () => {
     createSectorService = new CreateSectorService(fakeCompanyRepository, fakeSectorRepository);
   });
 
-  it('should be able to create a new sector', async () => {
+  test('should be able to create a new sector', async () => {
     const company = await fakeCompanyRepository.create(makeFakeRequestCompany());
     const sector = await createSectorService.execute(makeFakeRequestSector(company.id));
 
     expect(sector).toHaveProperty('id');
   });
 
-  it('should not be able to create a sector for a non existing company', async () => {
+  test('should not be able to create a sector for a non existing company', async () => {
     await expect(
       createSectorService.execute({
         company_id: 9999,
@@ -50,5 +49,11 @@ describe('CreateCompany', () => {
         phone: 'any_',
       }),
     ).rejects.toBeInstanceOf(AppError);
+  });
+
+  test('Should returns throw if sector from company alredy exists', async () => {
+    const company = await fakeCompanyRepository.create(makeFakeRequestCompany());
+    await createSectorService.execute(makeFakeRequestSector(company.id));
+    await expect(createSectorService.execute(makeFakeRequestSector(company.id))).rejects.toBeInstanceOf(AppError);
   });
 });
