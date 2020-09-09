@@ -1,5 +1,6 @@
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
 import FakeSectorRepository from '@modules/company/repositories/fakes/FakeSectorRepository';
+import AppError from '@shared/errors/AppError';
 import CreateSectorService from './CreateSectorService';
 import ICreateCompanyDTO from '../dtos/ICreateCompanyDTO';
 import ICreateSectorDTO from '../dtos/ICreateSectorDTO';
@@ -42,5 +43,9 @@ describe('DeleteSector Service', () => {
     const deleteSpy = jest.spyOn(deleteSectorService, 'execute');
     await deleteSectorService.execute(sector.id);
     expect(deleteSpy).toHaveBeenCalledWith(sector.id);
+  });
+
+  test('Should not delete sector if invalid sector_id is provided', async () => {
+    await expect(deleteSectorService.execute(0)).rejects.toBeInstanceOf(AppError);
   });
 });
