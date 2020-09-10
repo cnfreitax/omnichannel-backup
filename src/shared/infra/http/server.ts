@@ -4,18 +4,14 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import { errors } from 'celebrate';
 import AppError from '@shared/errors/AppError';
-import rateLimiter from '@shared/infra/http/middleware/rateLimiter';
 import uploadConfig from '@config/upload';
 import routes from './routes';
 import '@shared/infra/typeorm';
 import '@shared/container';
+import app from './config/app';
 
 const port = process.env.PORT || 3333;
 
-const app = express();
-
-app.use(express.json());
-app.use(rateLimiter);
 app.use(routes);
 app.use(errors());
 

@@ -7,7 +7,7 @@ const limiter = new RateLimiterMemory({
   duration: 1,
 });
 
-export default async function raterLimiter(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function raterLimiter(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     await limiter.consume(req.ip);
 
