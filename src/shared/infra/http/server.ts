@@ -23,8 +23,6 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
     });
   }
 
-  console.error(err);
-
   return res.status(500).json({
     status: 'error',
     message: 'Server Error',
@@ -33,4 +31,4 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
 
 app.use('/files', express.static(uploadConfig.uploadsFolder));
 
-app.listen(port, () => console.log(`✔✔ server running on  ${port}!`));
+app.listen(port);
