@@ -3,7 +3,10 @@
      "target": "es6",
       "module": "commonjs",
       "outDir": "./dist",
-      "rootDir": "./src",
+      "rootDirs": [
+      "jest.config.js",
+      "./src"
+    ],
       "strict": true,
       "strictPropertyInitialization": false,
       "baseUrl": "./src",

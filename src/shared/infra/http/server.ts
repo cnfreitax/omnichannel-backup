@@ -37,5 +37,4 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
 
 app.use('/files', express.static(uploadConfig.uploadsFolder));
 
-// eslint-disable-next-line
 app.listen(port, () => console.log(`✔✔ server running on  ${port}!`));

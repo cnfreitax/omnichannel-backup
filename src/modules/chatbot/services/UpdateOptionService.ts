@@ -6,7 +6,7 @@ import IContainerRepository from '../repositories/IContainerRepository';
 
 interface IRequest {
   optionId: number;
-  description?: string;
+  description: string;
   to?: number;
 }
 
@@ -27,10 +27,6 @@ export default class UpdateOptionService {
       throw new AppError('Option not found');
     }
 
-    if (description) {
-      option.description = description;
-    }
-
     if (to) {
       const destinyExists = await this.containerRepository.findById(to);
       if (!destinyExists) {
@@ -38,7 +34,7 @@ export default class UpdateOptionService {
       }
       option.to = to;
     }
-
+    option.description = description;
     return this.optionRepository.save(option);
   }
 }
