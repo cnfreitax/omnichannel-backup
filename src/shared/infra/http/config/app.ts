@@ -3,7 +3,7 @@ import uploadConfig from '@config/upload';
 import { errors } from 'celebrate';
 import AppError from '@shared/errors/AppError';
 import setupMiddlewares from './middlewares';
-import router from '../../routes';
+import router from '../routes';
 
 const app = express();
 setupMiddlewares(app);
