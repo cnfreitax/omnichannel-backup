@@ -2,12 +2,25 @@ import AppError from '@shared/errors/AppError';
 
 import FakeContainerRepository from '@modules/chatbot/repositories/fakes/FakeContainerRepository';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
+import ICreateCompanyDTO from '@modules/company/dtos/ICreateCompanyDTO';
 import UpdateContainerService from './UpdateContainerService';
 import { ContainerType } from '../infra/typeorm/entities/Container';
 
 let fakeContainerRepository: FakeContainerRepository;
 let fakeCompanyRepository: FakeCompanyRepository;
 let updateContainerService: UpdateContainerService;
+
+const makeFakeRequest = (): ICreateCompanyDTO => ({
+  name: 'Empresa 1',
+  email: 'any_email',
+  cnpj: '1234567890',
+  address: 'any_address',
+  activity: 'any_activity',
+  ddd: 'any_ddd',
+  website: 'any_web',
+  webhook_response: 'any_hook',
+  webhook_status: 'any_hook',
+});
 
 describe('CreateContainerService', () => {
   beforeEach(() => {
@@ -17,10 +30,7 @@ describe('CreateContainerService', () => {
   });
 
   it('should be able to update a existing container', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const fromContainer = await fakeContainerRepository.create({
       company_id: company.id,
@@ -62,10 +72,7 @@ describe('CreateContainerService', () => {
   });
 
   it('should not be able to update a existing container with a non existing toContainer', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const container = await fakeContainerRepository.create({
       company_id: company.id,
@@ -83,10 +90,7 @@ describe('CreateContainerService', () => {
   });
 
   it('should not be able to update a existing container with a non existing fromContainer', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const container = await fakeContainerRepository.create({
       company_id: company.id,
@@ -104,10 +108,7 @@ describe('CreateContainerService', () => {
   });
 
   it('should be able to update a existing container with content', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const container = await fakeContainerRepository.create({
       company_id: company.id,
@@ -127,10 +128,7 @@ describe('CreateContainerService', () => {
   });
 
   it('should be able to update a existing container with content 2', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const container = await fakeContainerRepository.create({
       company_id: company.id,
@@ -150,10 +148,7 @@ describe('CreateContainerService', () => {
   });
 
   it('should not be able to update a existing container with invalid content type', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const container = await fakeContainerRepository.create({
       company_id: company.id,
@@ -171,10 +166,7 @@ describe('CreateContainerService', () => {
   });
 
   it('should not be able to update a existing container with invalid content type 2', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     const container = await fakeContainerRepository.create({
       company_id: company.id,
