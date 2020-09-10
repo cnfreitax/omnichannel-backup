@@ -19,14 +19,6 @@ class ContainerRepository implements IContainerRepository {
     return container;
   }
 
-  public async create({ company_id, description, type, from, to }: ISaveContainerDTO): Promise<Container> {
-    const container = this.ormRepository.create({ company_id, description, type, from: from || undefined, to: to || undefined });
-
-    await this.ormRepository.save(container);
-
-    return container;
-  }
-
   public async listAllCompanyContainers(company_id: number): Promise<Container[]> {
     const containers = await this.ormRepository.find({ where: { company_id } });
 
@@ -37,6 +29,18 @@ class ContainerRepository implements IContainerRepository {
     const container = await this.ormRepository.findOne({ where: { company_id, type } });
 
     return container;
+  }
+
+  public async create({ company_id, description, type, from, to }: ISaveContainerDTO): Promise<Container> {
+    const container = this.ormRepository.create({ company_id, description, type, from: from || undefined, to: to || undefined });
+
+    await this.ormRepository.save(container);
+
+    return container;
+  }
+
+  public async save(container: Container): Promise<Container> {
+    return this.ormRepository.save(container);
   }
 }
 

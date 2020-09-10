@@ -20,6 +20,13 @@ class FakeContainerRepository implements IContainerRepository {
 
   public async findExistingContainer({ company_id, type }: IFindExistingContainerDTO): Promise<Container | undefined> {
     const container = this.containers.find(foundContainer => foundContainer.company_id === company_id && foundContainer.type === type);
+  }
+
+  public async save(container: Container): Promise<Container> {
+    const containerIndex = this.containers.findIndex(foundContainer => foundContainer.id === container.id);
+
+    this.containers[containerIndex] = container;
+
     return container;
   }
 

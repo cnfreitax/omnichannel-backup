@@ -7,4 +7,5 @@ export default interface IChatbotRepository {
   findById(id: number): Promise<Container | undefined>;
   listAllCompanyContainers(company_id: number): Promise<Container[]>;
   create(data: ISaveContainerDTO): Promise<Container>;
+  save(container: Container): Promise<Container>;
 }
