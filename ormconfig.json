@@ -1,6 +1,6 @@
 {
   "type": "mysql",
-  "host": "35.221.8.37",
+  "host": "omnichannel.ckfcpgvdtzda.us-east-2.rds.amazonaws.com",
   "port": 3306,
   "username": "root",
   "password": "Fq6NcC98cofdm6FN",
