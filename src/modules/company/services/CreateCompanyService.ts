@@ -8,6 +8,7 @@ interface IRequest {
   cnpj: string;
   email: string;
   address: string;
+  codCampaign?: string;
   ddd: string;
   website: string;
   logo?: string;

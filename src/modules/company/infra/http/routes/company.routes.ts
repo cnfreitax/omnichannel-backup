@@ -16,6 +16,7 @@ companyRouter.post(
       name: Joi.string().required(),
       cnpj: Joi.string().required(),
       email: Joi.string().email().required(),
+      codCampaign: Joi.string(),
       address: Joi.string().required(),
       logo: Joi.string(),
       webhook_status: Joi.string(),

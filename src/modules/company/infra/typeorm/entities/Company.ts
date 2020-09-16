@@ -15,6 +15,9 @@ class Company {
   email: string;
 
   @Column()
+  codCampaign: string;
+
+  @Column()
   webhook_status: string;
 
   @Column()

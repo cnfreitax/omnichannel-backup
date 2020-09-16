@@ -15,7 +15,7 @@ export default class CompaniesController {
   }
 
   public async create(req: Request, res: Response): Promise<Response> {
-    const { name, cnpj, email, address, ddd, website, logo, activity, webhook_status, webhook_response } = req.body;
+    const { name, cnpj, email, address, ddd, codCampaign, website, logo, activity, webhook_status, webhook_response } = req.body;
 
     const createCompanyService = container.resolve(CreateCompanyService);
 
@@ -24,6 +24,7 @@ export default class CompaniesController {
       cnpj,
       email,
       address,
+      codCampaign,
       ddd,
       website,
       logo,

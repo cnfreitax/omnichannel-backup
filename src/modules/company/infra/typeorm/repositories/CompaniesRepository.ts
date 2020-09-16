@@ -34,6 +34,15 @@ class CompanyRepository implements ICompanyRepository {
     return companies;
   }
 
+  public async findByCodCampaign(codCampaign: string): Promise<Company | undefined> {
+    const company = await this.ormRepository.findOne({
+      where: {
+        codCampaign,
+      },
+    });
+    return company;
+  }
+
   public async create(dataCompany: ICreateCompanyDTO): Promise<Company> {
     const company = this.ormRepository.create(dataCompany);
     await this.ormRepository.save(company);

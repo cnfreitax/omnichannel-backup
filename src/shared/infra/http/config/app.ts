@@ -6,6 +6,7 @@ import setupMiddlewares from './middlewares';
 import router from '../routes';
 
 const app = express();
+app.post('/whatsapp/response', express.raw({ type: '*/*' }));
 setupMiddlewares(app);
 app.use(errors());
 app.use(router);

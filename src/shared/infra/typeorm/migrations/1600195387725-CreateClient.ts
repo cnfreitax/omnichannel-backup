@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateClientState1596029716734 implements MigrationInterface {
+export class CreateClient1600195387725 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'clientstate',
+        name: 'clients',
         columns: [
           {
             name: 'id',
@@ -13,16 +13,13 @@ export default class CreateClientState1596029716734 implements MigrationInterfac
             generationStrategy: 'increment',
             isGenerated: true,
           },
-          { name: 'Telephone', type: 'varchar', default: null },
-          { name: 'state', type: 'varchar', default: null },
-          { name: 'created_at', type: 'timestamp', default: 'now()' },
-          { name: 'updated_at', type: 'timestamp', default: 'now()' },
+          { name: 'phone', type: 'varchar' },
         ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('clientstate');
+    await queryRunner.dropTable('clients');
   }
 }

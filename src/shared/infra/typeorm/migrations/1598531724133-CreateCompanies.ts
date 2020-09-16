@@ -15,6 +15,7 @@ export default class CreateCompanies1598531724133 implements MigrationInterface 
           },
           { name: 'name', type: 'varchar', isUnique: true },
           { name: 'cnpj', type: 'varchar', isUnique: true },
+          { name: 'codCampaign', type: 'varchar' },
           { name: 'address', type: 'varchar' },
           { name: 'email', type: 'varchar', isUnique: true },
           { name: 'website', type: 'varchar' },

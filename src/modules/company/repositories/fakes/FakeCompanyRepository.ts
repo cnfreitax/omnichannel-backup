@@ -10,6 +10,11 @@ class FakeCompanyRepository implements ICompanyRepository {
     return this.companies;
   }
 
+  public async findByCodCampaign(cod: string): Promise<Company | undefined> {
+    const companyMatchEmail = this.companies.find(company => company.codCampaign === cod);
+    return companyMatchEmail;
+  }
+
   public async findByEmail(email: string): Promise<Company | undefined> {
     const companyMatchEmail = this.companies.find(company => company.email === email);
     return companyMatchEmail;
