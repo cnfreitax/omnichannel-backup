@@ -1,0 +1,13 @@
+{
+  "type": "mysql",
+  "host": "35.221.8.37",
+  "port": 3306,
+  "username": "root",
+  "password": "Fq6NcC98cofdm6FN",
+  "database": "omnichannel",
+  "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
+  "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/shared/infra/typeorm/migrations"
+  }
+}
