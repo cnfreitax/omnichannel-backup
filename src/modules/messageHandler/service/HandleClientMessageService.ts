@@ -31,27 +31,34 @@ export default class HandleClientMessageService {
     let customer;
     let message;
     const company = await this.companyRepository.findByCodCampaign(data.codCampaign);
+    console.log('COMPANY', company);
     if (!company) {
       throw new AppError('Company not found');
     }
     customer = await this.customerRepository.findByPhone(data.Telephone);
+    console.log('COSTUMER', customer);
     if (!customer) {
       customer = await this.customerRepository.create({ phone: data.Telephone });
     }
 
     const verifyStage = await this.customerStageRepository.findStage(company.id, customer.id);
+    console.log('VERIFY', verifyStage);
     if (!verifyStage) {
       message = await this.containerRepository.findExistingContainer({ company_id: company.id, type: ContainerType.GREETING });
+      console.log('GREETING MESSAGE', message);
       if (!message) {
         throw new AppError('Container not found');
       }
       await this.customerStageRepository.create({ company_id: company.id, container_id: message.id, customer_id: customer.id });
     } else {
       message = await this.containerRepository.findById(verifyStage.container_id);
+      console.log('MESSAGE', message);
       if (!message) {
         throw new AppError('Not found');
       }
     }
+
+    console.log('SENDING');
 
     await this.sendMessage.send({
       token: 'd398dc45',
