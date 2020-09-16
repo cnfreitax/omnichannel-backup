@@ -88,10 +88,7 @@ describe('CreateContainerService', () => {
   });
 
   it('should not be able to create a new container with a invalid container type', async () => {
-    const company = await fakeCompanyRepository.create({
-      name: 'Company Doe',
-      cnpj: '123123',
-    });
+    const company = await fakeCompanyRepository.create(makeFakeRequest());
 
     await expect(
       createContainerService.execute({

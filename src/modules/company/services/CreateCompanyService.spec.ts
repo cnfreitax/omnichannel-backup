@@ -11,6 +11,7 @@ const makeFakeRequest = (): ICreateCompanyDTO => ({
   email: 'any_email',
   cnpj: '1234567890',
   address: 'any_address',
+  codCampaign: '1234',
   activity: 'any_activity',
   ddd: 'any_ddd',
   website: 'any_web',
