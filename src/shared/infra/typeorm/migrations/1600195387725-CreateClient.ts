@@ -14,6 +14,8 @@ export class CreateClient1600195387725 implements MigrationInterface {
             isGenerated: true,
           },
           { name: 'phone', type: 'varchar' },
+          { name: 'created_at', type: 'timestamp', default: 'now()' },
+          { name: 'updated_at', type: 'timestamp', default: 'now()' },
         ],
       }),
     );
