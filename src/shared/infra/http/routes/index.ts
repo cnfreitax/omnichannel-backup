@@ -7,10 +7,9 @@ import messageRouter from '@modules/messageHandler/infra/http/routes/message.rou
 const router = Router();
 const routesList = [chatbotRoutes, userRoutes, companyRouter];
 
+router.use('/', messageRouter);
 for (const route of routesList) {
   router.use('/api', route);
 }
-
-router.use('/', messageRouter);
 
 export default router;
