@@ -4,7 +4,7 @@ export class CreateClientStage1600195447269 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'client_stage',
+        name: 'customer_stage',
         columns: [
           {
             name: 'id',
@@ -16,6 +16,8 @@ export class CreateClientStage1600195447269 implements MigrationInterface {
           { name: 'company_id', type: 'int' },
           { name: 'customer_id', type: 'int' },
           { name: 'container_id', type: 'int' },
+          { name: 'created_at', type: 'timestamp', default: 'now()' },
+          { name: 'updated_at', type: 'timestamp', default: 'now()' },
         ],
         foreignKeys: [
           {
@@ -48,6 +50,6 @@ export class CreateClientStage1600195447269 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('client_stage');
+    await queryRunner.dropTable('customer_stage');
   }
 }
