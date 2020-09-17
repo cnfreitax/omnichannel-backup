@@ -11,7 +11,7 @@ import ICustomerStageRepository from '../repository/ICustomerStage';
 @injectable()
 export default class HandleClientMessageService {
   constructor(
-    @inject('CompanyRepository')
+    @inject('CompaniesRepository')
     private companyRepository: ICompanyRepository,
 
     @inject('CustomerRepository')
