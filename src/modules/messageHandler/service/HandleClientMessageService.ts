@@ -30,6 +30,7 @@ export default class HandleClientMessageService {
   public async execute(data: IClientMessageDTO): Promise<void> {
     let customer;
     let message;
+    console.log(data);
     const company = await this.companyRepository.findByCodCampaign(data.codCampaign);
     console.log('COMPANY', company);
     if (!company) {

@@ -5,10 +5,9 @@ import companyRouter from '@modules/company/infra/http/routes';
 import messageRouter from '@modules/messageHandler/infra/http/routes/message.routes';
 
 const router = Router();
-const routesList = [chatbotRoutes, companyRouter];
+const routesList = [chatbotRoutes, userRoutes, companyRouter];
 
 router.use('/', messageRouter);
-router.use('/', userRoutes);
 for (const route of routesList) {
   router.use('/api', route);
 }
