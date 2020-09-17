@@ -14,7 +14,7 @@ export class CreateClientStage1600195447269 implements MigrationInterface {
             isGenerated: true,
           },
           { name: 'company_id', type: 'int' },
-          { name: 'client_id', type: 'int' },
+          { name: 'customer_id', type: 'int' },
           { name: 'container_id', type: 'int' },
         ],
         foreignKeys: [
@@ -35,10 +35,10 @@ export class CreateClientStage1600195447269 implements MigrationInterface {
             onUpdate: 'CASCADE',
           },
           {
-            name: 'ClientFk',
-            referencedTableName: 'clients',
+            name: 'CustomerFk',
+            referencedTableName: 'customers',
             referencedColumnNames: ['id'],
-            columnNames: ['client_id'],
+            columnNames: ['customer_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
