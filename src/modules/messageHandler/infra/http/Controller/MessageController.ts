@@ -10,11 +10,11 @@ export default class MessageController {
     let jsonData: IClientMessageDTO;
     jsonData = JSON.parse(bodyData);
 
-    console.log(jsonData);
+    console.log('JSON DATA', jsonData);
 
     const handleMessage = container.resolve(HandleClientMessageService);
 
-    handleMessage.execute(jsonData);
+    await handleMessage.execute(jsonData);
 
     return res.send(200).json({ ok: 'ok' });
   }
