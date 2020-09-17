@@ -7,6 +7,7 @@ export default class MessageController {
   public async handle(req: Request, res: Response): Promise<Response> {
     let bodyData = String(req.body);
     bodyData = bodyData.replace(/'/g, '"');
+    console.log(bodyData);
     let jsonData: IClientMessageDTO;
     jsonData = JSON.parse(bodyData);
 
