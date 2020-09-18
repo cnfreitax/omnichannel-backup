@@ -13,6 +13,6 @@ export default class SendMessageProvider implements IMessageProvider {
       Message: '',
     });
 
-    await Axios.post(process.env.WEB_HOOK_RESPONSE || 'default', data);
+    await Axios.post(process.env.WEB_HOOK_RESPONSE || 'default', messagesToSend);
   }
 }
