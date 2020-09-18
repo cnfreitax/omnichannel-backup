@@ -62,7 +62,7 @@ export default class HandleClientMessageService {
     console.log('SENDING');
 
     await this.sendMessage.send({
-      token: '6ac7aa15',
+      token: '71f15911',
       Telephone: customer.phone,
       codCampaign: company.codCampaign,
       Message: message?.description,
