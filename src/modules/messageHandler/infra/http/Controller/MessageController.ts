@@ -17,6 +17,6 @@ export default class MessageController {
 
     await handleMessage.execute(jsonData);
 
-    return res.send(200).json({ ok: 'ok' });
+    return res.send(200);
   }
 }

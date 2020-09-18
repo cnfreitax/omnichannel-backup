@@ -86,7 +86,7 @@ export default class HandleClientMessageService {
 
     const messagesToSend = await this.readMessageFromDatabase(message.id, customer.phone, company.codCampaign);
 
-    console.log(messagesToSend);
+    console.log('MESSAGES', messagesToSend);
 
     await this.sendMessage.send(messagesToSend);
   }
