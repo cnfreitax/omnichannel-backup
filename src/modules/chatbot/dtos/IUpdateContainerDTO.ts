@@ -6,4 +6,5 @@ export default interface IUpdateContainerDTO {
   to?: number;
   content?: IContentTypeDTO;
   description?: string;
+  expects_input?: boolean;
 }

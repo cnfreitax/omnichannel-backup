@@ -7,4 +7,5 @@ export default interface ISaveContainerDTO {
   company_id: number;
   description: string;
   type: ContainerType;
+  expects_input?: boolean;
 }
