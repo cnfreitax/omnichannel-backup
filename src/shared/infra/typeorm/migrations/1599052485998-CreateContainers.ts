@@ -13,6 +13,7 @@ export default class CreateContainers1599052485998 implements MigrationInterface
             generationStrategy: 'increment',
             isGenerated: true,
           },
+          { name: 'expects_input', type: 'boolean', default: false },
           { name: 'from', type: 'int', isNullable: true, default: null },
           { name: 'to', type: 'int', isNullable: true, default: null },
           { name: 'description', type: 'varchar', isNullable: false },
