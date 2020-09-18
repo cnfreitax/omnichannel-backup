@@ -18,9 +18,24 @@ containerRouter.post(
       content: Joi.object(),
       from: Joi.string(),
       to: Joi.string(),
+      expects_input: Joi.boolean(),
     },
   }),
   containerController.create,
+);
+
+containerRouter.put(
+  '/:container_id',
+  celebrate({
+    [Segments.BODY]: {
+      description: Joi.string(),
+      content: Joi.object(),
+      from: Joi.string(),
+      to: Joi.string(),
+      expects_input: Joi.boolean(),
+    },
+  }),
+  containerController.update,
 );
 
 export default containerRouter;
