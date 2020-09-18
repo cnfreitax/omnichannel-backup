@@ -41,6 +41,9 @@ export default class Containers {
   @Column({ type: 'json', nullable: true })
   content: IContentTypeDTO;
 
+  @Column({ default: false })
+  expects_input: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
