@@ -46,13 +46,13 @@ export default class HandleClientMessageService {
     if (messageFromDatabase.type === ContainerType.MENU) {
       if (messageFromDatabase.content.options) {
         messageFromDatabase.content.options.forEach((option, index) => {
-          messageDescription = messageDescription.concat(`\n${index}. ${option}`);
+          messageDescription = messageDescription.concat(`\n${index}. ${option.description}`);
         });
       }
     }
 
     this.messages.push({
-      token: 'a2060564',
+      token: '16c3ced2',
       Telephone: customer_phone,
       codCampaign,
       Message: messageDescription,
