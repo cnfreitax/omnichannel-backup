@@ -59,6 +59,12 @@ export default class UpdateContainerService {
         }
 
         container.content = { link: containerContent.link };
+      } else if (container.type === ContainerType.MENU) {
+        if (!containerContent.options) {
+          throw new AppError('Invalid content type');
+        }
+
+        container.content = { options: containerContent.options };
       }
     }
     const updatedContainer = await this.containerRepository.save(container);
