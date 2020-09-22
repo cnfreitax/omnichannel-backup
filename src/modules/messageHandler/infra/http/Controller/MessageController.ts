@@ -19,4 +19,14 @@ export default class MessageController {
 
     return res.send(200);
   }
+
+  public async status(req: Request, res: Response): Promise<Response> {
+    let bodyData = String(req.body);
+    bodyData = bodyData.replace(/'/g, '"');
+    let jsonData = JSON.parse(bodyData);
+
+    console.log(jsonData);
+
+    return res.send(200);
+  }
 }
