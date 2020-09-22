@@ -41,11 +41,21 @@ export default class HandleClientMessageService {
   }
 
   public async messagesToSend(messageFromDatabase: Containers, customer_phone: string, codCampaign: string): Promise<Array<ISendMessageDTO>> {
+    let messageDescription = messageFromDatabase.description;
+
+    if (messageFromDatabase.type === ContainerType.MENU) {
+      if (messageFromDatabase.content.options) {
+        messageFromDatabase.content.options.forEach((option, index) => {
+          messageDescription = messageDescription.concat(`\n${index}. ${option}`);
+        });
+      }
+    }
+
     this.messages.push({
       token: 'a2060564',
       Telephone: customer_phone,
       codCampaign,
-      Message: messageFromDatabase?.description,
+      Message: messageDescription,
     });
 
     if (messageFromDatabase.to) {
