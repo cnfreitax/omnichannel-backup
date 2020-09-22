@@ -46,7 +46,7 @@ export default class HandleClientMessageService {
     if (messageFromDatabase.type === ContainerType.MENU) {
       if (messageFromDatabase.content.options) {
         messageFromDatabase.content.options.forEach((option, index) => {
-          messageDescription = messageDescription.concat(`\n${index}. ${option}`);
+          messageDescription = messageDescription.concat(`\n${index}. ${option.description}`);
         });
       }
     }
