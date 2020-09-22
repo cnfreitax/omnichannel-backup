@@ -69,6 +69,10 @@ export default class HandleClientMessageService {
     if (currentStage) {
       currentStage.container_id = messageFromDatabase.id;
       await this.customerStageRepository.updateStage(currentStage);
+
+      if (messageFromDatabase.type === ContainerType.END_CHATBOT) {
+        await this.customerStageRepository.deleteStage(currentStage.id);
+      }
     }
 
     return this.messages;

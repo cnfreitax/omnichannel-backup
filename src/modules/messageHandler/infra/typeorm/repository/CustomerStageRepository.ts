@@ -1,6 +1,6 @@
 import ICreateCustomerStageDTO from '@modules/messageHandler/dtos/ICreateCustomerStageDto';
 import ICustomerStageRepository from '@modules/messageHandler/repository/ICustomerStage';
-import { Repository, getRepository } from 'typeorm';
+import { Repository, getRepository, DeleteResult } from 'typeorm';
 import CustomerStage from '../entities/CustomerStage';
 
 export default class CustomerStageRepository implements ICustomerStageRepository {
@@ -28,5 +28,9 @@ export default class CustomerStageRepository implements ICustomerStageRepository
 
   public async updateStage(stage: CustomerStage): Promise<CustomerStage> {
     return this.ormRepository.save(stage);
+  }
+
+  public async deleteStage(stage_id: number): Promise<void> {
+    await this.ormRepository.delete(stage_id);
   }
 }
