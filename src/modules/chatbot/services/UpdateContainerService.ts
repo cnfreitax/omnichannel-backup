@@ -67,6 +67,11 @@ export default class UpdateContainerService {
         container.content = { options: containerContent.options };
       }
     }
+
+    if (containerData.expects_input) {
+      container.expects_input = containerData.expects_input;
+    }
+
     const updatedContainer = await this.containerRepository.save(container);
 
     return updatedContainer;
