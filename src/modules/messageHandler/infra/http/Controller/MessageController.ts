@@ -7,11 +7,10 @@ export default class MessageController {
   public async handle(req: Request, res: Response): Promise<Response> {
     let bodyData = String(req.body);
     bodyData = bodyData.replace(/'/g, '"');
-    console.log(bodyData);
     let jsonData: IClientMessageDTO;
     jsonData = JSON.parse(bodyData);
 
-    console.log('JSON DATA', jsonData);
+    console.log('RECEIVED MESSAGE', jsonData);
 
     const handleMessage = container.resolve(HandleClientMessageService);
 
@@ -21,11 +20,9 @@ export default class MessageController {
   }
 
   public async status(req: Request, res: Response): Promise<Response> {
-    let bodyData = String(req.body);
+    /* let bodyData = String(req.body);
     bodyData = bodyData.replace(/'/g, '"');
-    let jsonData = JSON.parse(bodyData);
-
-    console.log(jsonData);
+    const jsonData = JSON.parse(bodyData); */
 
     return res.send(200);
   }

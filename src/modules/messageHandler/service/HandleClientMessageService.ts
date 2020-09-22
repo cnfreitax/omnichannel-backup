@@ -8,6 +8,7 @@ import IMessageProvider from '@shared/container/providers/MessageProvider/models
 import { ISendMessageDTO } from '@shared/container/providers/MessageProvider/dtos/ISendDTO';
 import Customer from '@modules/customer/infra/typeorm/entities/Customer';
 import Company from '@modules/company/infra/typeorm/entities/Company';
+import isNumeric from '@shared/utils/isNumeric';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
 import ICustomerStageRepository from '../repository/ICustomerStage';
 
@@ -32,7 +33,8 @@ export default class HandleClientMessageService {
 
   private messages: ISendMessageDTO[] = [];
 
-  public async readMessageFromDatabase(container: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
+  public async readMessageFromDatabase(container_id: number, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
+    const container = await this.containerRepository.findById(container_id);
     if (!container) {
       throw new AppError('No container found');
     }
@@ -59,7 +61,7 @@ export default class HandleClientMessageService {
     });
 
     if (messageFromDatabase.to && !messageFromDatabase.expects_input) {
-      return this.readMessageFromDatabase(messageFromDatabase, customer, company);
+      return this.readMessageFromDatabase(messageFromDatabase.to, customer, company);
     }
 
     const currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
@@ -72,9 +74,27 @@ export default class HandleClientMessageService {
     return this.messages;
   }
 
+  public async checkUserInput(message: Containers, userInput: string): Promise<Containers | undefined> {
+    if (message.type === ContainerType.MENU) {
+      if (isNumeric(userInput)) {
+        const menuOptions = message.content.options ? message.content.options : [];
+        const userChosenOption = Number(userInput);
+
+        if (userChosenOption > 0 && userChosenOption <= menuOptions.length) {
+          const nextMessageId = menuOptions[userChosenOption - 1].container_id;
+
+          return this.containerRepository.findById(nextMessageId);
+        }
+      }
+    }
+
+    return message;
+  }
+
   public async execute(data: IClientMessageDTO): Promise<void> {
     let customer;
     let message;
+    let currentStage;
 
     const company = await this.companyRepository.findByCodCampaign(data.codCampaign);
     if (!company) {
@@ -82,26 +102,31 @@ export default class HandleClientMessageService {
     }
 
     customer = await this.customerRepository.findByPhone(data.Telephone);
-
     if (!customer) {
       customer = await this.customerRepository.create({ phone: data.Telephone });
     }
 
-    let verifyStage = await this.customerStageRepository.findStage(company.id, customer.id);
-    if (!verifyStage) {
+    currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
+    if (!currentStage) {
       message = await this.containerRepository.findExistingContainer({ company_id: company.id, type: ContainerType.GREETING });
       if (!message) {
         throw new AppError('Container not found');
       }
-      verifyStage = await this.customerStageRepository.create({ company_id: company.id, container_id: message.id, customer_id: customer.id });
+      currentStage = await this.customerStageRepository.create({ company_id: company.id, container_id: message.id, customer_id: customer.id });
     } else {
-      message = await this.containerRepository.findById(verifyStage.container_id);
+      message = await this.containerRepository.findById(currentStage.container_id);
       if (!message) {
-        throw new AppError('Not found');
+        throw new AppError('Container not found');
+      } else if (message.expects_input) {
+        message = await this.checkUserInput(message, data.message);
+
+        if (!message) {
+          throw new AppError('No next container');
+        }
       }
     }
 
-    const messagesToSend = await this.readMessageFromDatabase(message, customer, company);
+    const messagesToSend = await this.readMessageFromDatabase(message.id, customer, company);
 
     console.log('MESSAGES', messagesToSend);
 
