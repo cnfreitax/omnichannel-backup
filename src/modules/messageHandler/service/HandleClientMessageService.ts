@@ -6,6 +6,8 @@ import IContainerRepository from '@modules/chatbot/repositories/IContainerReposi
 import Containers, { ContainerType } from '@modules/chatbot/infra/typeorm/entities/Container';
 import IMessageProvider from '@shared/container/providers/MessageProvider/models/IMessageProvider';
 import { ISendMessageDTO } from '@shared/container/providers/MessageProvider/dtos/ISendDTO';
+import Customer from '@modules/customer/infra/typeorm/entities/Customer';
+import Company from '@modules/company/infra/typeorm/entities/Company';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
 import ICustomerStageRepository from '../repository/ICustomerStage';
 
@@ -30,17 +32,15 @@ export default class HandleClientMessageService {
 
   private messages: ISendMessageDTO[] = [];
 
-  public async readMessageFromDatabase(messageId: number, customer_phone: string, codCampaign: string): Promise<Array<ISendMessageDTO>> {
-    let message = await this.containerRepository.findById(messageId);
-
-    if (!message) {
+  public async readMessageFromDatabase(container: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
+    if (!container) {
       throw new AppError('No container found');
     }
 
-    return this.messagesToSend(message, customer_phone, codCampaign);
+    return this.messagesToSend(container, customer, company);
   }
 
-  public async messagesToSend(messageFromDatabase: Containers, customer_phone: string, codCampaign: string): Promise<Array<ISendMessageDTO>> {
+  public async messagesToSend(messageFromDatabase: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     let messageDescription = messageFromDatabase.description;
 
     if (messageFromDatabase.type === ContainerType.MENU) {
@@ -53,13 +53,20 @@ export default class HandleClientMessageService {
 
     this.messages.push({
       token: '16c3ced2',
-      Telephone: customer_phone,
-      codCampaign,
+      Telephone: customer.phone,
+      codCampaign: company.codCampaign,
       Message: messageDescription,
     });
 
     if (messageFromDatabase.to && !messageFromDatabase.expects_input) {
-      return this.readMessageFromDatabase(messageFromDatabase.to, customer_phone, codCampaign);
+      return this.readMessageFromDatabase(messageFromDatabase, customer, company);
+    }
+
+    const currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
+
+    if (currentStage) {
+      currentStage.container_id = messageFromDatabase.id;
+      await this.customerStageRepository.updateStage(currentStage);
     }
 
     return this.messages;
@@ -94,7 +101,7 @@ export default class HandleClientMessageService {
       }
     }
 
-    const messagesToSend = await this.readMessageFromDatabase(message.id, customer.phone, company.codCampaign);
+    const messagesToSend = await this.readMessageFromDatabase(message, customer, company);
 
     console.log('MESSAGES', messagesToSend);
 
