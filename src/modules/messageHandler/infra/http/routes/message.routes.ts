@@ -5,5 +5,6 @@ const messageController = new MessageController();
 const messageRouter = Router();
 
 messageRouter.post('/whatsapp/response', messageController.handle);
+messageRouter.post('/whatsapp/status', messageController.status);
 
 export default messageRouter;
