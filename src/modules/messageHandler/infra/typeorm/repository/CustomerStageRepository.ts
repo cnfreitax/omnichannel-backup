@@ -25,4 +25,8 @@ export default class CustomerStageRepository implements ICustomerStageRepository
     await this.ormRepository.save(customerStage);
     return customerStage;
   }
+
+  public async updateStage(stage: CustomerStage): Promise<CustomerStage> {
+    return this.ormRepository.save(stage);
+  }
 }
