@@ -58,7 +58,7 @@ export default class HandleClientMessageService {
       Message: messageDescription,
     });
 
-    if (messageFromDatabase.to) {
+    if (messageFromDatabase.to && !messageFromDatabase.expects_input) {
       return this.readMessageFromDatabase(messageFromDatabase.to, customer_phone, codCampaign);
     }
 
