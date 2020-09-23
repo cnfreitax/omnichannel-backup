@@ -110,7 +110,7 @@ export default class HandleClientMessageService {
     const token = await this.authApi.findToken();
     if (token) {
       const tokenDateFormat = Date.parse(token.validade);
-      const expiredToken = isAfter(tokenDateFormat, new Date());
+      const expiredToken = isAfter(new Date(), tokenDateFormat);
       if (expiredToken) {
         const newToken = await this.loginApi.login({ login: String(process.env.API_USERNAME), password: String(process.env.API_PASSWORD) });
         this.token = newToken.token;
