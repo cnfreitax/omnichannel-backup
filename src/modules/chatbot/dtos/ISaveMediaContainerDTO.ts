@@ -1,7 +1,7 @@
 import { ContainerType } from '../infra/typeorm/entities/Container';
 import IContentTypeDTO from './IContentTypeDTO';
 
-export default interface ISaveContainerDTO {
+export default interface ISaveMediaContainer {
   from?: number;
   to?: number;
   content?: IContentTypeDTO;
@@ -9,4 +9,5 @@ export default interface ISaveContainerDTO {
   description: string;
   type: ContainerType;
   expects_input?: boolean;
+  mediaFileName: string;
 }

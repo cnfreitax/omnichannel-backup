@@ -1,4 +1,4 @@
-import IStorageProvider from '@shared/container/providers/StorageProvider/models/IstorageProvider';
+import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 
 class DiskStorageProvider implements IStorageProvider {
   private storage: string[] = [];
