@@ -54,7 +54,7 @@ export default class HandleClientMessageService {
     }
 
     this.messages.push({
-      token: '16c3ced2',
+      token: 'd8775682',
       Telephone: customer.phone,
       codCampaign: company.codCampaign,
       Message: messageDescription,
