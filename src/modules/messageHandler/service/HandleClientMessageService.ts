@@ -9,8 +9,11 @@ import { ISendMessageDTO } from '@shared/container/providers/MessageProvider/dto
 import Customer from '@modules/customer/infra/typeorm/entities/Customer';
 import Company from '@modules/company/infra/typeorm/entities/Company';
 import isNumeric from '@shared/utils/isNumeric';
+import ILoginProvider from '@shared/container/providers/LoginCodeApi/models/ILoginProvider';
+import { isAfter } from 'date-fns';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
 import ICustomerStageRepository from '../repository/ICustomerStage';
+import { IAuthCodeApi } from '../repository/IAuthCodeApi';
 
 @injectable()
 export default class HandleClientMessageService {
@@ -29,9 +32,17 @@ export default class HandleClientMessageService {
 
     @inject('SendMessage')
     private sendMessage: IMessageProvider,
+
+    @inject('AuthCodeApi')
+    private authApi: IAuthCodeApi,
+
+    @inject('LoginAPI')
+    private loginApi: ILoginProvider,
   ) {}
 
   private messages: ISendMessageDTO[] = [];
+
+  private token: string;
 
   public async readMessageFromDatabase(container_id: number, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     const container = await this.containerRepository.findById(container_id);
@@ -54,7 +65,7 @@ export default class HandleClientMessageService {
     }
 
     this.messages.push({
-      token: '35d46e49',
+      token: this.token,
       Telephone: customer.phone,
       codCampaign: company.codCampaign,
       Message: messageDescription,
@@ -95,7 +106,28 @@ export default class HandleClientMessageService {
     return message;
   }
 
+  private async checkApiToken(): Promise<void> {
+    const token = await this.authApi.findToken();
+    if (token) {
+      const tokenDateFormat = Date.parse(token.validate);
+      const expiredToken = isAfter(tokenDateFormat, new Date());
+      if (expiredToken) {
+        const newToken = await this.loginApi.login({ login: String(process.env.API_USERNAME), password: String(process.env.API_PASSWORD) });
+        this.token = newToken.token;
+        await this.authApi.updateToken(newToken);
+      } else {
+        this.token = token.token;
+      }
+    } else {
+      const newToken = await this.loginApi.login({ login: String(process.env.API_USERNAME), password: String(process.env.API_PASSWORD) });
+      this.token = newToken.token;
+      await this.authApi.updateToken(newToken);
+    }
+  }
+
   public async execute(data: IClientMessageDTO): Promise<void> {
+    await this.checkApiToken();
+
     let customer;
     let message;
     let currentStage;

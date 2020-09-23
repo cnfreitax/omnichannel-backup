@@ -1,6 +1,5 @@
 import { container } from 'tsyringe';
 import '@modules/user/providers';
-import './providers/MessageProvider';
 import './providers';
 import IUserRepository from '@modules/user/repositories/IUserRepository';
 import UserRepository from '@modules/user/infra/typeorm/repositories/UserRepository';
@@ -16,6 +15,8 @@ import ICustomerRepository from '@modules/customer/repository/ICustomerRepositor
 import CustomerRepository from '@modules/customer/infra/typeorm/repository/CustomerRepository';
 import ICustomerStageRepository from '@modules/messageHandler/repository/ICustomerStage';
 import CustomerStageRepository from '@modules/messageHandler/infra/typeorm/repository/CustomerStageRepository';
+import { IAuthCodeApi } from '@modules/messageHandler/repository/IAuthCodeApi';
+import AuthCodeApi from '@modules/messageHandler/infra/typeorm/repository/AuthCodeApi';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<ICompanyRepository>('CompaniesRepository', CompaniesRepository);
@@ -24,3 +25,4 @@ container.registerSingleton<IOptionRepository>('OptionRepository', OptionReposit
 container.registerSingleton<IContainerRepository>('ContainerRepository', ContainerRepository);
 container.registerSingleton<ICustomerRepository>('CustomerRepository', CustomerRepository);
 container.registerSingleton<ICustomerStageRepository>('CustomerStageRepository', CustomerStageRepository);
+container.registerSingleton<IAuthCodeApi>('AuthCodeApi', AuthCodeApi);
