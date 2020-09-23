@@ -24,6 +24,7 @@
         "prettier"
     ],
     "rules": {
+      "no-param-reassign": "off",
       "prefer-const":"off",
       "import/no-extraneous-dependencies": "off",
       "no-restricted-syntax": "off",
