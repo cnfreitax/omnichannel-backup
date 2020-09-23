@@ -9,7 +9,7 @@ export default class TokenAccess {
   token: string;
 
   @Column()
-  validate: string;
+  validade: string;
 
   @CreateDateColumn()
   created_at: Date;

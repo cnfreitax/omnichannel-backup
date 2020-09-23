@@ -14,7 +14,7 @@ export default class LoginApi implements ILoginProvider {
       const resp = await Axios.post<ResponseLogin>(process.env.LOGIN_API || 'default', loginData());
       const responseData = {
         token: resp.data.token,
-        validate: resp.data.validate,
+        validade: resp.data.validade,
       };
 
       return responseData;

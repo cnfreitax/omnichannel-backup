@@ -14,7 +14,7 @@ export default class CreateToken1600870771317 implements MigrationInterface {
             isGenerated: true,
           },
           { name: 'token', type: 'varchar' },
-          { name: 'validate', type: 'varchar' },
+          { name: 'validade', type: 'varchar' },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
         ],

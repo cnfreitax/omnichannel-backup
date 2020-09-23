@@ -109,7 +109,7 @@ export default class HandleClientMessageService {
   private async checkApiToken(): Promise<void> {
     const token = await this.authApi.findToken();
     if (token) {
-      const tokenDateFormat = Date.parse(token.validate);
+      const tokenDateFormat = Date.parse(token.validade);
       const expiredToken = isAfter(tokenDateFormat, new Date());
       if (expiredToken) {
         const newToken = await this.loginApi.login({ login: String(process.env.API_USERNAME), password: String(process.env.API_PASSWORD) });

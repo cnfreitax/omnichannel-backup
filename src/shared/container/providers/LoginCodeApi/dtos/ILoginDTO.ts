@@ -5,5 +5,5 @@ export interface ILoginDTO {
 
 export interface ResponseLogin {
   token: string;
-  validate: string;
+  validade: string;
 }
