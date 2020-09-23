@@ -25,16 +25,20 @@ export default class CreateMediaContainerService {
       throw new AppError('Company not found');
     }
 
-    if (containerData.from) {
-      const parentContainer = await this.containerRepository.findById(containerData.from);
+    if (containerInfo.from) {
+      const parentContainer = await this.containerRepository.findById(containerInfo.from);
 
       if (!parentContainer) {
         throw new AppError('Parent message does not exist');
       }
     }
 
-    if (containerData.type !== ContainerType.MEDIA) {
+    if (containerInfo.type !== ContainerType.MEDIA) {
       throw new AppError('Wrong message type');
+    }
+
+    if (!containerInfo.mediaFileName) {
+      throw new AppError('Missing media file');
     }
 
     const fileName = await this.storageProvider.saveFile(containerInfo.mediaFileName);
