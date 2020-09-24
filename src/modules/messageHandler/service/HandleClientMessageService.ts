@@ -60,6 +60,7 @@ export default class HandleClientMessageService {
   public async messagesToSend(messageFromDatabase: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     let messageDescription = messageFromDatabase.description;
 
+    console.log(messageFromDatabase);
     if (messageFromDatabase.type === ContainerType.MENU) {
       if (messageFromDatabase.content.options) {
         messageFromDatabase.content.options.forEach((option, index) => {
