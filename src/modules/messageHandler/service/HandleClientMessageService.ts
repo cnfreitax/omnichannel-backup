@@ -10,7 +10,6 @@ import Customer from '@modules/customer/infra/typeorm/entities/Customer';
 import Company from '@modules/company/infra/typeorm/entities/Company';
 import isNumeric from '@shared/utils/isNumeric';
 import ILoginProvider from '@shared/container/providers/LoginCodeApi/models/ILoginProvider';
-import { isAfter } from 'date-fns';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
 import ICustomerStageRepository from '../repository/ICustomerStage';
 import { IAuthCodeApi } from '../repository/IAuthCodeApi';
@@ -106,31 +105,22 @@ export default class HandleClientMessageService {
     return message;
   }
 
-  private async checkApiToken(): Promise<void> {
-    const token = await this.authApi.findToken();
-    if (token) {
-      const tokenDateFormat = Date.parse(token.validade);
-      const expiredToken = isAfter(new Date(), tokenDateFormat);
-      if (expiredToken) {
-        const newToken = await this.loginApi.login({ login: String(process.env.API_USERNAME), password: String(process.env.API_PASSWORD) });
-        this.token = newToken.token;
-        await this.authApi.updateToken(newToken);
-      } else {
-        this.token = token.token;
-      }
-    } else {
-      const newToken = await this.loginApi.login({ login: String(process.env.API_USERNAME), password: String(process.env.API_PASSWORD) });
-      this.token = newToken.token;
-      await this.authApi.updateToken(newToken);
-    }
-  }
-
   public async execute(data: IClientMessageDTO): Promise<void> {
-    await this.checkApiToken();
-
     let customer;
     let message;
     let currentStage;
+
+    const tokenValidate = await this.authApi.checkTokenValidate();
+    if (!tokenValidate) {
+      const newToken = await this.loginApi.login({ login: String(process.env.API_USERNAME), password: String(process.env.API_PASSWORD) });
+      this.token = newToken.token;
+    } else {
+      const validToken = await this.authApi.findToken();
+      if (!validToken) {
+        throw new AppError('Token not found');
+      }
+      this.token = validToken.token;
+    }
 
     const company = await this.companyRepository.findByCodCampaign(data.codCampaign);
     if (!company) {
@@ -163,9 +153,6 @@ export default class HandleClientMessageService {
     }
 
     const messagesToSend = await this.readMessageFromDatabase(message.id, customer, company);
-
-    console.log('MESSAGES', messagesToSend);
-
     await this.sendMessage.send(messagesToSend);
   }
 }

@@ -1,6 +1,6 @@
 import ICreateCustomerStageDTO from '@modules/messageHandler/dtos/ICreateCustomerStageDto';
 import ICustomerStageRepository from '@modules/messageHandler/repository/ICustomerStage';
-import { Repository, getRepository, DeleteResult } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import CustomerStage from '../entities/CustomerStage';
 
 export default class CustomerStageRepository implements ICustomerStageRepository {
