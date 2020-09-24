@@ -9,6 +9,7 @@ import { ISendMessageDTO } from '@shared/container/providers/MessageProvider/dto
 import Customer from '@modules/customer/infra/typeorm/entities/Customer';
 import Company from '@modules/company/infra/typeorm/entities/Company';
 import isNumeric from '@shared/utils/isNumeric';
+import IUploadMediaProvider from '@shared/container/providers/UploadMediaProvider/models/IUploadMediaProvider';
 import ILoginProvider from '@shared/container/providers/LoginCodeApi/models/ILoginProvider';
 import { isAfter } from 'date-fns';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
@@ -18,6 +19,9 @@ import { IAuthCodeApi } from '../repository/IAuthCodeApi';
 @injectable()
 export default class HandleClientMessageService {
   constructor(
+    @inject('UploadMediaProvider')
+    private uploadMediaProvider: IUploadMediaProvider,
+
     @inject('CompaniesRepository')
     private companyRepository: ICompanyRepository,
 
@@ -62,14 +66,45 @@ export default class HandleClientMessageService {
           messageDescription = messageDescription.concat(`\n${index + 1}. ${option.description}`);
         });
       }
-    }
 
-    this.messages.push({
-      token: this.token,
-      Telephone: customer.phone,
-      codCampaign: company.codCampaign,
-      Message: messageDescription,
-    });
+      this.messages.push({
+        token: this.token,
+        Telephone: customer.phone,
+        codCampaign: company.codCampaign,
+        Message: messageDescription,
+      });
+    } else if (messageFromDatabase.type === ContainerType.MEDIA) {
+      if (messageFromDatabase.content.media) {
+        let containerMedia = messageFromDatabase.content.media;
+        const mediaValidDate = Date.parse(containerMedia.validUntil);
+        const expiredMedia = isAfter(new Date(), mediaValidDate);
+
+        if (expiredMedia) {
+          const uploadedFileInfo = await this.uploadMediaProvider.upload(containerMedia.nomeArquivo);
+
+          messageFromDatabase.content = {
+            media: uploadedFileInfo,
+          };
+
+          messageFromDatabase = await this.containerRepository.save(messageFromDatabase);
+        }
+
+        this.messages.push({
+          token: this.token,
+          Telephone: customer.phone,
+          codCampaign: company.codCampaign,
+          Type: 'image',
+          idMedia: containerMedia.idMedia,
+        });
+      }
+    } else {
+      this.messages.push({
+        token: this.token,
+        Telephone: customer.phone,
+        codCampaign: company.codCampaign,
+        Message: messageDescription,
+      });
+    }
 
     if (messageFromDatabase.to && !messageFromDatabase.expects_input) {
       return this.readMessageFromDatabase(messageFromDatabase.to, customer, company);
