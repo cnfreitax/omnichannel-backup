@@ -1,7 +1,8 @@
+import IUploadedMediaDTO from '@shared/container/providers/UploadMediaProvider/dtos/IUploadedMediaDTO';
 import ICreateOptionDTO from './ICreateOptionDTO';
 
 export default interface IContentTypeDTO {
-  path?: string;
+  media?: IUploadedMediaDTO;
   options?: Array<ICreateOptionDTO>;
   link?: string;
 }

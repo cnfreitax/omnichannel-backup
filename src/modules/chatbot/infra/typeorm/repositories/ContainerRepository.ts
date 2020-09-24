@@ -31,8 +31,8 @@ class ContainerRepository implements IContainerRepository {
     return container;
   }
 
-  public async create({ company_id, description, type, from, to }: ISaveContainerDTO): Promise<Container> {
-    const container = this.ormRepository.create({ company_id, description, type, from: from || undefined, to: to || undefined });
+  public async create(data: ISaveContainerDTO): Promise<Container> {
+    const container = this.ormRepository.create(data);
 
     await this.ormRepository.save(container);
 
