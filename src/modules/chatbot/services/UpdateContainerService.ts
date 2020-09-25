@@ -54,7 +54,7 @@ export default class UpdateContainerService {
 
         container.content = { media: containerContent.media };
       } else if (container.type === ContainerType.API) {
-        if (!containerContent.link) {
+        if (!containerContent.api) {
           throw new AppError('Invalid content type');
         }
 
