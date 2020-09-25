@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import Axios from 'axios';
 import ICompanyRepository from '@modules/company/repositories/ICompanyRepository';
 import AppError from '@shared/errors/AppError';
 import ICustomerRepository from '@modules/customer/repository/ICustomerRepository';
@@ -15,6 +16,10 @@ import { isAfter } from 'date-fns';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
 import ICustomerStageRepository from '../repository/ICustomerStage';
 import { IAuthCodeApi } from '../repository/IAuthCodeApi';
+
+interface ApiInterface {
+  [key: string]: string;
+}
 
 @injectable()
 export default class HandleClientMessageService {
@@ -60,7 +65,6 @@ export default class HandleClientMessageService {
   public async messagesToSend(messageFromDatabase: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     let messageDescription = messageFromDatabase.description;
 
-    console.log(messageFromDatabase);
     if (messageFromDatabase.type === ContainerType.MENU) {
       if (messageFromDatabase.content.options) {
         messageFromDatabase.content.options.forEach((option, index) => {
@@ -137,6 +141,19 @@ export default class HandleClientMessageService {
           return this.containerRepository.findById(nextMessageId);
         }
       }
+    } else if (message.type === ContainerType.API) {
+      const apiInfo = message.content.api ? message.content.api : { url: '', param: '' };
+      const apiParam: ApiInterface = {};
+
+      if (apiInfo.param) {
+        apiParam[apiInfo.param] = userInput;
+      }
+
+      Axios.get(apiInfo.url, {
+        params: apiParam,
+      })
+        .then(resp => console.log(resp))
+        .catch(err => console.log(err));
     }
 
     return message;
