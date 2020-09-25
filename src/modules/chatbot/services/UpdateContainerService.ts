@@ -58,7 +58,7 @@ export default class UpdateContainerService {
           throw new AppError('Invalid content type');
         }
 
-        container.content = { link: containerContent.link };
+        container.content = { api: containerContent.api };
       } else if (container.type === ContainerType.MENU) {
         if (!containerContent.options) {
           throw new AppError('Invalid content type');
