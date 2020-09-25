@@ -152,7 +152,7 @@ export default class HandleClientMessageService {
       Axios.get(apiInfo.url, {
         params: apiParam,
       })
-        .then(resp => console.log(resp))
+        .then(resp => console.log(resp.data))
         .catch(err => console.log(err));
     }
 
