@@ -17,6 +17,8 @@ import ICustomerStageRepository from '@modules/messageHandler/repository/ICustom
 import CustomerStageRepository from '@modules/messageHandler/infra/typeorm/repository/CustomerStageRepository';
 import { IAuthCodeApi } from '@modules/messageHandler/repository/IAuthCodeApi';
 import AuthCodeApi from '@modules/messageHandler/infra/typeorm/repository/AuthCodeApi';
+import IAvailableUser from '@modules/user/repositories/IAvailableUser';
+import AvailableUserRepository from '@modules/user/infra/typeorm/repositories/AvailableUserRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<ICompanyRepository>('CompaniesRepository', CompaniesRepository);
@@ -26,3 +28,4 @@ container.registerSingleton<IContainerRepository>('ContainerRepository', Contain
 container.registerSingleton<ICustomerRepository>('CustomerRepository', CustomerRepository);
 container.registerSingleton<ICustomerStageRepository>('CustomerStageRepository', CustomerStageRepository);
 container.registerSingleton<IAuthCodeApi>('AuthCodeApi', AuthCodeApi);
+container.registerSingleton<IAvailableUser>('AvailableUser', AvailableUserRepository);

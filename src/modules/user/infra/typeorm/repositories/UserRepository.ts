@@ -1,8 +1,6 @@
 import { getRepository, Repository } from 'typeorm';
-
 import IUserRepository from '@modules/user/repositories/IUserRepository';
 import ICreateUserDTO from '@modules/user/dtos/ICreateUserDTO';
-
 import User from '@modules/user/infra/typeorm/entities/User';
 import IListUsersDTO from '@modules/user/dtos/IListUsersDTO';
 import ISearchUserDTO from '@modules/user/dtos/ISearchUsersDTO';
