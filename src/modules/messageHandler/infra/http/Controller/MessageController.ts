@@ -20,9 +20,11 @@ export default class MessageController {
   }
 
   public async status(req: Request, res: Response): Promise<Response> {
-    /* let bodyData = String(req.body);
+    let bodyData = String(req.body);
     bodyData = bodyData.replace(/'/g, '"');
-    const jsonData = JSON.parse(bodyData); */
+    const jsonData = JSON.parse(bodyData);
+
+    console.log('STATUS', jsonData);
 
     return res.send(200);
   }
