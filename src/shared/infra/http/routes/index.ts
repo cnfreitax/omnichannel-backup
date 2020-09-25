@@ -10,7 +10,7 @@ const routesList = [chatbotRoutes, userRoutes, companyRouter];
 messageRouter.get('/', (req: Request, res: Response) => {
   const query = req.query;
   console.log(query);
-  return res.json({ message: 'WUBALUBADUDUB' });
+  return res.json({ description: 'WUBALUBADUDUB' });
 });
 router.use('/', messageRouter);
 for (const route of routesList) {
