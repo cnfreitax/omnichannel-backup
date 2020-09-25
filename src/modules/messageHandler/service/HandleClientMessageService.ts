@@ -153,7 +153,7 @@ export default class HandleClientMessageService {
 
       await Axios.get(apiInfo.url, {
         params: {
-          apiParam,
+          ...apiParam,
         },
       })
         .then(resp => console.log(resp.data))
