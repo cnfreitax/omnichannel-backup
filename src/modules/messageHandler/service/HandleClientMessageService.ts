@@ -149,6 +149,8 @@ export default class HandleClientMessageService {
         apiParam[apiInfo.param] = userInput;
       }
 
+      console.log(apiParam);
+
       Axios.get(apiInfo.url, {
         params: apiParam,
       })
