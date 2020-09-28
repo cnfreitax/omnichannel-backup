@@ -119,11 +119,16 @@ describe('CreateContainerService', () => {
     const updatedContainer = await updateContainerService.execute({
       id: container.id,
       description: 'Ola como vai?',
-      content: { link: 'teste' },
+      content: {
+        api: {
+          url: 'fsafa',
+          param: 'faasfas',
+        },
+      },
     });
 
     expect(updatedContainer).toHaveProperty('id');
-    expect(updatedContainer.content).toHaveProperty('link');
+    expect(updatedContainer.content).toHaveProperty('api');
     expect(updatedContainer.type).toEqual(ContainerType.API);
   });
 
@@ -139,11 +144,17 @@ describe('CreateContainerService', () => {
     const updatedContainer = await updateContainerService.execute({
       id: container.id,
       description: 'Ola como vai?',
-      content: { path: 'teste' },
+      content: {
+        media: {
+          idMedia: '123',
+          nomeArquivo: 'aaa',
+          validUntil: '2132',
+        },
+      },
     });
 
     expect(updatedContainer).toHaveProperty('id');
-    expect(updatedContainer.content).toHaveProperty('path');
+    expect(updatedContainer.content).toHaveProperty('media');
     expect(updatedContainer.type).toEqual(ContainerType.MEDIA);
   });
 
@@ -160,7 +171,13 @@ describe('CreateContainerService', () => {
       updateContainerService.execute({
         id: container.id,
         description: 'Ola como vai?',
-        content: { path: 'teste' },
+        content: {
+          media: {
+            idMedia: '123',
+            nomeArquivo: 'aaa',
+            validUntil: '2132',
+          },
+        },
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -178,7 +195,12 @@ describe('CreateContainerService', () => {
       updateContainerService.execute({
         id: container.id,
         description: 'Ola como vai?',
-        content: { link: 'teste' },
+        content: {
+          api: {
+            url: 'fsafa',
+            param: 'faasfas',
+          },
+        },
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

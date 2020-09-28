@@ -38,7 +38,7 @@ export default {
   config: {
     disk: {},
     aws: {
-      bucket: 'app-gobarber-jingows',
+      bucket: 'omnichannel-union',
     },
   },
 } as IUploaderConfig;
