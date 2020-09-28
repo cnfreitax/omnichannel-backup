@@ -19,6 +19,8 @@ import { IAuthCodeApi } from '@modules/messageHandler/repository/IAuthCodeApi';
 import AuthCodeApi from '@modules/messageHandler/infra/typeorm/repository/AuthCodeApi';
 import IAvailableUser from '@modules/user/repositories/IAvailableUser';
 import AvailableUserRepository from '@modules/user/infra/typeorm/repositories/AvailableUserRepository';
+import IChatlineRepository from '@modules/chat/repository/IChatlineRepository';
+import ChatlineRepository from '@modules/chat/infra/typeorm/repository/ChatlineRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<ICompanyRepository>('CompaniesRepository', CompaniesRepository);
@@ -29,3 +31,4 @@ container.registerSingleton<ICustomerRepository>('CustomerRepository', CustomerR
 container.registerSingleton<ICustomerStageRepository>('CustomerStageRepository', CustomerStageRepository);
 container.registerSingleton<IAuthCodeApi>('AuthCodeApi', AuthCodeApi);
 container.registerSingleton<IAvailableUser>('AvailableUser', AvailableUserRepository);
+container.registerSingleton<IChatlineRepository>('ChatlineRepository', ChatlineRepository);

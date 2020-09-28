@@ -13,6 +13,7 @@ import Company from '@modules/company/infra/typeorm/entities/Company';
 import isNumeric from '@shared/utils/isNumeric';
 import IUploadMediaProvider from '@shared/container/providers/UploadMediaProvider/models/IUploadMediaProvider';
 import ILoginProvider from '@shared/container/providers/LoginCodeApi/models/ILoginProvider';
+import IChatlineRepository from '@modules/chat/repository/IChatlineRepository';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
 import ICustomerStageRepository from '../repository/ICustomerStage';
 import { IAuthCodeApi } from '../repository/IAuthCodeApi';
@@ -39,6 +40,9 @@ export default class HandleClientMessageService {
     @inject('ContainerRepository')
     private containerRepository: IContainerRepository,
 
+    @inject('ChatlineRepository')
+    private chatlineRepository: IChatlineRepository,
+
     @inject('SendMessage')
     private sendMessage: IMessageProvider,
 
@@ -54,6 +58,17 @@ export default class HandleClientMessageService {
   private apiMessagesToSend: string[] = [];
 
   private token: string;
+
+  public async checkCustomerExistsInChatline(customer: Customer, company: Company): Promise<void> {
+    let chatline = this.chatlineRepository.findChatline(company.id, customer.id);
+
+    if (!chatline) {
+      this.chatlineRepository.create({
+        company_id: company.id,
+        customer_id: customer.id,
+      });
+    }
+  }
 
   public async readMessageFromDatabase(container_id: number, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     const container = await this.containerRepository.findById(container_id);
@@ -117,6 +132,15 @@ export default class HandleClientMessageService {
           idMedia: containerMedia.idMedia,
         });
       }
+    } else if (messageFromDatabase.type === ContainerType.CHAT) {
+      this.messages.push({
+        token: this.token,
+        Telephone: customer.phone,
+        codCampaign: company.codCampaign,
+        Message: 'Por favor aguarde. Um de nossos atendentes falará com você em breve',
+      });
+
+      this.addCustomerToChatLine(customer, company);
     } else {
       this.messages.push({
         token: this.token,
