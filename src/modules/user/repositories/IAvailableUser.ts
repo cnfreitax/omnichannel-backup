@@ -7,4 +7,5 @@ export default interface IAvailableUser {
   find(user_id: string, company_id: string): Promise<Available | undefined>;
   save(user: Available): Promise<void>;
   delete(user_id: number): Promise<void>;
+  listAttendants(company_id: number): Promise<Available[]>;
 }

@@ -24,6 +24,7 @@ export default class Attendants1600974222258 implements MigrationInterface {
           {
             name: 'available',
             type: 'boolean',
+            default: 1,
           },
           {
             name: 'created_at',

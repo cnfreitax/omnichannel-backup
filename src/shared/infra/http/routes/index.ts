@@ -3,9 +3,10 @@ import chatbotRoutes from '@modules/chatbot/infra/http/routes';
 import userRoutes from '@modules/user/infra/http/routes';
 import companyRouter from '@modules/company/infra/http/routes';
 import messageRouter from '@modules/messageHandler/infra/http/routes/message.routes';
+import chatRouter from '@modules/chat/infra/http/routes';
 
 const router = Router();
-const routesList = [chatbotRoutes, userRoutes, companyRouter];
+const routesList = [chatbotRoutes, userRoutes, companyRouter, chatRouter];
 
 messageRouter.get('/', (req: Request, res: Response) => {
   const query = req.query;

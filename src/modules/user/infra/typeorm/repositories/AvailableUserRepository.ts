@@ -38,4 +38,9 @@ export default class AvailableUserRepository implements IAvailableUser {
     }
     await this.ormRepository.delete(user.id);
   }
+
+  public async listAttendants(company_id: number): Promise<Available[]> {
+    const users = await this.ormRepository.find({ where: { company_id } });
+    return users;
+  }
 }
