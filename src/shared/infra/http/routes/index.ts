@@ -7,6 +7,7 @@ import messageRouter from '@modules/messageHandler/infra/http/routes/message.rou
 const router = Router();
 const routesList = [chatbotRoutes, userRoutes, companyRouter];
 
+// TODO DELETE TEST ROUTE LATER
 messageRouter.get('/', (req: Request, res: Response) => {
   const query = req.query;
   console.log(query);
