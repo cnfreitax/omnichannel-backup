@@ -1,3 +1,4 @@
+import { isAfter } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 import Axios from 'axios';
 import ICompanyRepository from '@modules/company/repositories/ICompanyRepository';
@@ -50,6 +51,8 @@ export default class HandleClientMessageService {
 
   private messages: ISendMessageDTO[] = [];
 
+  private apiMessagesToSend: string[] = [];
+
   private token: string;
 
   public async readMessageFromDatabase(container_id: number, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
@@ -63,6 +66,19 @@ export default class HandleClientMessageService {
 
   public async messagesToSend(messageFromDatabase: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     let messageDescription = messageFromDatabase.description;
+
+    if (this.apiMessagesToSend.length > 0) {
+      this.apiMessagesToSend.forEach(apiMessage => {
+        this.messages.push({
+          token: this.token,
+          Telephone: customer.phone,
+          codCampaign: company.codCampaign,
+          Message: apiMessage,
+        });
+      });
+
+      this.apiMessagesToSend = [];
+    }
 
     if (messageFromDatabase.type === ContainerType.MENU) {
       if (messageFromDatabase.content.options) {
@@ -148,15 +164,18 @@ export default class HandleClientMessageService {
         apiParam[apiInfo.param] = userInput;
       }
 
-      console.log(apiParam);
-
       await Axios.get(apiInfo.url, {
         params: {
           ...apiParam,
         },
       })
-        .then(resp => console.log(resp.data))
-        .catch(err => console.log(err));
+        .then(resp => {
+          this.apiMessagesToSend.push(resp.data.description);
+          return this.containerRepository.findById(message.to);
+        })
+        .catch(err => {
+          throw new AppError('Unable to contact api');
+        });
     }
 
     return message;
