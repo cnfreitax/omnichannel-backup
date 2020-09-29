@@ -22,7 +22,7 @@ export default class AvailableUserRepository implements IAvailableUser {
     return user;
   }
 
-  public async find(company_id: string, user_id: string): Promise<Available | undefined> {
+  public async find(company_id: number, user_id: number): Promise<Available | undefined> {
     const user = await this.ormRepository.findOne({ where: { company_id, user_id } });
     return user;
   }

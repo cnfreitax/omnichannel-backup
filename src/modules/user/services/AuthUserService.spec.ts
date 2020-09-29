@@ -3,9 +3,11 @@ import FakeHashProvider from '@modules/user/providers/HashProvider/fakes/FakeHas
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 import CreateUserService from './CreateUserService';
 import AuthUser from './AuthUserService';
+import FakeAvailableUserRepository from '../repositories/fakes/FakeAvailableUserRepository';
 
 let fakeUserRepository: FakeUserRepository;
 let fakeHashProvider: FakeHashProvider;
+let fakeAvailable: FakeAvailableUserRepository;
 let authUser: AuthUser;
 let createUser: CreateUserService;
 
@@ -13,7 +15,8 @@ describe('User SignUp', () => {
   beforeEach(() => {
     fakeUserRepository = new FakeUserRepository();
     fakeHashProvider = new FakeHashProvider();
-    authUser = new AuthUser(fakeUserRepository, fakeHashProvider);
+    fakeAvailable = new FakeAvailableUserRepository();
+    authUser = new AuthUser(fakeUserRepository, fakeHashProvider, fakeAvailable);
     createUser = new CreateUserService(fakeUserRepository, fakeHashProvider);
   });
 

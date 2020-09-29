@@ -7,7 +7,7 @@ import ICustomerRepository from '@modules/customer/repository/ICustomerRepositor
 import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
 import Containers, { ContainerType } from '@modules/chatbot/infra/typeorm/entities/Container';
 import IMessageProvider from '@shared/container/providers/MessageProvider/models/IMessageProvider';
-import { ISendMessageDTO } from '@shared/container/providers/MessageProvider/dtos/ISendDTO';
+import { ISendMessageDTO } from '@shared/container/providers/MessageProvider/dtos/ISendMessageDTO';
 import Customer from '@modules/customer/infra/typeorm/entities/Customer';
 import Company from '@modules/company/infra/typeorm/entities/Company';
 import isNumeric from '@shared/utils/isNumeric';
