@@ -11,6 +11,12 @@ export default class Chatline {
   @Column()
   customer_id: number;
 
+  @Column()
+  attendant_id: number;
+
+  @Column()
+  is_attended: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
