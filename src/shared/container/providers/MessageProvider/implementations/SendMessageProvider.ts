@@ -1,5 +1,6 @@
 import Axios from 'axios';
-import { ISendMessageDTO } from '../dtos/ISendDTO';
+import { ISendMessageDTO } from '../dtos/ISendMessageDTO';
+import { ISendAttendantMessageDTO } from '../dtos/ISendAttendantMessageDTO';
 import IMessageProvider from '../models/IMessageProvider';
 
 export default class SendMessageProvider implements IMessageProvider {
@@ -14,5 +15,11 @@ export default class SendMessageProvider implements IMessageProvider {
     });
 
     await Axios.post(process.env.WEB_HOOK_RESPONSE || 'default', messagesToSend);
+  }
+
+  public async sendToAttendant(data: ISendAttendantMessageDTO): Promise<void> {
+    let messageToSend = data;
+
+    await Axios.post(process.env.UNION_CHAT || 'default', messageToSend);
   }
 }

@@ -59,15 +59,21 @@ export default class HandleClientMessageService {
 
   private token: string;
 
-  public async checkCustomerExistsInChatline(customer: Customer, company: Company): Promise<void> {
-    let chatline = this.chatlineRepository.findChatline(company.id, customer.id);
+  public async checkCustomerExistsInChatline(customer: Customer, company: Company, customer_message: string): Promise<void> {
+    let clientInChatline = await this.chatlineRepository.findChatline(company.id, customer.id);
 
-    if (!chatline) {
-      this.chatlineRepository.create({
-        company_id: company.id,
-        customer_id: customer.id,
-      });
+    if (clientInChatline) {
+      if (clientInChatline.is_attended) {
+        this.sendMessage.sendToAttendant({ Message: customer_message, Telephone: customer.phone });
+      }
     }
+  }
+
+  public async addCustomerToChatline(customer: Customer, company: Company): Promise<void> {
+    await this.chatlineRepository.create({
+      company_id: company.id,
+      customer_id: customer.id,
+    });
   }
 
   public async readMessageFromDatabase(container_id: number, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
@@ -140,7 +146,7 @@ export default class HandleClientMessageService {
         Message: 'Por favor aguarde. Um de nossos atendentes falará com você em breve',
       });
 
-      this.addCustomerToChatLine(customer, company);
+      this.addCustomerToChatline(customer, company);
     } else {
       this.messages.push({
         token: this.token,
@@ -231,6 +237,8 @@ export default class HandleClientMessageService {
     if (!customer) {
       customer = await this.customerRepository.create({ phone: data.Telephone });
     }
+
+    await this.checkCustomerExistsInChatline(customer, company, data.message);
 
     currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
     if (!currentStage) {
