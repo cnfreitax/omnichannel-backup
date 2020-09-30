@@ -34,4 +34,13 @@ export default class CustomerStageRepository implements IChatlineRepository {
     const chat = await this.ormRepository.findOne({ where: { attendant_id: attendantId } });
     return chat;
   }
+
+  public async findById(id: number): Promise<Chatline | undefined> {
+    const chat = await this.ormRepository.findOne({ where: { id } });
+    return chat;
+  }
+
+  public async save(chat: Chatline): Promise<Chatline> {
+    return this.ormRepository.save(chat);
+  }
 }
