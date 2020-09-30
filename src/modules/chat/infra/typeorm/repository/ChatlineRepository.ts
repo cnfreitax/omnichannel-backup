@@ -29,4 +29,18 @@ export default class CustomerStageRepository implements IChatlineRepository {
   public async deleteChatline(chatline_id: number): Promise<void> {
     await this.ormRepository.delete(chatline_id);
   }
+
+  public async findByAttendant(attendantId: number): Promise<Chatline | undefined> {
+    const chat = await this.ormRepository.findOne({ where: { attendant_id: attendantId } });
+    return chat;
+  }
+
+  public async findById(id: number): Promise<Chatline | undefined> {
+    const chat = await this.ormRepository.findOne({ where: { id } });
+    return chat;
+  }
+
+  public async save(chat: Chatline): Promise<Chatline> {
+    return this.ormRepository.save(chat);
+  }
 }
