@@ -7,8 +7,9 @@ export default class ChatMenagerController {
   public async create(req: Request, res: Response): Promise<Response> {
     const attendantId = req.user.id;
     const { chatId } = req.body;
+    const chatIdFormat = Number(chatId);
     const selectChat = container.resolve(SelectChatService);
-    await selectChat.execute({ attendantId, chatId });
+    await selectChat.execute({ attendantId, chatId: chatIdFormat });
     return res.send(200).json(selectChat);
   }
 
