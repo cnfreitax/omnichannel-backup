@@ -9,6 +9,8 @@ export default class ChatMenagerController {
     const { chatId } = req.body;
     const chatIdFormat = Number(chatId);
     const attendantIdFormat = Number(attendantId);
+
+    console.log(chatIdFormat, attendantIdFormat);
     const selectChat = container.resolve(SelectChatService);
     await selectChat.execute({ attendantId: attendantIdFormat, chatId: chatIdFormat });
     return res.send(200).json(selectChat);
