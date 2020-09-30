@@ -25,6 +25,8 @@ export default class SelectChatService {
       throw new AppError('Error, try again');
     }
 
+    console.log(chatSelected, attendant);
+
     chatSelected.attendant_id = attendantId;
     chatSelected.is_attended = true;
     await this.chatlineRepository.save(chatSelected);
