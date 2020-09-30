@@ -10,11 +10,11 @@ export default class CustomerStageRepository implements IChatlineRepository {
     this.ormRepository = getRepository(Chatline);
   }
 
-  public async findChatline(company_id: number, chatline_id: number): Promise<Chatline | undefined> {
+  public async findChatline(company_id: number, customer_id: number): Promise<Chatline | undefined> {
     const chatline = await this.ormRepository.findOne({
       where: {
         company_id,
-        chatline_id,
+        customer_id,
       },
     });
     return chatline;
