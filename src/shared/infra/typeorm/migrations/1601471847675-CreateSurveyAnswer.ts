@@ -21,7 +21,7 @@ export class CreateSurveyAnswer1601471847675 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'ChatCompany',
+            name: 'SurveyCompany',
             referencedTableName: 'companies',
             referencedColumnNames: ['id'],
             columnNames: ['company_id'],
@@ -29,7 +29,7 @@ export class CreateSurveyAnswer1601471847675 implements MigrationInterface {
             onUpdate: 'CASCADE',
           },
           {
-            name: 'ChatCustomer',
+            name: 'SurveyCustomer',
             referencedTableName: 'customers',
             referencedColumnNames: ['id'],
             columnNames: ['customer_id'],
