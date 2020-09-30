@@ -7,13 +7,14 @@ import ICustomerRepository from '@modules/customer/repository/ICustomerRepositor
 import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
 import Containers, { ContainerType } from '@modules/chatbot/infra/typeorm/entities/Container';
 import IMessageProvider from '@shared/container/providers/MessageProvider/models/IMessageProvider';
-import { ISendMessageDTO } from '@shared/container/providers/MessageProvider/dtos/ISendDTO';
+import { ISendMessageDTO } from '@shared/container/providers/MessageProvider/dtos/ISendMessageDTO';
 import Customer from '@modules/customer/infra/typeorm/entities/Customer';
 import Company from '@modules/company/infra/typeorm/entities/Company';
 import isNumeric from '@shared/utils/isNumeric';
 import IUploadMediaProvider from '@shared/container/providers/UploadMediaProvider/models/IUploadMediaProvider';
 import ILoginProvider from '@shared/container/providers/LoginCodeApi/models/ILoginProvider';
 import IChatlineRepository from '@modules/chat/repository/IChatlineRepository';
+import ISurveyAnswerRepository from '@modules/chatbot/repositories/ISurveyAnswerRepository';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
 import ICustomerStageRepository from '../repository/ICustomerStage';
 import { IAuthCodeApi } from '../repository/IAuthCodeApi';
@@ -51,6 +52,9 @@ export default class HandleClientMessageService {
 
     @inject('LoginAPI')
     private loginApi: ILoginProvider,
+
+    @inject('SurveyAnswerRepository')
+    private surveyAnswerRepository: ISurveyAnswerRepository,
   ) {}
 
   private messages: ISendMessageDTO[] = [];
@@ -174,11 +178,11 @@ export default class HandleClientMessageService {
     return this.messages;
   }
 
-  public async checkUserInput(message: Containers, userInput: string): Promise<Containers | undefined> {
+  public async checkUserInput(message: Containers, userInput: IClientMessageDTO): Promise<Containers | undefined> {
     if (message.type === ContainerType.MENU) {
-      if (isNumeric(userInput)) {
+      if (isNumeric(userInput.message)) {
         const menuOptions = message.content.options ? message.content.options : [];
-        const userChosenOption = Number(userInput);
+        const userChosenOption = Number(userInput.message);
 
         if (userChosenOption > 0 && userChosenOption <= menuOptions.length) {
           const nextMessageId = menuOptions[userChosenOption - 1].container_id;
@@ -191,7 +195,7 @@ export default class HandleClientMessageService {
       const apiParam: ApiInterface = {};
 
       if (apiInfo.param) {
-        apiParam[apiInfo.param] = userInput;
+        apiParam[apiInfo.param] = userInput.message;
       }
 
       await Axios.get(apiInfo.url, {
@@ -206,6 +210,24 @@ export default class HandleClientMessageService {
         .catch(err => {
           throw new AppError('Unable to contact api');
         });
+    } else if (message.type === ContainerType.SURVEY) {
+      if (isNumeric(userInput.message)) {
+        const userAnswer = Number(userInput.message);
+        const customer = await this.customerRepository.findByPhone(userInput.Telephone);
+        const company = await this.companyRepository.findByCodCampaign(userInput.codCampaign);
+
+        if (!customer || !company) {
+          throw new AppError('Error finding message');
+        }
+
+        await this.surveyAnswerRepository.create({
+          company_id: company.id,
+          customer_id: customer.id,
+          survey_answer: userAnswer,
+        });
+
+        return this.containerRepository.findById(message.to);
+      }
     }
 
     return message;
@@ -252,7 +274,7 @@ export default class HandleClientMessageService {
       if (!message) {
         throw new AppError('Container not found');
       } else if (message.expects_input) {
-        message = await this.checkUserInput(message, data.message);
+        message = await this.checkUserInput(message, data);
 
         if (!message) {
           throw new AppError('No next container');

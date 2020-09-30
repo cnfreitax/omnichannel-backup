@@ -12,6 +12,8 @@ import OptionRepository from '@modules/chatbot/infra/typeorm/repositories/Option
 import IContainerRepository from '@modules/chatbot/repositories/IContainerRepository';
 import ContainerRepository from '@modules/chatbot/infra/typeorm/repositories/ContainerRepository';
 import ICustomerRepository from '@modules/customer/repository/ICustomerRepository';
+import SurveyAnswerRepository from '@modules/chatbot/infra/typeorm/repositories/SurveyAnswerRepository';
+import ISurveyAnswerRepository from '@modules/chatbot/repositories/ISurveyAnswerRepository';
 import CustomerRepository from '@modules/customer/infra/typeorm/repository/CustomerRepository';
 import ICustomerStageRepository from '@modules/messageHandler/repository/ICustomerStage';
 import CustomerStageRepository from '@modules/messageHandler/infra/typeorm/repository/CustomerStageRepository';
@@ -32,3 +34,4 @@ container.registerSingleton<ICustomerStageRepository>('CustomerStageRepository',
 container.registerSingleton<IAuthCodeApi>('AuthCodeApi', AuthCodeApi);
 container.registerSingleton<IAvailableUser>('AvailableUser', AvailableUserRepository);
 container.registerSingleton<IChatlineRepository>('ChatlineRepository', ChatlineRepository);
+container.registerSingleton<ISurveyAnswerRepository>('SurveyAnswerRepository', SurveyAnswerRepository);
