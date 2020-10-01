@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { Segments, Joi, celebrate } from 'celebrate';
 import ensureAuthenticated from '@modules/user/infra/http/middlewares/ensureAuthenticated';
-import chatManagerController from '../controller/chatManagerController';
+import ChatManagerController from '../controller/ChatManagerController';
 
-const chatManagerController = new chatManagerController();
+const chatManagerController = new ChatManagerController();
 const chatManagerRouter = Router();
 chatManagerRouter.use(ensureAuthenticated);
 
