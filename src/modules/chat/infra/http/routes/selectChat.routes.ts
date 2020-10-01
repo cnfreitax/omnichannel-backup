@@ -20,7 +20,7 @@ chatMenagerRouter.put(
 chatMenagerRouter.delete(
   '/',
   celebrate({
-    [Segments.PARAMS]: {
+    [Segments.BODY]: {
       chatId: Joi.string().required(),
     },
   }),

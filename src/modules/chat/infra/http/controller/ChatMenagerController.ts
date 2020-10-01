@@ -15,7 +15,7 @@ export default class ChatMenagerController {
   }
 
   public async delete(req: Request, res: Response): Promise<Response> {
-    const { chatId } = req.params;
+    const { chatId } = req.body;
     const chatIdFormat = Number(chatId);
     const selectChat = container.resolve(ExitChatService);
 
