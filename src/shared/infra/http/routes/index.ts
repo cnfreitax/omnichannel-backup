@@ -10,10 +10,10 @@ const router = Router();
 const routesList = [chatbotRoutes, userRoutes, companyRouter, chatRouter];
 
 // TODO DELETE TEST ROUTE LATER
-messageRouter.get('/', (req: Request, res: Response) => {
-  const query = req.query;
-  console.log(query);
-  return res.json({ description: 'Message de teste para teste api' });
+messageRouter.post('/', (req: Request, res: Response) => {
+  const data = req.body;
+  console.log(data);
+  return res.json({ description: 'ok' });
 });
 router.use('/', messageRouter);
 router.use('/', messageChatRouter);
