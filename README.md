@@ -1,6 +1,25 @@
 # UNION OMNICHANNEL
 
-**Ambiente de teste ->** **_https://omnichannel-union.herokuapp.com_**
+**Ambiente de teste em nuvem ->** **_https://omnichannel-union.herokuapp.com_** (Cujo o webhook está registrado na Code7 atualmente)
+
+# Instalação de dependencias e rodar o sistema
+
+NODEJS - https://nodejs.org/en/ (v12.18.3)
+YARN - https://yarnpkg.com/getting-started (v1.22.4)
+
+Com o NODEJS e o YARN instalado rodar dentro da pasta do projeto
+
+`yarn`
+
+Fazendo isso ocorrerá a instalação das dependencias do sistema, assim podemos rodar o sistema localmente
+
+`yarn dev:server`
+
+Esse comando fará com o sistema comece a rodar na máquina local
+
+Podemos criar uma pasta de build para deploy em desenvolvimento de produção
+
+`yarn build`
 
 # ROTAS DISPONÍVEIS
 
