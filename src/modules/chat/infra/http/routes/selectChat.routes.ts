@@ -1,30 +1,30 @@
 import { Router } from 'express';
 import { Segments, Joi, celebrate } from 'celebrate';
 import ensureAuthenticated from '@modules/user/infra/http/middlewares/ensureAuthenticated';
-import ChatMenagerController from '../controller/ChatMenagerController';
+import chatManagerController from '../controller/chatManagerController';
 
-const chatMenagerController = new ChatMenagerController();
-const chatMenagerRouter = Router();
-chatMenagerRouter.use(ensureAuthenticated);
+const chatManagerController = new chatManagerController();
+const chatManagerRouter = Router();
+chatManagerRouter.use(ensureAuthenticated);
 
-chatMenagerRouter.put(
+chatManagerRouter.put(
   '/',
   celebrate({
     [Segments.BODY]: {
       chatId: Joi.string().required(),
     },
   }),
-  chatMenagerController.create,
+  chatManagerController.create,
 );
 
-chatMenagerRouter.delete(
+chatManagerRouter.delete(
   '/',
   celebrate({
     [Segments.BODY]: {
       chatId: Joi.string().required(),
     },
   }),
-  chatMenagerController.delete,
+  chatManagerController.delete,
 );
 
-export default chatMenagerRouter;
+export default chatManagerRouter;

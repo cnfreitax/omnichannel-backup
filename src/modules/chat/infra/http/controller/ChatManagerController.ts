@@ -3,7 +3,7 @@ import { container } from 'tsyringe';
 import SelectChatService from '@modules/chat/service/SelectChatService';
 import ExitChatService from '@modules/chat/service/ExitChatService';
 
-export default class ChatMenagerController {
+export default class chatManagerController {
   public async create(req: Request, res: Response): Promise<Response> {
     const attendantId = req.user.id;
     const { chatId } = req.body;
