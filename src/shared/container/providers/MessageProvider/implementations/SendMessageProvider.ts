@@ -20,7 +20,7 @@ export default class SendMessageProvider implements IMessageProvider {
   public async sendToAttendant(data: ISendAttendantMessageDTO): Promise<void> {
     let messageToSend = data;
 
-    // process.env.UNION_CHAT || 'default'
-    await Axios.post('https://omnichannel-union.herokuapp.com/', messageToSend);
+    // 'https://omnichannel-union.herokuapp.com/'
+    await Axios.post(process.env.UNION_CHAT || 'default', messageToSend);
   }
 }
