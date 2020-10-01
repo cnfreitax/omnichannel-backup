@@ -36,9 +36,9 @@ export default class HandleMessageChat {
 
     @inject('CustomerRepository')
     private customerRepository: ICustomerRepository,
-
-    private token: string,
   ) {}
+
+  private token: string;
 
   public async execute({ message, attendantId }: IRequest): Promise<void> {
     const attendant = await this.availableRepository.findById(attendantId);
