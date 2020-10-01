@@ -63,14 +63,16 @@ export default class HandleClientMessageService {
 
   private token: string;
 
-  public async checkCustomerExistsInChatline(customer: Customer, company: Company, customer_message: string): Promise<void> {
+  public async checkCustomerExistsInChatline(customer: Customer, company: Company, customer_message: string): Promise<boolean> {
     let clientInChatline = await this.chatlineRepository.findChatline(company.id, customer.id);
 
     if (clientInChatline) {
       if (clientInChatline.is_attended) {
-        this.sendMessage.sendToAttendant({ Message: customer_message, Telephone: customer.phone });
+        await this.sendMessage.sendToAttendant({ Message: customer_message, Telephone: customer.phone });
       }
+      return true;
     }
+    return false;
   }
 
   public async addCustomerToChatline(customer: Customer, company: Company): Promise<void> {
@@ -260,29 +262,30 @@ export default class HandleClientMessageService {
       customer = await this.customerRepository.create({ phone: data.Telephone });
     }
 
-    await this.checkCustomerExistsInChatline(customer, company, data.message);
+    const isInChat = await this.checkCustomerExistsInChatline(customer, company, data.message);
 
-    currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
-    if (!currentStage) {
-      message = await this.containerRepository.findExistingContainer({ company_id: company.id, type: ContainerType.GREETING });
-      if (!message) {
-        throw new AppError('Container not found');
-      }
-      currentStage = await this.customerStageRepository.create({ company_id: company.id, container_id: message.id, customer_id: customer.id });
-    } else {
-      message = await this.containerRepository.findById(currentStage.container_id);
-      if (!message) {
-        throw new AppError('Container not found');
-      } else if (message.expects_input) {
-        message = await this.checkUserInput(message, data);
-
+    if (!isInChat) {
+      currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
+      if (!currentStage) {
+        message = await this.containerRepository.findExistingContainer({ company_id: company.id, type: ContainerType.GREETING });
         if (!message) {
-          throw new AppError('No next container');
+          throw new AppError('Container not found');
+        }
+        currentStage = await this.customerStageRepository.create({ company_id: company.id, container_id: message.id, customer_id: customer.id });
+      } else {
+        message = await this.containerRepository.findById(currentStage.container_id);
+        if (!message) {
+          throw new AppError('Container not found');
+        } else if (message.expects_input) {
+          message = await this.checkUserInput(message, data);
+
+          if (!message) {
+            throw new AppError('No next container');
+          }
         }
       }
+      const messagesToSend = await this.readMessageFromDatabase(message.id, customer, company);
+      await this.sendMessage.send(messagesToSend);
     }
-
-    const messagesToSend = await this.readMessageFromDatabase(message.id, customer, company);
-    await this.sendMessage.send(messagesToSend);
   }
 }
