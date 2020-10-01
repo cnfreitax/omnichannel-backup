@@ -11,11 +11,13 @@ Com o NODEJS e o YARN instalado rodar dentro da pasta do projeto
 
 `yarn`
 
-Fazendo isso ocorrerá a instalação das dependencias do sistema, assim podemos rodar o sistema localmente
+Antes de poder rodar o sistema, deve se primeiro criar o banco de dados MySQL
+
+`yarn typeorm migration:run`
+
+Com o banco podemos agora iniciar localmente o sistema
 
 `yarn dev:server`
-
-Esse comando fará com o sistema comece a rodar na máquina local
 
 Podemos criar uma pasta de build para deploy em desenvolvimento de produção
 
@@ -27,7 +29,7 @@ Podemos criar uma pasta de build para deploy em desenvolvimento de produção
 
 _POST_ **/api/signup/:access_level ->** Rota para criação de usuário, deve ser passado o nível de acesso.
 
-- PARAMS: access_level (_Niveis de acesso disponiveis: adm, common_)
+- PARAMS: access*level (\_Niveis de acesso disponiveis: adm, common*)
 - BODY: {
   name: string,
   email: string,
@@ -65,7 +67,7 @@ _GET_ **/api/users/list-users/search ->** Retorna uma lista de usuarios com o no
 
 _PUT_ **/api/user-sector/:sector_id ->** Atualiza um usuário como sendo do setor da empresa especificada pelo id.
 
-- PARAMS: access_level (_Niveis de acesso disponiveis: adm, common_)
+- PARAMS: access*level (\_Niveis de acesso disponiveis: adm, common*)
 - HEADER: Authorization Bearer {token do usuario}
 - BODY: {
   user_id: string
@@ -78,13 +80,13 @@ _POST_ **/api/company ->** Rota para criação de empresa, somente um usuario ad
 - HEADER: Authorization Bearer {token do usuario adm}
 - BODY: {
   name: string,
-	cnpj: string,
-	email: string,
-	codCampaign: string,
-	activity: string,
-	ddd: string,
-	website: string,
-	address: string
+  cnpj: string,
+  email: string,
+  codCampaign: string,
+  activity: string,
+  ddd: string,
+  website: string,
+  address: string
   }
 
 _GET_ **/api/company ->** Rota para listar todas as empresas.
@@ -106,15 +108,15 @@ _PUT_ **/api/company/profile/:company_id ->** Rota para alteração de dados da 
 - PARAMS: company_id (Id da empresa que será alterada)
 - HEADER: Authorization Bearer {token do usuario adm}
 - BODY: Dados de empresa que serão alterados como
-{
+  {
   name: string,
-	cnpj: string,
-	email: string,
-	codCampaign: string,
-	activity: string,
-	ddd: string,
-	website: string,
-	address: string
+  cnpj: string,
+  email: string,
+  codCampaign: string,
+  activity: string,
+  ddd: string,
+  website: string,
+  address: string
   }
 
 ## Sector
@@ -125,7 +127,7 @@ _POST_ **/api/sector/:company_id ->** Rota para criação de setor de uma empres
 - HEADER: Authorization Bearer {token do usuario}
 - BODY: {
   label: string,
-	phone: string
+  phone: string
   }
 
 _GET_ **/api/sector/list/:company_id ->** Rota para listar todos os setores de uma empresa.
@@ -146,15 +148,15 @@ _POST_ **/api/greeting/:company_id ->** Rota para criação de uma mensagem de b
 - BODY: {
   description: string,
   type: greeting
-}
+  }
 
 _POST_ **/api/container/:company_id ->** Rota para criação de uma mensagem de chatbot para uma empresa.
 
 - PARAMS: company_id (Id da empresa que será criada a mensagem)
 - BODY: {
   description: string,
-  type: ContainerType (_Tipos disponiveis: message, media, api, survey, menu, chat, end\_chatbot_)
-}
+  type: ContainerType (_Tipos disponiveis: message, media, api, survey, menu, chat, end_chatbot_)
+  }
 
 _GET_ **/api/container/ ->** Rota para listar todas as mensagens de uma empresa.
 
@@ -164,9 +166,9 @@ _PUT_ **/api/container/:container_id ->** Rota para atualizar um container com n
 
 - PARAMS: container_id (Id da mensagem que será atualizada)
 - BODY: Podem ser atualizados dados como
-{
+  {
   to: string, from: string, content: JSON, expects_input: boolean, description: string
-}
+  }
 
 _PUT_ **/api/media/:company_id ->** Rota para carregar um arquivo para um container de media
 
@@ -174,7 +176,7 @@ _PUT_ **/api/media/:company_id ->** Rota para carregar um arquivo para um contai
 - MULTIPART FORMDATA {
   file (arquivo que será carregado),
   container_id: string (Id da mensagem de media)
-}
+  }
 
 ## Chatline
 
