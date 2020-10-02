@@ -8,4 +8,5 @@ export default interface IChatlineRepository {
   create(data: ICreateChatlineDTO): Promise<Chatline>;
   save(chataInfo: Chatline): Promise<Chatline>;
   findByAttendant(attendantId: number): Promise<Chatline | undefined>;
+  listAll(company_id: number): Promise<Chatline[]>;
 }

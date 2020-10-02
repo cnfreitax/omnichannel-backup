@@ -43,4 +43,8 @@ export default class CustomerStageRepository implements IChatlineRepository {
   public async save(chat: Chatline): Promise<Chatline> {
     return this.ormRepository.save(chat);
   }
+
+  public async listAll(company_id: number): Promise<Chatline[]> {
+    return this.ormRepository.find({ where: { company_id } });
+  }
 }
