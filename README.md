@@ -73,6 +73,10 @@ _PUT_ **/api/user-sector/:sector_id ->** Atualiza um usuário como sendo do seto
   user_id: string
   }
 
+   _DELETE_ **/api/logout/:user_id ->** Rota de logout para retirar o usuário atendente de sistema.
+- PARAMS: user_id (id do usuário que irá sofrer logout)
+- HEADER: Authorization Bearer {token do usuario}
+
 ## Company
 
 _POST_ **/api/company ->** Rota para criação de empresa, somente um usuario admin pode criar.
@@ -193,6 +197,11 @@ _DELETE_ **/api/select ->** Rota para que um usuario termine o seu chat atual
 - BODY: {
   chat_id: string
   }
+
+_GET_ **/api/chat ->** Rota para listar usuários em Chatline de uma empresa específica
+- HEADER: Authorization Bearer {token do usuario}
+- QUERY: company_id
+
 
 ## UNION MESSAGE
 
