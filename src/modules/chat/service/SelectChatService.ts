@@ -21,8 +21,9 @@ export default class SelectChatService {
   public async execute({ chatId, attendantId }: IRequest): Promise<Chatline> {
     const chatSelected = await this.chatlineRepository.findById(chatId);
     const attendant = await this.availableRepository.findById(attendantId);
+    console.log(attendant, chatSelected);
     if (!chatSelected || !attendant) {
-      throw new AppError('Error, try again');
+      throw new AppError('esse erro');
     }
 
     chatSelected.attendant_id = attendant.id;
