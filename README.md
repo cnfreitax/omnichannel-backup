@@ -2,6 +2,11 @@
 
 **Ambiente de teste em nuvem ->** **_https://omnichannel-union.herokuapp.com_** (Cujo o webhook está registrado na Code7 atualmente)
 
+## Profiles to tests
+adm - victor@test.com
+common - comun@test.com
+
+
 # Instalação de dependencias e rodar o sistema
 
 NODEJS - https://nodejs.org/en/ (v12.18.3)
