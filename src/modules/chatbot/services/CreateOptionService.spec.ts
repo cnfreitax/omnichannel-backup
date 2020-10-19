@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import CreateCompanyService from '@modules/company/services/CreateCompanyService';
 import FakeCompanyRepository from '@modules/company/repositories/fakes/FakeCompanyRepository';
 import ICreateCompanyDTO from '@modules/company/dtos/ICreateCompanyDTO';

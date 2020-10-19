@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import AppError from '@shared/errors/AppError';
 import CreateCompanyService from './CreateCompanyService';
 import UpdateCompanyService from './UpdateCompanyService';

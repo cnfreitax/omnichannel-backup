@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import AppError from '@shared/errors/AppError';
 import UpdateOptionService from './UpdateOptionService';
 import FakeOptionRepository from '../repositories/fakes/FakeOptionRepository';
