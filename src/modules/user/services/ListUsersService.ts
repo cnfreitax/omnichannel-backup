@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import IUserRepository from '../repositories/IUserRepository';
 import User from '../infra/typeorm/entities/User';
