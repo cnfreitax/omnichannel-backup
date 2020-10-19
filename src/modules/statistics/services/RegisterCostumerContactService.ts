@@ -1,0 +1,27 @@
+import 'reflect-metadata';
+import { ContactRecord } from '@modules/statistics/infra/typeorm/entities/Record';
+import { inject, injectable } from 'tsyringe';
+import { ICreateRecordDTO } from '../dtos/ICreateRecordDTO';
+import { IRecordRepository } from '../repository/IRecordRepository';
+
+@injectable()
+export default class RegisterCostumerContactService {
+  constructor(
+    @inject('RecordRepository')
+    private recordRepository: IRecordRepository,
+  ) {}
+
+  async execute({ chat_type, costumer_id, company_id, attendant_id, sector_id, initial_date, final_date }: ICreateRecordDTO): Promise<ContactRecord> {
+    const record = await this.recordRepository.create({
+      chat_type,
+      costumer_id,
+      company_id,
+      attendant_id,
+      sector_id,
+      initial_date,
+      final_date,
+    });
+
+    return record;
+  }
+}

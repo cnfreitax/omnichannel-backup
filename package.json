@@ -32,6 +32,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "git-commit-msg-linter": "^2.4.5",
     "jest": "^26.2.2",
+    "mockdate": "^3.0.2",
     "prettier": "^2.0.5",
     "supertest": "^4.0.2",
     "ts-jest": "^26.1.4",
