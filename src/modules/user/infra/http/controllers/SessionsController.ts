@@ -15,6 +15,6 @@ export default class SessionsController {
       password,
     });
 
-    return res.json({ company: classToClass(user), token });
+    return res.json({ user: classToClass(user), token });
   }
 }

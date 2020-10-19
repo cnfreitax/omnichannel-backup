@@ -3,8 +3,8 @@
 **Ambiente de teste em nuvem ->** **_https://omnichannel-union.herokuapp.com_** (Cujo o webhook está registrado na Code7 atualmente)
 
 ## Profiles to tests
-adm - victor@test.com
-common - common@test.com
+adm - adm@test.com
+common - comum-14@test.com
 
 
 # Instalação de dependencias e rodar o sistema
