@@ -4,7 +4,7 @@
 
 ## Profiles to tests
 adm - victor@test.com
-common - comun@test.com
+common - common@test.com
 
 
 # Instalação de dependencias e rodar o sistema
