@@ -12,6 +12,7 @@ listChatRouter.get(
   celebrate({
     [Segments.QUERY]: {
       company_id: Joi.number(),
+      sector_id: Joi.number(),
     },
   }),
   listChatController.index,
