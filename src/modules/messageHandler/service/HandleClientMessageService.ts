@@ -88,12 +88,7 @@ export default class HandleClientMessageService {
     });
   }
 
-  public async readMessageFromDatabase(container_id: number, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
-    const container = await this.containerRepository.findById(container_id);
-    if (!container) {
-      throw new AppError('No container found');
-    }
-
+  public async readMessageFromDatabase(container: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     return this.messagesToSend(container, customer, company);
   }
 
@@ -177,7 +172,7 @@ export default class HandleClientMessageService {
     }
 
     if (messageFromDatabase.to && !messageFromDatabase.expects_input) {
-      return this.readMessageFromDatabase(messageFromDatabase.to, customer, company);
+      return this.readMessageFromDatabase(messageFromDatabase, customer, company);
     }
 
     const currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
@@ -257,8 +252,10 @@ export default class HandleClientMessageService {
         if (!sector) {
           throw new AppError('Error finding sector');
         }
-        console.log(customer, company, sector);
         this.addCustomerToChatline(customer, company, sector);
+
+        message.description = 'Por favor aguarde um de nossos atendentes';
+        message.type = ContainerType.MESSAGE;
       }
     }
 
@@ -314,7 +311,7 @@ export default class HandleClientMessageService {
           }
         }
       }
-      const messagesToSend = await this.readMessageFromDatabase(message.id, customer, company);
+      const messagesToSend = await this.readMessageFromDatabase(message, customer, company);
       await this.sendMessage.send(messagesToSend);
     }
   }
