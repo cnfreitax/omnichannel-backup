@@ -88,12 +88,7 @@ export default class HandleClientMessageService {
     });
   }
 
-  public async readMessageFromDatabase(container_id: number, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
-    const container = await this.containerRepository.findById(container_id);
-    if (!container) {
-      throw new AppError('No container found');
-    }
-
+  public async readMessageFromDatabase(container: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     return this.messagesToSend(container, customer, company);
   }
 
@@ -259,6 +254,9 @@ export default class HandleClientMessageService {
         }
         console.log(customer, company, sector);
         this.addCustomerToChatline(customer, company, sector);
+
+        message.description = 'Por favor aguarde um de nossos atendentes';
+        message.type = ContainerType.MESSAGE;
       }
     }
 
@@ -314,7 +312,7 @@ export default class HandleClientMessageService {
           }
         }
       }
-      const messagesToSend = await this.readMessageFromDatabase(message.id, customer, company);
+      const messagesToSend = await this.readMessageFromDatabase(message, customer, company);
       await this.sendMessage.send(messagesToSend);
     }
   }
