@@ -257,7 +257,7 @@ export default class HandleClientMessageService {
         if (!sector) {
           throw new AppError('Error finding sector');
         }
-
+        console.log(customer, company, sector);
         this.addCustomerToChatline(customer, company, sector);
       }
     }
