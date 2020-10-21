@@ -88,10 +88,6 @@ export default class HandleClientMessageService {
     });
   }
 
-  public async readMessageFromDatabase(container: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
-    return this.messagesToSend(container, customer, company);
-  }
-
   public async messagesToSend(messageFromDatabase: Containers, customer: Customer, company: Company): Promise<Array<ISendMessageDTO>> {
     let messageDescription = messageFromDatabase.description;
 
@@ -178,7 +174,7 @@ export default class HandleClientMessageService {
         throw new AppError('Container not found');
       }
 
-      return this.readMessageFromDatabase(nextMessage, customer, company);
+      return this.messagesToSend(nextMessage, customer, company);
     }
 
     const currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
@@ -317,7 +313,7 @@ export default class HandleClientMessageService {
           }
         }
       }
-      const messagesToSend = await this.readMessageFromDatabase(message, customer, company);
+      const messagesToSend = await this.messagesToSend(message, customer, company);
       await this.sendMessage.send(messagesToSend);
     }
   }
