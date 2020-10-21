@@ -172,7 +172,13 @@ export default class HandleClientMessageService {
     }
 
     if (messageFromDatabase.to && !messageFromDatabase.expects_input) {
-      return this.readMessageFromDatabase(messageFromDatabase, customer, company);
+      const nextMessage = await this.containerRepository.findById(messageFromDatabase.to);
+
+      if (!nextMessage) {
+        throw new AppError('Container not found');
+      }
+
+      return this.readMessageFromDatabase(nextMessage, customer, company);
     }
 
     const currentStage = await this.customerStageRepository.findStage(company.id, customer.id);
