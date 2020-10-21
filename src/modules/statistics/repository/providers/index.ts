@@ -2,4 +2,4 @@ import { RecordRepository } from '@modules/statistics/infra/typeorm/repository/R
 import { container } from 'tsyringe';
 import { IRecordRepository } from '../IRecordRepository';
 
-container.registerSingleton<IRecordRepository>('RecordRepository', RecordRepository);
+container.registerSingleton<IRecordRepository>('ContactRecordRepository', RecordRepository);

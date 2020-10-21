@@ -13,12 +13,39 @@ export class CreateChatline1601320015500 implements MigrationInterface {
             generationStrategy: 'increment',
             isGenerated: true,
           },
-          { name: 'company_id', type: 'int' },
-          { name: 'customer_id', type: 'int' },
-          { name: 'attendant_id', type: 'int', isNullable: true, default: null },
-          { name: 'is_attended', type: 'boolean', default: false },
-          { name: 'created_at', type: 'timestamp', default: 'now()' },
-          { name: 'updated_at', type: 'timestamp', default: 'now()' },
+          {
+            name: 'company_id',
+            type: 'int',
+          },
+          {
+            name: 'customer_id',
+            type: 'int',
+          },
+          {
+            name: 'sector_id',
+            type: 'int',
+          },
+          {
+            name: 'attendant_id',
+            type: 'int',
+            isNullable: true,
+            default: null,
+          },
+          {
+            name: 'is_attended',
+            type: 'boolean',
+            default: false,
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
         ],
         foreignKeys: [
           {
@@ -34,6 +61,14 @@ export class CreateChatline1601320015500 implements MigrationInterface {
             referencedTableName: 'customers',
             referencedColumnNames: ['id'],
             columnNames: ['customer_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'ChatSector',
+            referencedTableName: 'sectors',
+            referencedColumnNames: ['id'],
+            columnNames: ['sector_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },

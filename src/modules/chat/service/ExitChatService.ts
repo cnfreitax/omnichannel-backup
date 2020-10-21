@@ -1,4 +1,5 @@
 import ICustomerStageRepository from '@modules/messageHandler/repository/ICustomerStage';
+import { IRecordRepository } from '@modules/statistics/repository/IRecordRepository';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import IChatlineRepository from '../repository/IChatlineRepository';
@@ -11,6 +12,9 @@ export default class ExitChatService {
 
     @inject('CustomerStageRepository')
     private customerStageRepository: ICustomerStageRepository,
+
+    @inject('ContactRecordRepository')
+    private recordRepository: IRecordRepository,
   ) {}
 
   public async execute(chatId: number): Promise<void> {
@@ -18,12 +22,22 @@ export default class ExitChatService {
     if (!chatSelected) {
       throw new AppError('Error, try again');
     }
+
     await this.chatlineRepository.deleteChatline(chatId);
 
-    const costumer = chatSelected.customer_id;
-    const company = chatSelected.company_id;
+    const { customer_id, company_id, sector_id, attendant_id, created_at } = chatSelected;
 
-    const customerStage = await this.customerStageRepository.findStage(company, costumer);
+    await this.recordRepository.create({
+      chat_type: 'chat',
+      company_id,
+      costumer_id: customer_id,
+      attendant_id,
+      sector_id,
+      initial_date: new Date(),
+      final_date: created_at,
+    });
+
+    const customerStage = await this.customerStageRepository.findStage(company_id, customer_id);
     if (!customerStage) {
       throw new AppError('Stage not found');
     }

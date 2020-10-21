@@ -12,6 +12,9 @@ export default class Chatline {
   customer_id: number;
 
   @Column()
+  sector_id: number;
+
+  @Column()
   attendant_id: number;
 
   @Column()

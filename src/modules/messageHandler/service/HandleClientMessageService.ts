@@ -15,6 +15,8 @@ import IUploadMediaProvider from '@shared/container/providers/UploadMediaProvide
 import ILoginProvider from '@shared/container/providers/LoginCodeApi/models/ILoginProvider';
 import IChatlineRepository from '@modules/chat/repository/IChatlineRepository';
 import ISurveyAnswerRepository from '@modules/chatbot/repositories/ISurveyAnswerRepository';
+import Sector from '@modules/company/infra/typeorm/entities/Sector';
+import ISectorRepository from '@modules/company/repositories/ISectorRepository';
 import IClientMessageDTO from '../dtos/IClientMessageDTO';
 import ICustomerStageRepository from '../repository/ICustomerStage';
 import { IAuthCodeApi } from '../repository/IAuthCodeApi';
@@ -55,6 +57,9 @@ export default class HandleClientMessageService {
 
     @inject('SurveyAnswerRepository')
     private surveyAnswerRepository: ISurveyAnswerRepository,
+
+    @inject('SectorRepository')
+    private sectorRepository: ISectorRepository,
   ) {}
 
   private messages: ISendMessageDTO[] = [];
@@ -75,10 +80,11 @@ export default class HandleClientMessageService {
     return false;
   }
 
-  public async addCustomerToChatline(customer: Customer, company: Company): Promise<void> {
+  public async addCustomerToChatline(customer: Customer, company: Company, sector: Sector): Promise<void> {
     await this.chatlineRepository.create({
       company_id: company.id,
       customer_id: customer.id,
+      sector_id: sector.id,
     });
   }
 
@@ -145,14 +151,22 @@ export default class HandleClientMessageService {
         });
       }
     } else if (messageFromDatabase.type === ContainerType.CHAT) {
+      let messageSectorIndex: string;
+      messageSectorIndex = 'Por favor escolha o código do setor e aguarde seu atendimento: ';
+      const sectors = await this.sectorRepository.findAllCompanySectors(company.id);
+      if (!sectors) {
+        throw new AppError('Sectors not found');
+      }
+      for (const sector of sectors) {
+        messageSectorIndex = messageSectorIndex.concat(`\n${sector.id}. ${sector.label}`);
+      }
+
       this.messages.push({
         token: this.token,
         Telephone: customer.phone,
         codCampaign: company.codCampaign,
-        Message: 'Por favor aguarde. Um de nossos atendentes falará com você em breve',
+        Message: messageSectorIndex,
       });
-
-      this.addCustomerToChatline(customer, company);
     } else {
       this.messages.push({
         token: this.token,
@@ -209,7 +223,7 @@ export default class HandleClientMessageService {
           this.apiMessagesToSend.push(resp.data.description);
           return this.containerRepository.findById(message.to);
         })
-        .catch(err => {
+        .catch(_err => {
           throw new AppError('Unable to contact api');
         });
     } else if (message.type === ContainerType.SURVEY) {
@@ -229,6 +243,22 @@ export default class HandleClientMessageService {
         });
 
         return this.containerRepository.findById(message.to);
+      }
+    } else if (message.type === ContainerType.CHAT) {
+      if (isNumeric(userInput.message)) {
+        const sector = await this.sectorRepository.findById(Number(userInput.message));
+        const customer = await this.customerRepository.findByPhone(userInput.Telephone);
+        const company = await this.companyRepository.findByCodCampaign(userInput.codCampaign);
+
+        if (!customer || !company) {
+          throw new AppError('Error finding message');
+        }
+
+        if (!sector) {
+          throw new AppError('Error finding sector');
+        }
+
+        this.addCustomerToChatline(customer, company, sector);
       }
     }
 

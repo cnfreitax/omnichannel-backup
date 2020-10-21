@@ -7,7 +7,7 @@ import { IRecordRepository } from '../repository/IRecordRepository';
 @injectable()
 export default class RegisterCostumerContactService {
   constructor(
-    @inject('RecordRepository')
+    @inject('ContactRecordRepository')
     private recordRepository: IRecordRepository,
   ) {}
 
