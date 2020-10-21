@@ -11,7 +11,7 @@ export default class chatManagerController {
     const attendantIdFormat = Number(attendantId);
     const selectChat = container.resolve(SelectChatService);
     await selectChat.execute({ attendantId: attendantIdFormat, chatId: chatIdFormat });
-    return res.send(200).json(selectChat);
+    return res.status(200).json(selectChat);
   }
 
   public async delete(req: Request, res: Response): Promise<Response> {
@@ -20,6 +20,6 @@ export default class chatManagerController {
     const selectChat = container.resolve(ExitChatService);
 
     await selectChat.execute(chatIdFormat);
-    return res.send(200).json(selectChat);
+    return res.status(200).json(selectChat);
   }
 }
