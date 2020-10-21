@@ -1,4 +1,5 @@
 import IAvailableUser from '@modules/user/repositories/IAvailableUser';
+import IUserRepository from '@modules/user/repositories/IUserRepository';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import Chatline from '../infra/typeorm/entities/Chatline';
@@ -16,6 +17,9 @@ export default class SelectChatService {
     private chatlineRepository: IChatlineRepository,
     @inject('AvailableUser')
     private availableRepository: IAvailableUser,
+
+    @inject('UserRepository')
+    private userRepository: IUserRepository,
   ) {}
 
   public async execute({ chatId, attendantId }: IRequest): Promise<Chatline> {
@@ -23,6 +27,11 @@ export default class SelectChatService {
     const attendant = await this.availableRepository.findById(attendantId);
     if (!chatSelected || !attendant) {
       throw new AppError('Error, try again');
+    }
+
+    const user = await this.userRepository.findById(attendant.user_id);
+    if (chatSelected.sector_id !== user?.sector_id) {
+      throw new AppError('Sorry, you just can get chat if your are the same sector');
     }
 
     chatSelected.attendant_id = attendant.id;
