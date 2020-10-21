@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { Segments, Joi, celebrate } from 'celebrate';
-import ensureAuthenticatedAdmUser from '@modules/user/infra/http/middlewares/ensureAuthencticatedAdmUser';
+import ensureAuthenticated from '@modules/user/infra/http/middlewares/ensureAuthenticated';
 import AvailableUsersController from '../controller/availableUsersController';
 
 const availableUsersController = new AvailableUsersController();
 const listUserAvailableRouter = Router();
-listUserAvailableRouter.use(ensureAuthenticatedAdmUser);
+listUserAvailableRouter.use(ensureAuthenticated);
 
 listUserAvailableRouter.get(
   '/',
