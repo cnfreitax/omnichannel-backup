@@ -9,17 +9,17 @@ export default class chatManagerController {
     const { chatId } = req.body;
     const chatIdFormat = Number(chatId);
     const attendantIdFormat = Number(attendantId);
-    const selectChat = container.resolve(SelectChatService);
-    await selectChat.execute({ attendantId: attendantIdFormat, chatId: chatIdFormat });
+    const selectChatService = container.resolve(SelectChatService);
+    const selectChat = await selectChatService.execute({ attendantId: attendantIdFormat, chatId: chatIdFormat });
     return res.json(selectChat);
   }
 
   public async delete(req: Request, res: Response): Promise<Response> {
     const { chatId } = req.body;
     const chatIdFormat = Number(chatId);
-    const selectChat = container.resolve(ExitChatService);
+    const exitChatService = container.resolve(ExitChatService);
 
-    await selectChat.execute(chatIdFormat);
-    return res.json(selectChat);
+    const exitChat = await exitChatService.execute(chatIdFormat);
+    return res.json(exitChat);
   }
 }
