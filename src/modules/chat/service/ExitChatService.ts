@@ -19,7 +19,7 @@ export default class ExitChatService {
 
   public async execute(chatId: number): Promise<void> {
     const chatSelected = await this.chatlineRepository.findById(chatId);
-    console.log(chatId);
+    console.log(chatSelected);
     if (!chatSelected) {
       throw new AppError('Error, try again');
     }
