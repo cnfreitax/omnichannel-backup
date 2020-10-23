@@ -30,6 +30,14 @@ export class AttendancesTable1603118822614 implements MigrationInterface {
             type: 'int',
           },
           {
+            name: 'initial_date',
+            type: 'timestamp',
+          },
+          {
+            name: 'final_date',
+            type: 'timestamp',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
