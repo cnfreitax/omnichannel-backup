@@ -7,5 +7,4 @@ import app from './config/app';
 
 const port = process.env.PORT || 3333;
 
-// eslint-disable-next-line
-app.listen(port, () => console.log('Server started'));
+app.listen(port);

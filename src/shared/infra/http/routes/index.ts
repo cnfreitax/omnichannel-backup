@@ -12,8 +12,6 @@ const routesList = [chatbotRoutes, userRoutes, companyRouter, chatRouter, statis
 
 // TODO DELETE TEST ROUTE LATER
 messageRouter.post('/', (req: Request, res: Response) => {
-  const data = req.body;
-  console.log(data);
   return res.json({ description: 'ok' });
 });
 router.use('/', messageRouter);

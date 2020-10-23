@@ -10,8 +10,6 @@ export default class MessageController {
     let jsonData: IClientMessageDTO;
     jsonData = JSON.parse(bodyData);
 
-    console.log('RECEIVED MESSAGE', jsonData);
-
     const handleMessage = container.resolve(HandleClientMessageService);
 
     await handleMessage.execute(jsonData);
@@ -20,12 +18,6 @@ export default class MessageController {
   }
 
   public async status(req: Request, res: Response): Promise<Response> {
-    // let bodyData = String(req.body);
-    // bodyData = bodyData.replace(/'/g, '"');
-    // const jsonData = JSON.parse(bodyData);
-
-    // console.log('STATUS', jsonData);
-
     return res.send(200);
   }
 }
