@@ -18,9 +18,6 @@ export class ContactRecord {
   sector_id: number;
 
   @Column()
-  chat_type: string;
-
-  @Column()
   initial_date: Date;
 
   @Column()

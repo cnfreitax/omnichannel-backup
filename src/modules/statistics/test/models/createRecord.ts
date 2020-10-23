@@ -1,7 +1,6 @@
 import { ICreateRecordDTO } from '@modules/statistics/dtos/ICreateRecordDTO';
 
 export const mockRecordParams = (): ICreateRecordDTO => ({
-  chat_type: 'any_chat',
   customer_id: 1,
   company_id: 1,
   attendant_id: 1,
