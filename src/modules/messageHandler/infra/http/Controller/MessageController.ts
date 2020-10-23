@@ -14,7 +14,7 @@ export default class MessageController {
 
     await handleMessage.execute(jsonData);
 
-    return res.send(200);
+    return res.sendStatus(200);
   }
 
   public async status(req: Request, res: Response): Promise<Response> {
