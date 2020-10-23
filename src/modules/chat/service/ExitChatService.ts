@@ -26,7 +26,6 @@ export default class ExitChatService {
     await this.chatlineRepository.deleteChatline(chatId);
 
     const { customer_id, company_id, sector_id, attendant_id, created_at } = chatSelected;
-    console.log(company_id);
 
     await this.recordRepository.create({
       chat_type: 'chat',

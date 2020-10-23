@@ -2,7 +2,7 @@ export const loginPath = {
   post: {
     tags: ['Login'],
     summary: 'API para criar e autenticar usuário',
-    description: 'Essa rota pode ser executada por **qualquer usuário**',
+    description: 'Essa rota pode ser executada por **qualquer usuário**, podendo criar usuários atendentes',
     requestBody: {
       required: true,
       content: {
@@ -19,7 +19,7 @@ export const loginPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/account',
+              $ref: '#/schemas/accountParams',
             },
           },
         },

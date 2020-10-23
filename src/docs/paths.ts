@@ -1,4 +1,4 @@
-import { loginPath } from '../paths';
+import { loginPath } from './paths/';
 
 export default {
   '/login': loginPath,

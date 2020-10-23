@@ -1,3 +1,6 @@
+import schemas from './schemas';
+import paths from './paths';
+
 export default {
   openapi: '3.0.0',
   info: {
@@ -17,4 +20,6 @@ export default {
       description: 'API to login',
     },
   ],
+  paths,
+  schemas,
 };
