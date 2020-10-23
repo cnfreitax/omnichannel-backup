@@ -28,7 +28,6 @@ export default class ExitChatService {
     const { customer_id, company_id, sector_id, attendant_id, created_at } = chatSelected;
 
     await this.recordRepository.create({
-      chat_type: 'chat',
       company_id,
       customer_id,
       attendant_id,

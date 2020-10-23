@@ -1,5 +1,4 @@
 export interface ICreateRecordDTO {
-  chat_type: string;
   customer_id: number;
   company_id: number;
   attendant_id: number;
