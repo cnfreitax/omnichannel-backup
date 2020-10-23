@@ -31,7 +31,7 @@ export default class ExitChatService {
     await this.recordRepository.create({
       chat_type: 'chat',
       company_id,
-      custumer_id,
+      customer_id,
       attendant_id,
       sector_id,
       initial_date: new Date(),
