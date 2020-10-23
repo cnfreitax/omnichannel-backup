@@ -6,7 +6,7 @@ export const mockRecord = (): ContactRecord => ({
   attendant_id: 1,
   company_id: 1,
   sector_id: 1,
-  costumer_id: 1,
+  customer_id: 1,
   initial_date: new Date(),
   final_date: new Date(),
   created_at: new Date(),
