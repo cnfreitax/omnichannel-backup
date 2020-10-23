@@ -26,14 +26,15 @@ export default class ExitChatService {
     await this.chatlineRepository.deleteChatline(chatId);
 
     const { customer_id, company_id, sector_id, attendant_id, created_at } = chatSelected;
+    const final_date = new Date();
 
     await this.recordRepository.create({
       company_id,
       customer_id,
       attendant_id,
       sector_id,
-      initial_date: new Date(),
-      final_date: created_at,
+      initial_date: created_at,
+      final_date,
     });
 
     const customerStage = await this.customerStageRepository.findStage(company_id, customer_id);
