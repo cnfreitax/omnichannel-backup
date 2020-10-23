@@ -4,11 +4,11 @@ import RegisterCostumerContactService from '@modules/statistics/services/Registe
 
 export class ContactRecordController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { chat_type, costumer_id, company_id, attendant_id, sector_id, initial_date, final_date } = req.body;
+    const { chat_type, customer_id, company_id, attendant_id, sector_id, initial_date, final_date } = req.body;
     const createContactRecordService = container.resolve(RegisterCostumerContactService);
     const contactRecord = await createContactRecordService.execute({
       chat_type,
-      costumer_id,
+      customer_id,
       company_id,
       attendant_id,
       sector_id,

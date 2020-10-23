@@ -11,10 +11,10 @@ export default class RegisterCostumerContactService {
     private recordRepository: IRecordRepository,
   ) {}
 
-  async execute({ chat_type, costumer_id, company_id, attendant_id, sector_id, initial_date, final_date }: ICreateRecordDTO): Promise<ContactRecord> {
+  async execute({ chat_type, customer_id, company_id, attendant_id, sector_id, initial_date, final_date }: ICreateRecordDTO): Promise<ContactRecord> {
     const contactRecord = await this.recordRepository.create({
       chat_type,
-      costumer_id,
+      customer_id,
       company_id,
       attendant_id,
       sector_id,
