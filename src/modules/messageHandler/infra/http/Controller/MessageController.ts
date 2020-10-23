@@ -18,6 +18,6 @@ export default class MessageController {
   }
 
   public async status(req: Request, res: Response): Promise<Response> {
-    return res.send(200);
+    return res.sendStatus(200);
   }
 }
