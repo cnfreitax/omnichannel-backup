@@ -6,7 +6,7 @@ export class ContactRecord {
   id: number;
 
   @Column()
-  costumer_id: number;
+  customer_id: number;
 
   @Column()
   company_id: number;

@@ -19,7 +19,6 @@ export default class ExitChatService {
 
   public async execute(chatId: number): Promise<void> {
     const chatSelected = await this.chatlineRepository.findById(chatId);
-    console.log(chatSelected);
     if (!chatSelected) {
       throw new AppError('Error, try again');
     }
@@ -32,7 +31,7 @@ export default class ExitChatService {
     await this.recordRepository.create({
       chat_type: 'chat',
       company_id,
-      costumer_id: customer_id,
+      custumer_id,
       attendant_id,
       sector_id,
       initial_date: new Date(),
