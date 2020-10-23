@@ -8,10 +8,10 @@ export default class MessageChatController {
     const { message } = req.body;
     const handleMessage = container.resolve(HandleMessageChat);
     await handleMessage.execute({ message, attendantId });
-    return res.send(204);
+    return res.sendStatus(204);
   }
 
   public async status(req: Request, res: Response): Promise<Response> {
-    return res.send(200);
+    return res.sendStatus(200);
   }
 }
