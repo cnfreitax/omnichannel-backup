@@ -1,7 +1,10 @@
 export const errorSchema = {
   type: 'object',
   properties: {
-    error: {
+    status: {
+      type: 'string',
+    },
+    message: {
       type: 'string',
     },
   },

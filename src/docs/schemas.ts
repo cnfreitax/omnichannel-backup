@@ -1,5 +1,35 @@
-import { loginParamsSchema } from './schemas/';
+import {
+  companyParamsSchema,
+  companySchema,
+  errorSchema,
+  companysSchema,
+  containerSchema,
+  containersSchema,
+  containerParamsSchema,
+  uploadMediaContainerSchema,
+  selectChatlineParamsSchema,
+  chatlineSchema,
+  endChatlineParamsSchema,
+  chatlinesSchema,
+  sendMessageParamsSchema,
+  greetingSchema,
+  greetingParamsSchema,
+} from './schemas/';
 
 export default {
-  loginParams: loginParamsSchema,
+  error: errorSchema,
+  companyParams: companyParamsSchema,
+  company: companySchema,
+  companys: companysSchema,
+  container: containerSchema,
+  containers: containersSchema,
+  containerParams: containerParamsSchema,
+  uploadMediaContainerParams: uploadMediaContainerSchema,
+  selectChatlineParams: selectChatlineParamsSchema,
+  chatline: chatlineSchema,
+  endChatlineParams: endChatlineParamsSchema,
+  chatlines: chatlinesSchema,
+  sendMessageParams: sendMessageParamsSchema,
+  greeting: greetingSchema,
+  greetingParams: greetingParamsSchema,
 };

@@ -1,7 +1,7 @@
-export const accountParams = {
+export const sendMessageParamsSchema = {
   type: 'object',
   properties: {
-    account: {
+    message: {
       type: 'string',
     },
   },

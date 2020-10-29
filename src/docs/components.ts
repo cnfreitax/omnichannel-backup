@@ -1,5 +1,7 @@
-import { serverError } from './components/';
+import { serverError, badRequest, unauthorized } from './components/';
 
 export default {
   serverError,
+  badRequest,
+  unauthorized,
 };
